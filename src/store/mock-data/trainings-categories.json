@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "name": "Data Science & I.A.",
+    "description": "Learn the latest programming languages and frameworks to build powerful software applications.",
+    "cover": "https://example.com/it-programming.jpg"
+  },
+  {
+    "id": "2",
+    "name": "Digital Marketing",
+    "description": "Learn the latest programming languages and frameworks to build powerful software applications.",
+    "cover": "https://example.com/it-programming.jpg"
+  },
+  {
+    "id": "3",
+    "name": "Project Management",
+    "description": "Learn the latest programming languages and frameworks to build powerful software applications.",
+    "cover": "https://example.com/it-programming.jpg"
+  },
+  {
+    "id": "4",
+    "name": "Databases & B.I.",
+    "description": "Learn the latest programming languages and frameworks to build powerful software applications.",
+    "cover": "https://example.com/it-programming.jpg"
+  },
+  {
+    "id": "5",
+    "name": "Programming & Web Development",
+    "description": "Learn the latest programming languages and frameworks to build powerful software applications.",
+    "cover": "https://example.com/it-programming.jpg"
+  }
+]

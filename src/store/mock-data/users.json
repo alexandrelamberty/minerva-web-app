@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1",
+    "username": "johnsmith",
+    "email": "johnsmith@example.com",
+    "firstName": "John",
+    "lastName": "Smith",
+    "role": "Admin",
+    "avatar": "https://example.com/avatar1.jpg"
+  },
+  {
+    "id": "2",
+    "username": "janedoe",
+    "email": "janedoe@example.com",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "role": "Teacher",
+    "avatar": "https://example.com/avatar2.jpg"
+  },
+  {
+    "id": "3",
+    "username": "jimmyjohn",
+    "email": "jimmyjohn@example.com",
+    "firstName": "Jimmy",
+    "lastName": "John",
+    "role": "Student",
+    "avatar": "https://example.com/avatar3.jpg"
+  },
+  {
+    "id": "4",
+    "username": "jessicasmith",
+    "email": "jessicasmith@example.com",
+    "firstName": "Jessica",
+    "lastName": "Smith",
+    "role": "Student",
+    "avatar": "https://example.com/avatar4.jpg"
+  },
+  {
+    "id": "5",
+    "username": "davidsmith",
+    "email": "davidsmith@example.com",
+    "firstName": "David",
+    "lastName": "Smith",
+    "role": "Teacher",
+    "avatar": "https://example.com/avatar5.jpg"
+  },
+  {
+    "id": "6",
+    "username": "johndoe",
+    "email": "johndoe@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "Student",
+    "avatar": "https://example.com/avatar6.jpg"
+  },
+  {
+    "id": "7",
+    "username": "juliasmith",
+    "email": "juliasmith@example.com",
+    "firstName": "Julia",
+    "lastName": "Smith",
+    "role": "Student",
+    "avatar": "https://example.com/avatar7.jpg"
+  },
+  {
+    "id": "8",
+    "username": "maxwelljohnson",
+    "email": "maxwelljohnson@example.com",
+    "firstName": "Maxwell",
+    "lastName": "Johnson",
+    "role": "Admin",
+    "avatar": "https://example.com/avatar8.jpg"
+  },
+  {
+    "id": "9",
+    "username": "alberteinstein",
+    "email": "alberteinstein@example.com",
+    "firstName": "Albert",
+    "lastName": "Einstein",
+    "role": "Teacher",
+    "avatar": "https://example.com/avatar9.jpg"
+  },
+  {
+    "id": "10",
+    "username": "alexandrasmith",
+    "email": "alexandrasmith@example.com",
+    "firstName": "Alexandra",
+    "lastName": "Smith",
+    "role": "Student",
+    "avatar": "https://example.com/avatar10.jpg"
+  }
+]

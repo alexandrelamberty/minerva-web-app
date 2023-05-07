@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "name": "Introduction to Python",
+    "description": "Learn the fundamentals of Python programming language and its applications in data science, machine learning, and web development.",
+    "cover": "https://example.com/intro-to-python.jpg",
+    "category": {
+      "id": "1",
+      "name": "I.T. Programming"
+    },
+    "duration": 102,
+    "startDate": "2023-01-01",
+    "endDate": "2023-06-01",
+    "courses": []
+  },
+  {
+    "id": "2",
+    "name": "Introduction to Python",
+    "description": "Learn the fundamentals of Python programming language and its applications in data science, machine learning, and web development.",
+    "cover": "https://example.com/intro-to-python.jpg",
+    "category": {
+      "id": "1",
+      "name": "I.T. Programming"
+    },
+    "duration": 102,
+    "startDate": "2023-01-01",
+    "endDate": "2023-06-01",
+    "courses": []
+  }
+]
