@@ -16,6 +16,10 @@ export type TrainingState = {
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
+  showModal: boolean;
+  successCreate: boolean;
+  successUpdate: boolean;
+  successDelete: boolean;
 };
 
 const initialState: TrainingState = {
@@ -24,6 +28,10 @@ const initialState: TrainingState = {
   count: 0,
   loading: "idle",
   errors: null,
+  showModal: true,
+  successCreate: false,
+  successUpdate: false,
+  successDelete: false,
 };
 
 const trainingReducer = createReducer(initialState, (builder) => {

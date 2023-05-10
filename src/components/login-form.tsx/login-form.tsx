@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { UserLogin } from "../../models/user-login";
+import { LoginUser } from "../../models/user.model";
 import { authFakeLoginAction } from "../../store/actions/auth.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -26,7 +26,7 @@ export const LoginForm = () => {
     handleSubmit,
     reset,
     formState: { formErrors }, // FIXME
-  } = useForm<UserLogin>({
+  } = useForm<LoginUser>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       email: "",
@@ -34,7 +34,7 @@ export const LoginForm = () => {
     },
   });
 
-  const handleOnSubmit: SubmitHandler<UserLogin> = (user) => {
+  const handleOnSubmit: SubmitHandler<LoginUser> = (user) => {
     console.log("SubmitHandler");
     dispatch(authFakeLoginAction());
   };

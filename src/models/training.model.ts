@@ -12,3 +12,12 @@ export interface Training {
   endDate: string;
   courses?: Course[];
 }
+
+export interface CreateTraining {
+  name: string;
+  description: string;
+  cover: File;
+  category: TrainingCategory;
+  startDate: string;
+  endDate: string;
+}

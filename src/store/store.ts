@@ -3,6 +3,7 @@ import courseReducer from "./reducers/course.reducer.ts";
 import authReducer from "./reducers/auth.reducer.js";
 import trainingReducer from "./reducers/training.reducer.js";
 import userReducer from "./reducers/user.reducer.js";
+import notificationReducer from "./reducers/notification.reducer.js";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     trainings: trainingReducer,
     courses: courseReducer,
     users: userReducer,
+    notification: notificationReducer,
   },
   devTools: import.meta.env.DEV,
 });

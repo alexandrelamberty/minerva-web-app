@@ -30,6 +30,9 @@ export const AppSidebar = () => {
               <Link to="/dashboard">Dashboard</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiViewBoards}>
+              <Link to="/categories">Categories</Link>
+            </Sidebar.Item>
+            <Sidebar.Item icon={HiViewBoards}>
               <Link to="/trainings">Trainings</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiInbox}>

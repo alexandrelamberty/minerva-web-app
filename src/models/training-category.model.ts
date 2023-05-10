@@ -7,3 +7,9 @@ export interface TrainingCategory {
   cover?: string;
   trainings?: Training[];
 }
+
+export interface CreateTrainingCategory {
+  name: string;
+  description?: string;
+  cover?: File;
+}
