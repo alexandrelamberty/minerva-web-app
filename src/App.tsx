@@ -149,8 +149,7 @@ function App() {
         }  absolute top-3 left-1/2 transform -translate-x-1/2 `}
       >
         <span>
-          <span className="font-medium">Info alert!</span> Change a few things
-          up and try submitting again.
+          <span className="font-medium">Info alert!</span>Notification
         </span>
       </Alert>
     </>
