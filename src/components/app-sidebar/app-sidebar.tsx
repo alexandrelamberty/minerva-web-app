@@ -14,15 +14,17 @@ import { useSelector } from "react-redux";
 import { UserRole } from "../../enums/user-roles";
 
 export const AppSidebar = () => {
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
   return (
     <>
       <Sidebar
         id="drawer-example"
         aria-label="Sidebar with logo branding example"
-        className="z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0 rounded-none"
+        className="z-40 w-64 transition-transform -translate-x-full sm:translate-x-0 rounded-none"
       >
         <Sidebar.Items>
           <Sidebar.ItemGroup>

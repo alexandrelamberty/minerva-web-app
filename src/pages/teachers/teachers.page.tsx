@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
-import { TableHeader } from "../../components/page-header/page-header";
+import { ActionMenu } from "../../components/action-menu/action-menu";
 import { Table } from "flowbite-react";
 
 const TeachersPages = () => {
@@ -10,9 +10,12 @@ const TeachersPages = () => {
   const { users, loading, errors } = useSelector(
     (state: RootState) => state.users
   );
+  const onSearch = (term: string) => {
+    console.log("TeacherPage OnSearch ", term);
+  };
   return (
     <>
-      <TableHeader title="All Teachers" />
+      <ActionMenu title="All Teachers" onSearch={onSearch} />
       {/* Trainings Data View */}
       {/* Table | Grid */}
       <Table striped={true} hoverable={true}>

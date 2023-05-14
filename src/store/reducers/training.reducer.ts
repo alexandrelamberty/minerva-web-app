@@ -1,14 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {
-  trainingsDeleteAction,
-  trainingsInsertAction,
-  trainingsFetchAction,
-} from "../actions/training.actions";
-
-import TRAININGS from "../mock-data/trainings.json";
-import CATEGORIES from "../mock-data/trainings-categories.json";
-import { Training } from "../../models/training.model";
+import { getAllTrainingsAction } from "../actions/training.actions";
 import { TrainingCategory } from "../../models/training-category.model";
+import { Training } from "../../models/training.model";
 
 export type TrainingState = {
   categories: TrainingCategory[];
@@ -23,8 +16,8 @@ export type TrainingState = {
 };
 
 const initialState: TrainingState = {
-  categories: CATEGORIES,
-  trainings: TRAININGS,
+  categories: [],
+  trainings: [],
   count: 0,
   loading: "idle",
   errors: null,
@@ -36,29 +29,22 @@ const initialState: TrainingState = {
 
 const trainingReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(trainingsFetchAction.pending, (state, action) => {
+    // Get All
+    .addCase(getAllTrainingsAction.pending, (state, action) => {
       state.loading = "pending";
     })
-    .addCase(trainingsFetchAction.rejected, (state, action) => {
+    .addCase(getAllTrainingsAction.rejected, (state, action) => {
       state.loading = "failed";
     })
-    .addCase(trainingsFetchAction.fulfilled, (state, { payload }) => {
+    .addCase(getAllTrainingsAction.fulfilled, (state, { payload }) => {
       state.trainings = state.trainings.concat(payload);
       state.count = state.trainings.length;
       state.loading = "idle";
-    })
-    .addCase(trainingsInsertAction, (state, action) => {
-      const training = action.payload;
-      state.trainings.push(training);
-      state.count = state.trainings.length;
-    })
-    .addCase(trainingsDeleteAction, (state, action) => {
-      const trainingId = action.payload;
-      state.trainings = state.trainings.filter(
-        (product) => product.id !== trainingId
-      );
-      state.count = state.trainings.length;
     });
+  // Create
+  // Read
+  // Update
+  // Delete
 });
 
 export default trainingReducer;

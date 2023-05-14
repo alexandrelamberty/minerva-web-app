@@ -4,13 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { CreateTrainingCategory } from "../../models/training-category.model";
-import { AppDispatch } from "../../store/store";
+import { CreateTrainingCategory } from "../../../models/training-category.model";
+import { AppDispatch } from "../../../store/store";
+import { createTrainingCategoryAction } from "../../../store/actions/training-category.actions";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
   description: Yup.string().trim().required(),
-  cover: Yup.string().trim().required(),
+  cover: Yup.string().trim(),
 });
 
 const CategoryForm = () => {
@@ -23,7 +24,7 @@ const CategoryForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { formErrors }, // FIXME
+    formState: { errors: formErrors }, // FIXME
   } = useForm<CreateTrainingCategory>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -35,7 +36,7 @@ const CategoryForm = () => {
 
   const handleOnSubmit: SubmitHandler<CreateTrainingCategory> = (category) => {
     console.log("Submit Category Handler", category);
-    // dispatch(authFakeLoginAction());
+    dispatch(createTrainingCategoryAction(category));
   };
 
   return (

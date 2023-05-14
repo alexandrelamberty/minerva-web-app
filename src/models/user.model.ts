@@ -1,6 +1,9 @@
 import { UserRole } from "../enums/user-roles";
 import { Settings } from "./settings.model";
 
+/**
+ * A User in the system
+ */
 export interface User {
   id: string;
   username: string;
@@ -11,17 +14,9 @@ export interface User {
   avatar: string;
 }
 
-export interface LoginUser {
-  email: string;
-  password: string;
-}
-
-export interface RegisterUser {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
+/**
+ * The User logged in the web application
+ */
 export interface LoggedInUser {
   id: string;
   username: string;
@@ -32,4 +27,32 @@ export interface LoggedInUser {
   avatar: string;
   token: string;
   settings?: Settings;
+}
+
+/**
+ * User login request
+ */
+export interface LoginUserRequest {
+  email: string;
+  password: string;
+}
+
+/**
+ * User registration request
+ */
+
+export interface RegisterUserRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+/**
+ * User password recovery request
+ */
+
+export interface RecoverUserPasswordRequest {
+  email: string;
 }

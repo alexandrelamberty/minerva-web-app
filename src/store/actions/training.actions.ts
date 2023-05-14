@@ -1,37 +1,69 @@
+import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { CreateTraining, UpdateTraining } from "../../models/training.model";
 import {
-  createAction,
-  createAsyncThunk,
-  isRejectedWithValue,
-  nanoid,
-} from "@reduxjs/toolkit";
-import { Training } from "../../models/training.model";
+  createTraining,
+  deleteTraining,
+  getAllTrainings,
+  readTraining,
+  updateTraining,
+} from "../../services/api-service";
 
-export const trainingsFetchAction = createAsyncThunk(
+export const getAllTrainingsAction = createAsyncThunk(
   "trainings/fetch",
   async () => {
     try {
-      const response = await fetch("https://fakestoreapi.com/products/", {
-        method: "GET",
-      });
-      const data = await response.json();
-      return data;
+      const response = await getAllTrainings();
+      return response.data;
     } catch (err) {
-      // You can choose to use the message attached to err or write a custom error
-      return isRejectedWithValue("Opps there seems to be an error");
+      return isRejectedWithValue("Trainings Error: " + err);
     }
   }
 );
 
-// FIXME: Product Type
-export const trainingsInsertAction = createAction(
-  "training/insert",
-  (training: Training) => {
-    return {
-      payload: {
-        ...training,
-      },
-    };
+export const createTrainingAction = createAsyncThunk(
+  "trainings/create",
+  async (data: CreateTraining) => {
+    try {
+      const response = await createTraining(data);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Trainings Error: " + err);
+    }
   }
 );
 
-export const trainingsDeleteAction = createAction<string>("training/delete");
+export const readTrainingAction = createAsyncThunk(
+  "trainings/read",
+  async (id: string) => {
+    try {
+      const response = await readTraining(id);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Trainings Error: " + err);
+    }
+  }
+);
+
+export const updateTrainingAction = createAsyncThunk(
+  "trainings/update",
+  async (data: UpdateTraining) => {
+    try {
+      const response = await updateTraining(data);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Trainings Error: " + err);
+    }
+  }
+);
+
+export const deleteTrainingAction = createAsyncThunk(
+  "trainings/delete",
+  async (id: string) => {
+    try {
+      const response = await deleteTraining(id);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Trainings Error: " + err);
+    }
+  }
+);

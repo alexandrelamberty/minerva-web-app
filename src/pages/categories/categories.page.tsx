@@ -1,10 +1,14 @@
 import { Button, Modal, Table } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CategoryForm from "../../components/category-form/category-form";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import CategoryForm from "../../components/forms/category-form/category-form";
 import DeleteModal from "../../components/modals/delete-model";
-import { TableHeader } from "../../components/page-header/page-header";
+import {
+  deleteTrainingCategoryAction,
+  getAllTrainingsCategoriesAction,
+} from "../../store/actions/training-category.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
 const CategoriesPage = () => {
@@ -12,7 +16,7 @@ const CategoriesPage = () => {
   const navigate = useNavigate();
 
   const { categories, showModal, loading, errors } = useSelector(
-    (state: RootState) => state.trainings
+    (state: RootState) => state.categories
   );
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -25,25 +29,26 @@ const CategoriesPage = () => {
     setShowAddModal(false);
   };
 
-  const handleAddModalSave = () => {
-    // dispatch store action
-  };
-
   const handleDeleteClose = () => {
     setShowDeleteModal(!showDeleteModal);
   };
 
   const handleDeleteConfirm = () => {
     setShowDeleteModal(!showDeleteModal);
+    dispatch(deleteTrainingCategoryAction(deleteId));
   };
 
   const handleSearch = (terms: string) => {
     console.log(terms);
   };
 
+  useEffect(() => {
+    dispatch(getAllTrainingsCategoriesAction());
+  }, []);
+
   return (
     <>
-      <TableHeader title="All Training Categories" onSearch={handleSearch}>
+      <ActionMenu title="All Training Categories" onSearch={handleSearch}>
         <Button
           onClick={() => {
             setShowAddModal(true);
@@ -51,11 +56,11 @@ const CategoriesPage = () => {
         >
           Add Category
         </Button>
-      </TableHeader>
+      </ActionMenu>
       {/* Trainings Data View */}
       {/* Table | Grid */}
-      <Table striped={true} hoverable={true} className="rounded-none">
-        <Table.Head className="rounded-none">
+      <Table striped={true} hoverable={true}>
+        <Table.Head>
           <Table.HeadCell>Category name</Table.HeadCell>
           <Table.HeadCell>Description</Table.HeadCell>
           <Table.HeadCell>

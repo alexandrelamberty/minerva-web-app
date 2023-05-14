@@ -3,7 +3,7 @@ import { useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { CreateTraining } from "../../models/training.model";
+import { CreateTraining } from "../../../models/training.model";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
@@ -22,7 +22,7 @@ const TrainingForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { formErrors }, // FIXME
+    formState: { errors: formErrors }, // FIXME
   } = useForm<CreateTraining>({
     resolver: yupResolver(validationSchema),
     defaultValues: {

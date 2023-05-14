@@ -1,11 +1,11 @@
 import { Button, Modal, Table } from "flowbite-react";
-import { TableHeader } from "../../components/page-header/page-header";
+import { ActionMenu } from "../../components/action-menu/action-menu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
 import { useState } from "react";
 import DeleteModal from "../../components/modals/delete-model";
-import CourseForm from "../../components/course-form/course-form";
+import CourseForm from "../../components/forms/course-form/course-form";
 
 const CoursesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,7 +42,7 @@ const CoursesPage = () => {
   };
   return (
     <>
-      <TableHeader title="All Courses" onSearch={handleSearch}>
+      <ActionMenu title="All Courses" onSearch={handleSearch}>
         <Button
           onClick={() => {
             setShowAddModal(true);
@@ -50,7 +50,7 @@ const CoursesPage = () => {
         >
           Add Course
         </Button>
-      </TableHeader>
+      </ActionMenu>
       {/* Trainings Data View */}
       {/* Table | Grid */}
       <Table striped={true} hoverable={true}>
@@ -71,7 +71,7 @@ const CoursesPage = () => {
                 {course.name}
               </Table.Cell>
               <Table.Cell>{course.description}</Table.Cell>
-              <Table.Cell>{course.teacher}</Table.Cell>
+              <Table.Cell>{course.teacher.firstName}</Table.Cell>
               <Table.Cell>{course.duration}</Table.Cell>
               <Table.Cell>
                 {course.startDate} - {course.endDate}
@@ -81,7 +81,7 @@ const CoursesPage = () => {
                   <button
                     className="font-medium text-slate-50 bg-slate-600  px-2 pt-1 rounded-sm"
                     onClick={() => {
-                      setEditId(category.id);
+                      setEditId(course.id);
                       setShowEditModal(true);
                     }}
                   >
@@ -90,7 +90,7 @@ const CoursesPage = () => {
                   <button
                     className="font-medium text-slate-50 bg-red-600  px-2 pt-1 rounded-sm"
                     onClick={() => {
-                      setDeleteId(category.id);
+                      setDeleteId(course.id);
                       setShowDeleteModal(true);
                     }}
                   >

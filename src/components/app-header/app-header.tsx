@@ -84,9 +84,11 @@ type UserDropdownMenuProps = {
 const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   const handleClick = (item: UserDropdownMenuItem) => {
     navigate(item.url);

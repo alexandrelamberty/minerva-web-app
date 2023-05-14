@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { AccountRecoveryForm } from "./components/account-recovery-form/account-recovery-form";
+import { AccountRecoveryForm } from "./components/forms/account-recovery-form/account-recovery-form";
 import Layout from "./containers/app-layout/layout";
 import PublicLayout from "./containers/app-public-layout/public-layout";
-import { LoginForm } from "./components/login-form.tsx/login-form";
+import { LoginForm } from "./components/forms/login-form/login-form";
 import ProtectedRoute from "./components/protected-route/protected-route";
-import { FormRegister } from "./components/register-form/register-form";
-import { ResetPasswordForm } from "./components/reset-pasword-form/reset-password-form";
+import { FormRegister } from "./components/forms/register-form/register-form";
+import { ResetPasswordForm } from "./components/forms/reset-pasword-form/reset-password-form";
 import AdminPage from "./pages/admin/admin.page";
 import CoursesPage from "./pages/course/courses.page";
 import DashboardPage from "./pages/dashboard/dashboard.page";

@@ -21,3 +21,12 @@ export interface CreateTraining {
   startDate: string;
   endDate: string;
 }
+
+export interface UpdateTraining {
+  name: string;
+  description: string;
+  cover: File;
+  category: TrainingCategory;
+  startDate: string;
+  endDate: string;
+}

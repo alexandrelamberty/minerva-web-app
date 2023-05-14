@@ -34,8 +34,15 @@
   /* 
     Forms 
   */
+  .public-form {
+    @apply space-y-4 md:space-y-6;
+  }
+
   .form-heading {
     @apply text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white;
+  }
+  .form-info {
+    @apply leading-tight tracking-tight text-gray-900  dark:text-white;
   }
   .form-label {
     @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;

@@ -4,12 +4,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { LoginUser } from "../../models/user.model";
-import { authFakeLoginAction } from "../../store/actions/auth.actions";
-import { AppDispatch, RootState } from "../../store/store";
+import { LoginUserRequest } from "../../../models/user.model";
+import {
+  authFakeLoginAction,
+  authLoginAction,
+} from "../../../store/actions/auth.actions";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const validationSchema = Yup.object({
-  email: Yup.string().trim().required(),
+  email: Yup.string().email().required(),
+  // TODO: Add more validation
   password: Yup.string().trim().required(),
 });
 
@@ -17,16 +21,18 @@ export const LoginForm = () => {
   const id = useId();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { formErrors }, // FIXME
-  } = useForm<LoginUser>({
+    formState: { errors: formErrors }, // FIXME
+  } = useForm<LoginUserRequest>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       email: "",
@@ -34,20 +40,18 @@ export const LoginForm = () => {
     },
   });
 
-  const handleOnSubmit: SubmitHandler<LoginUser> = (user) => {
-    console.log("SubmitHandler");
-    dispatch(authFakeLoginAction());
+  const handleOnSubmit: SubmitHandler<LoginUserRequest> = (user) => {
+    console.log("Login user: ", user);
+    dispatch(authLoginAction(user));
   };
-
-  useEffect(() => {
-    if (user !== null) navigate("/dashboard");
-  }, [user]);
 
   return (
     <form
       className="space-y-4 md:space-y-6"
       onSubmit={handleSubmit(handleOnSubmit)}
     >
+      <h1 className="form-heading">Sign-in to your account</h1>
+      {/* Email */}
       <div>
         <label htmlFor={id + "email"} className="form-label">
           Your email
@@ -60,6 +64,7 @@ export const LoginForm = () => {
           {...register("email", { required: true, minLength: 2 })}
         />
       </div>
+      {/* Password */}
       <div>
         <label htmlFor="password" className="form-label">
           Password
@@ -72,6 +77,7 @@ export const LoginForm = () => {
           {...register("password", { required: true, minLength: 2 })}
         />
       </div>
+      {/* Remember me */}
       <div className="flex items-center justify-between">
         <div className="flex items-start">
           <div className="flex items-center h-5">
@@ -80,7 +86,6 @@ export const LoginForm = () => {
               aria-describedby="remember"
               type="checkbox"
               className="form-checkbox"
-              required
             />
           </div>
           <div className="ml-3 text-sm">
@@ -93,9 +98,15 @@ export const LoginForm = () => {
           Forgot password?
         </Link>
       </div>
+      {/* Errors */}
+      <p className="text-sm font-bold text-red-500 dark:text-gray-400">
+        {errors}
+      </p>
+      {/* Sign-in button*/}
       <button type="submit" className="w-full btn-primary">
         Sign in
       </button>
+      {/* Sign-up link */}
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
         Don’t have an account yet?{" "}
         <Link to="/register" className="form-link">

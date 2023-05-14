@@ -1,8 +1,13 @@
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import SectionHeader from "../../components/section-header/section-header";
+import Container from "../../containers/container/container";
+
 const ProfilePage = () => {
   return (
-    <div>
-      <h1>Profile</h1>
-    </div>
+    <Container>
+      <SectionHeader title="Profile" />
+      {/* ProfileForm */}
+    </Container>
   );
 };
 

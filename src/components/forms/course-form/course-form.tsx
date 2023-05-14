@@ -4,10 +4,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { LoginUser } from "../../models/user.model";
-import { authFakeLoginAction } from "../../store/actions/auth.actions";
-import { AppDispatch, RootState } from "../../store/store";
-import { CreateCourse } from "../../models/course.model";
+import { LoginUserRequest } from "../../../models/user.model";
+import { authFakeLoginAction } from "../../../store/actions/auth.actions";
+import { AppDispatch, RootState } from "../../../store/store";
+import { CreateCourse } from "../../../models/course.model";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
@@ -20,15 +20,17 @@ const CourseForm = () => {
   const id = useId();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { formErrors }, // FIXME
+    formState: { errors: formErrors }, // FIXME
   } = useForm<CreateCourse>({
     resolver: yupResolver(validationSchema),
     defaultValues: {

@@ -4,11 +4,13 @@ import authReducer from "./reducers/auth.reducer.js";
 import trainingReducer from "./reducers/training.reducer.js";
 import userReducer from "./reducers/user.reducer.js";
 import notificationReducer from "./reducers/notification.reducer.js";
+import trainingCategoryReducer from "./reducers/training-category.reducer.js";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     trainings: trainingReducer,
+    categories: trainingCategoryReducer,
     courses: courseReducer,
     users: userReducer,
     notification: notificationReducer,

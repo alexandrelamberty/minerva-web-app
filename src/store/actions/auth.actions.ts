@@ -3,21 +3,63 @@ import {
   createAsyncThunk,
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
+import {
+  LoginUserRequest,
+  RecoverUserPasswordRequest,
+  RegisterUserRequest,
+} from "../../models/user.model";
+import {
+  loginUser,
+  recoverUserAccount,
+  registerUser,
+} from "../../services/api-service";
 
-export const authLoginAction = createAsyncThunk("auth/login", async () => {
-  try {
-    const response = await fetch("https://fakestoreapi.com/products/", {
-      method: "GET",
-    });
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    // You can choose to use the message attached to err or write a custom error
-    return isRejectedWithValue("Opps there seems to be an error");
+export const authLoginAction = createAsyncThunk(
+  "auth/login",
+  async (data: LoginUserRequest, thunkAPI) => {
+    console.log("Action data: ", data);
+    try {
+      const response = await loginUser(data);
+      return response.data;
+    } catch (err: any) {
+      console.log(err);
+      if (err.code === "ERR_BAD_REQUEST") {
+        const messages = err.response.data.msg.toString();
+        return thunkAPI.rejectWithValue(messages);
+      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+    }
   }
-});
+);
 
-export const authFakeLoginAction = createAction("auth/fakelogin");
-export const authRegisterAction = createAction("auth/register");
-export const authRecoverAccountAction = createAction("auth/recover-account");
+export const authRegisterAction = createAsyncThunk(
+  "auth/register",
+  async (data: RegisterUserRequest, thunkAPI) => {
+    try {
+      const response = await registerUser(data);
+      return response.data;
+    } catch (err: any) {
+      if (err.code === "ERR_BAD_REQUEST") {
+        const messages = err.response.data.msg.toString();
+        return thunkAPI.rejectWithValue(messages);
+      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const authRecoverPasswordAction = createAsyncThunk(
+  "auth/recover-account",
+  async (data: RecoverUserPasswordRequest, thunkAPI) => {
+    try {
+      const response = await recoverUserAccount(data);
+      return response.data;
+    } catch (err: any) {
+      if (err.code === "ERR_BAD_REQUEST") {
+        const messages = err.response.data.msg.toString();
+        return thunkAPI.rejectWithValue(messages);
+      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
 export const authLogoutAction = createAction("auth/logout");
+export const authFakeLoginAction = createAction("auth/fakelogin");

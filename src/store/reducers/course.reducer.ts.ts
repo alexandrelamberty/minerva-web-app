@@ -1,24 +1,25 @@
 import { createReducer } from "@reduxjs/toolkit";
-courseCreateAction;
 import {
-  courseGetAllAction,
-  courseCreateAction,
-  courseReadAction,
-  courseUpdateAction,
-  courseDeleteAction,
+  createCourseAction,
+  deleteCourseAction,
+  getAllCoursesAction,
+  readCourseAction,
+  updateCourseAction,
 } from "../actions/course.actions";
 
-import COURSES from "../mock-data/courses.json";
+import { Course } from "../../models/course.model";
 
 export type CoursesState = {
-  courses: any[];
+  courses: Course[];
+  courseDetails: Course | null;
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
 };
 
 const initialState: CoursesState = {
-  courses: COURSES,
+  courses: [],
+  courseDetails: null,
   count: 0,
   loading: "idle",
   errors: null,
@@ -26,32 +27,64 @@ const initialState: CoursesState = {
 
 const courseReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(courseGetAllAction.pending, (state, action) => {
+    // Get All
+    .addCase(getAllCoursesAction.pending, (state, action) => {
       state.loading = "pending";
     })
-    .addCase(courseGetAllAction.rejected, (state, action) => {
+    .addCase(getAllCoursesAction.rejected, (state, action) => {
       state.loading = "failed";
     })
-    .addCase(courseGetAllAction.fulfilled, (state, { payload }) => {
+    .addCase(getAllCoursesAction.fulfilled, (state, { payload }) => {
       console.log("REDUCER", payload);
       state.courses = state.courses.concat(payload);
       state.count = state.courses.length;
       state.loading = "idle";
     })
-    .addCase(courseCreateAction, (state, action) => {
-      const course = action.payload;
-      state.courses.push(course);
-      state.count = state.courses.length;
+    // Create
+    .addCase(createCourseAction.pending, (state, action) => {
+      state.loading = "pending";
     })
-    .addCase(courseReadAction, (state, action) => {
-      const course = action.payload;
-      state.courses.push(course);
-      state.count = state.courses.length;
+    .addCase(createCourseAction.rejected, (state, action) => {
+      state.loading = "failed";
     })
-    .addCase(courseDeleteAction, (state, action) => {
-      const courseId = action.payload;
-      state.courses = state.courses.filter((course) => course.id !== courseId);
+    .addCase(createCourseAction.fulfilled, (state, { payload }) => {
+      state.courses = state.courses.concat(payload);
       state.count = state.courses.length;
+      state.loading = "idle";
+    })
+    // Read
+    .addCase(readCourseAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(readCourseAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(readCourseAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      state.courseDetails = payload;
+    })
+    // Update
+    .addCase(updateCourseAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(updateCourseAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(updateCourseAction.fulfilled, (state, { payload }) => {
+      console.log("REDUCER", payload);
+      state.loading = "idle";
+      // Replace
+    })
+    // Delete
+    .addCase(deleteCourseAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(deleteCourseAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(deleteCourseAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      // Remove
     });
 });
 

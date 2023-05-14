@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../components/modals/delete-model";
-import { TableHeader } from "../../components/page-header/page-header";
-import TrainingForm from "../../components/training-form/training-form";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import TrainingForm from "../../components/forms/training-form/training-form";
 import {
   notificationHideAction,
   notificationShowAction,
@@ -52,7 +52,7 @@ const TrainingsPage = () => {
 
   return (
     <>
-      <TableHeader title="All Trainings" onSearch={handleSearch}>
+      <ActionMenu title="All Trainings" onSearch={handleSearch}>
         <Button
           onClick={() => {
             setShowAddModal(true);
@@ -60,7 +60,7 @@ const TrainingsPage = () => {
         >
           Add Training
         </Button>
-      </TableHeader>
+      </ActionMenu>
       {/* Trainings Data View */}
       {/* Table | Grid */}
       <Table striped={true} hoverable={true} className="rounded-none">
@@ -68,7 +68,6 @@ const TrainingsPage = () => {
           <Table.HeadCell>Category</Table.HeadCell>
           <Table.HeadCell>Training name</Table.HeadCell>
           <Table.HeadCell>Description</Table.HeadCell>
-          <Table.HeadCell>Teacher</Table.HeadCell>
           <Table.HeadCell>Duration</Table.HeadCell>
           <Table.HeadCell>Period</Table.HeadCell>
           <Table.HeadCell>
@@ -83,7 +82,6 @@ const TrainingsPage = () => {
                 {training.name}
               </Table.Cell>
               <Table.Cell>{training.description}</Table.Cell>
-              <Table.Cell>{training.teacher}</Table.Cell>
               <Table.Cell>{training.duration}</Table.Cell>
               <Table.Cell>
                 {training.startDate} - {training.endDate}
