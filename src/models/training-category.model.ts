@@ -11,11 +11,11 @@ export interface TrainingCategory {
 export interface CreateTrainingCategory {
   name: string;
   description: string;
-  cover?: File;
+  cover?: FileList;
 }
 
 export interface UpdateTrainingCategory {
   name: string;
   description?: string;
-  cover?: File;
+  cover?: FileList;
 }

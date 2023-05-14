@@ -22,12 +22,15 @@ export const getAllTrainingsAction = createAsyncThunk(
 
 export const createTrainingAction = createAsyncThunk(
   "trainings/create",
-  async (data: CreateTraining) => {
+  async (data: CreateTraining, thunkAPI) => {
     try {
       const response = await createTraining(data);
       return response.data;
-    } catch (err) {
-      return isRejectedWithValue("Trainings Error: " + err);
+    } catch (err: any) {
+      if (err.code === "ERR_BAD_REQUEST") {
+        const messages = err.response.data.msg.toString();
+        return thunkAPI.rejectWithValue(messages);
+      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
     }
   }
 );
@@ -46,7 +49,7 @@ export const readTrainingAction = createAsyncThunk(
 
 export const updateTrainingAction = createAsyncThunk(
   "trainings/update",
-  async (data: UpdateTraining) => {
+  async (data: UpdateTraining, thunkAPI) => {
     try {
       const response = await updateTraining(data);
       return response.data;

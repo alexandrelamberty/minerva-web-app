@@ -35,11 +35,12 @@ const trainingReducer = createReducer(initialState, (builder) => {
     })
     .addCase(getAllTrainingsAction.rejected, (state, action) => {
       state.loading = "failed";
+      state.errors = action.payload as string;
     })
     .addCase(getAllTrainingsAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
       state.trainings = state.trainings.concat(payload);
       state.count = state.trainings.length;
-      state.loading = "idle";
     });
   // Create
   // Read

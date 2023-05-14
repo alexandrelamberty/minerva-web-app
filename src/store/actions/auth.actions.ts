@@ -13,6 +13,7 @@ import {
   recoverUserAccount,
   registerUser,
 } from "../../services/api-service";
+import { formatError } from "../../utils/utils";
 
 export const authLoginAction = createAsyncThunk(
   "auth/login",
@@ -22,11 +23,8 @@ export const authLoginAction = createAsyncThunk(
       const response = await loginUser(data);
       return response.data;
     } catch (err: any) {
-      console.log(err);
-      if (err.code === "ERR_BAD_REQUEST") {
-        const messages = err.response.data.msg.toString();
-        return thunkAPI.rejectWithValue(messages);
-      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+      const message = formatError(err);
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -38,10 +36,8 @@ export const authRegisterAction = createAsyncThunk(
       const response = await registerUser(data);
       return response.data;
     } catch (err: any) {
-      if (err.code === "ERR_BAD_REQUEST") {
-        const messages = err.response.data.msg.toString();
-        return thunkAPI.rejectWithValue(messages);
-      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+      const message = formatError(err);
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -53,13 +49,10 @@ export const authRecoverPasswordAction = createAsyncThunk(
       const response = await recoverUserAccount(data);
       return response.data;
     } catch (err: any) {
-      if (err.code === "ERR_BAD_REQUEST") {
-        const messages = err.response.data.msg.toString();
-        return thunkAPI.rejectWithValue(messages);
-      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+      const message = formatError(err);
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
 export const authLogoutAction = createAction("auth/logout");
-export const authFakeLoginAction = createAction("auth/fakelogin");

@@ -1,13 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useId } from "react";
+import { useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { LoginUserRequest } from "../../../models/user.model";
-import { authFakeLoginAction } from "../../../store/actions/auth.actions";
-import { AppDispatch, RootState } from "../../../store/store";
 import { CreateCourse } from "../../../models/course.model";
+import { AppDispatch, RootState } from "../../../store/store";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
@@ -20,11 +18,9 @@ const CourseForm = () => {
   const id = useId();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    loggedInUser: user,
-    loading,
-    errors,
-  } = useSelector((state: RootState) => state.auth);
+  const { courses, loading, errors } = useSelector(
+    (state: RootState) => state.courses
+  );
 
   const {
     register,
@@ -43,7 +39,7 @@ const CourseForm = () => {
 
   const handleOnSubmit: SubmitHandler<CreateCourse> = (user) => {
     console.log("SubmitHandler");
-    dispatch(authFakeLoginAction());
+    // dispatch(createCourseAction());
   };
 
   return (

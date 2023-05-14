@@ -4,6 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { CreateTraining } from "../../../models/training.model";
+import { createTrainingAction } from "../../../store/actions/training.actions";
+import { AppDispatch } from "../../../store/store";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
@@ -16,7 +18,7 @@ const validationSchema = Yup.object({
 
 const TrainingForm = () => {
   const id = useId();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const {
     register,
@@ -37,7 +39,7 @@ const TrainingForm = () => {
 
   const handleOnSubmit: SubmitHandler<CreateTraining> = (training) => {
     console.log("Submit Training Handler : ", training);
-    // dispatch(authFakeLoginAction());
+    dispatch(createTrainingAction(training));
   };
 
   return (
