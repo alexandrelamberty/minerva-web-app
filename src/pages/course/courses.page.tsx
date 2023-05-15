@@ -1,4 +1,4 @@
-import { Button, Modal, Table } from "flowbite-react";
+import { Button, Modal, Table, TextInput } from "flowbite-react";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../../store/store";
 import { useState } from "react";
 import DeleteModal from "../../components/modals/delete-model";
 import CourseForm from "../../components/forms/course-form/course-form";
+import { HiBookmark, HiMail } from "react-icons/hi";
 
 const CoursesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,9 +41,16 @@ const CoursesPage = () => {
   const handleSearch = (terms: string) => {
     console.log(terms);
   };
+
   return (
     <>
       <ActionMenu title="All Courses" onSearch={handleSearch}>
+        <TextInput
+          id="email4"
+          type="email"
+          icon={HiBookmark}
+          placeholder="Search courses"
+        />
         <Button
           onClick={() => {
             setShowAddModal(true);

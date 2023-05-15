@@ -1,4 +1,4 @@
-import { Button, Modal, Table } from "flowbite-react";
+import { Button, Modal, Table, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,10 @@ import DeleteModal from "../../components/modals/delete-model";
 import {
   deleteTrainingCategoryAction,
   getAllTrainingsCategoriesAction,
+  showTrainingCategoryCreateModalAction,
 } from "../../store/actions/training-category.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import { HiBookmark } from "react-icons/hi";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,27 +21,33 @@ const CategoriesPage = () => {
     (state: RootState) => state.categories
   );
 
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [editId, setEditId] = useState("");
 
-  const handleAddModalClose = () => {
-    setShowAddModal(false);
-  };
-
+  /**
+   * Handle the delete modal close action
+   */
   const handleDeleteClose = () => {
     setShowDeleteModal(!showDeleteModal);
   };
 
+  /**
+   * Handle the delete modal confirm action
+   */
   const handleDeleteConfirm = () => {
     setShowDeleteModal(!showDeleteModal);
     dispatch(deleteTrainingCategoryAction(deleteId));
   };
 
+  /**
+   * Handle search from the ActionMenu
+   * @param terms The terms to search
+   */
   const handleSearch = (terms: string) => {
     console.log(terms);
+    // TODO: dispatch Action
   };
 
   useEffect(() => {
@@ -49,9 +57,15 @@ const CategoriesPage = () => {
   return (
     <>
       <ActionMenu title="All Training Categories" onSearch={handleSearch}>
+        <TextInput
+          id="email4"
+          type="email"
+          icon={HiBookmark}
+          placeholder="Search categories"
+        />
         <Button
           onClick={() => {
-            setShowAddModal(true);
+            dispatch(showTrainingCategoryCreateModalAction(true));
           }}
         >
           Add Category
@@ -61,6 +75,7 @@ const CategoriesPage = () => {
       {/* Table | Grid */}
       <Table striped={true} hoverable={true}>
         <Table.Head>
+          <Table.HeadCell></Table.HeadCell>
           <Table.HeadCell>Category name</Table.HeadCell>
           <Table.HeadCell>Description</Table.HeadCell>
           <Table.HeadCell>
@@ -70,6 +85,12 @@ const CategoriesPage = () => {
         <Table.Body className="divide-y">
           {categories.map((category) => (
             <Table.Row className="table-row" key={category.id}>
+              <Table.Cell>
+                <img
+                  width={64}
+                  src={"http://localhost:3000/" + category.cover}
+                />
+              </Table.Cell>
               <Table.Cell className="table-cell-title">
                 {category.name}
               </Table.Cell>
@@ -81,6 +102,7 @@ const CategoriesPage = () => {
                     onClick={() => {
                       setEditId(category.id);
                       setShowEditModal(true);
+                      navigate(category.id + "/edit");
                     }}
                   >
                     Edit
@@ -103,7 +125,12 @@ const CategoriesPage = () => {
       {/* 
         Add Modal 
       */}
-      <Modal show={showAddModal} onClose={handleAddModalClose}>
+      <Modal
+        show={showModal}
+        onClose={() => {
+          dispatch(showTrainingCategoryCreateModalAction(false));
+        }}
+      >
         <Modal.Header>Add Category</Modal.Header>
         <Modal.Body>
           <CategoryForm />

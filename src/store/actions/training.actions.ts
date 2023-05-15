@@ -1,4 +1,8 @@
-import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import { CreateTraining, UpdateTraining } from "../../models/training.model";
 import {
   createTraining,
@@ -6,6 +10,7 @@ import {
   getAllTrainings,
   readTraining,
   updateTraining,
+  updateTrainingCover,
 } from "../../services/api-service";
 
 export const getAllTrainingsAction = createAsyncThunk(
@@ -20,11 +25,25 @@ export const getAllTrainingsAction = createAsyncThunk(
   }
 );
 
+/**
+ * Create a Training and update
+ */
 export const createTrainingAction = createAsyncThunk(
   "trainings/create",
   async (data: CreateTraining, thunkAPI) => {
     try {
+      // Call api to create a training
       const response = await createTraining(data);
+      console.log(response);
+
+      // Update cover
+      if (data.cover) {
+        const cover = await updateTrainingCover(
+          response.data.result.id,
+          data.cover![0]
+        );
+        response.data.cover = cover.data.filename;
+      }
       return response.data;
     } catch (err: any) {
       if (err.code === "ERR_BAD_REQUEST") {
@@ -64,9 +83,22 @@ export const deleteTrainingAction = createAsyncThunk(
   async (id: string) => {
     try {
       const response = await deleteTraining(id);
-      return response.data;
+      // return id as payload
+      return id;
     } catch (err) {
       return isRejectedWithValue("Trainings Error: " + err);
     }
+  }
+);
+
+/**
+ * Show a create form modal
+ */
+export const showTrainingCreateModalAction = createAction(
+  "trainings/show-create-modal",
+  (show: boolean) => {
+    return {
+      payload: show,
+    };
   }
 );

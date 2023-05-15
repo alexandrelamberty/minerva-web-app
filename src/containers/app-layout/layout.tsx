@@ -6,7 +6,7 @@ import { AppBreadcrumb } from "../../components/app-breadcrumb/app-breadcrumb";
 
 const Layout = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen dark:bg-gray-800">
       <AppHeader />
       <div className="flex flex-row h-full">
         <AppSidebar />

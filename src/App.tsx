@@ -22,6 +22,7 @@ import CategoriesPage from "./pages/categories/categories.page";
 import { Alert } from "flowbite-react";
 import { RootState } from "./store/store";
 import { useSelector } from "react-redux";
+import SchedulePage from "./pages/schedule/schedule.page";
 
 function App() {
   // const dispatch = useDispatch<AppDispatch>();
@@ -52,6 +53,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* Categories */}
           <Route
             path="categories"
             element={
@@ -61,6 +63,23 @@ function App() {
             }
           />
           <Route
+            path="categories/:id"
+            element={
+              <ProtectedRoute>
+                <TrainingsAddPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="categories/:id/edit"
+            element={
+              <ProtectedRoute>
+                <TrainingsEditPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* Trainings */}
+          <Route
             path="trainings"
             element={
               <ProtectedRoute>
@@ -68,8 +87,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="trainings/add" element={<TrainingsAddPage />} />
-          <Route path="trainings/edit" element={<TrainingsEditPage />} />
+          <Route path="trainings/:id" element={<TrainingsAddPage />} />
+          <Route path="trainings/:id/edit" element={<TrainingsEditPage />} />
           <Route
             path="/courses"
             element={
@@ -82,7 +101,7 @@ function App() {
             path="/schedule"
             element={
               <ProtectedRoute>
-                <h1>Schedule</h1>
+                <SchedulePage />
               </ProtectedRoute>
             }
           />

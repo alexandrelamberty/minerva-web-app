@@ -1,11 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useId } from "react";
+import { useId, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { CreateCourse } from "../../../models/course.model";
 import { AppDispatch, RootState } from "../../../store/store";
+import SearchInput from "../../inputs/search-input/search-input";
+import { Label, TextInput } from "flowbite-react";
+import { HiUser } from "react-icons/hi";
+import { createCourseAction } from "../../../store/actions/course.actions";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
@@ -18,10 +22,18 @@ const CourseForm = () => {
   const id = useId();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  /**
+   * Store
+   */
   const { courses, loading, errors } = useSelector(
     (state: RootState) => state.courses
   );
+  const [searchTeachers, setSearchTeachers] = useState([]);
 
+  /**
+   * Hook Form
+   */
   const {
     register,
     handleSubmit,
@@ -37,9 +49,13 @@ const CourseForm = () => {
     },
   });
 
+  /**
+   * Handle form submit
+   * @param user
+   */
   const handleOnSubmit: SubmitHandler<CreateCourse> = (user) => {
     console.log("SubmitHandler");
-    // dispatch(createCourseAction());
+    dispatch(createCourseAction(user));
   };
 
   return (
@@ -54,12 +70,21 @@ const CourseForm = () => {
             type="text"
             id={id + "name"}
             className="form-input"
-            placeholder="Type product name"
+            placeholder="Type course name"
             {...register("name")}
           />
         </div>
         {/* Teacher */}
         <div>
+          <Label htmlFor="email4" className="form-label" value="Teacher" />
+          <SearchInput
+            placeholder="Search teachers ..."
+            data={searchTeachers}
+          />
+        </div>
+        {/* <div> 
+        </div> */}
+        {/* <div>
           <label htmlFor={id + "teacher"} className="form-label">
             Teacher
           </label>
@@ -70,25 +95,9 @@ const CourseForm = () => {
             placeholder="$2999"
             {...register("teacher")}
           />
-        </div>
+        </div> */}
         {/* Training */}
-        <div>
-          <label htmlFor={id + "category"} className="form-label">
-            Training
-          </label>
-          {/* FIXME extract component */}
-          <select
-            id={id + "teacher"}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            {...register("description")}
-          >
-            <option selected>Select category</option>
-            <option value="TV">TV/Monitors</option>
-            <option value="PC">PC</option>
-            <option value="GA">Gaming/Console</option>
-            <option value="PH">Phones</option>
-          </select>
-        </div>
+
         {/* Description */}
         <div className="sm:col-span-2">
           <label htmlFor="description" className="form-label">
@@ -98,7 +107,7 @@ const CourseForm = () => {
             id={id + "description"}
             rows={4}
             className="form-input-textarea"
-            placeholder="Write product description here"
+            placeholder="Write course description here"
             {...register("description")}
           ></textarea>
         </div>

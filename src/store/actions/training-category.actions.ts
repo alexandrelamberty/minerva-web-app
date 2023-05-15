@@ -1,4 +1,8 @@
-import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import {
   CreateTrainingCategory,
   UpdateTrainingCategory,
@@ -9,6 +13,7 @@ import {
   getAllCategories,
   readCategory,
   updateCategory,
+  updateCategoryCover,
 } from "../../services/api-service";
 
 export const getAllTrainingsCategoriesAction = createAsyncThunk(
@@ -26,11 +31,20 @@ export const getAllTrainingsCategoriesAction = createAsyncThunk(
 export const createTrainingCategoryAction = createAsyncThunk(
   "categories/create",
   async (data: CreateTrainingCategory) => {
+    console.log(data);
     try {
       const response = await createCategory(data);
+      console.log(response);
+      if (data.cover) {
+        const cover = await updateCategoryCover(
+          response.data.result.id,
+          data.cover![0]
+        );
+        response.data.cover = cover.data.filename;
+      }
       return response.data;
     } catch (err) {
-      return isRejectedWithValue("Trainings Catego Error: " + err);
+      return isRejectedWithValue("Trainings Category Error: " + err);
     }
   }
 );
@@ -42,7 +56,7 @@ export const readTrainingCategoryAction = createAsyncThunk(
       const response = await readCategory(id);
       return response.data;
     } catch (err) {
-      return isRejectedWithValue("Trainingsry Category Error: " + err);
+      return isRejectedWithValue("Trainings Category Error: " + err);
     }
   }
 );
@@ -64,9 +78,22 @@ export const deleteTrainingCategoryAction = createAsyncThunk(
   async (id: string) => {
     try {
       const response = await deleteCategory(id);
-      return response.data;
+      // return the id as payload
+      return id;
     } catch (err) {
       return isRejectedWithValue("Trainings Error: " + err);
     }
+  }
+);
+
+/**
+ * Show a create form modal
+ */
+export const showTrainingCategoryCreateModalAction = createAction(
+  "categories/show-modal",
+  (show: boolean) => {
+    return {
+      payload: show,
+    };
   }
 );

@@ -65,6 +65,13 @@ export const deleteCategory = async (id: string) => {
   return await instanceAxios.delete("/categories/" + id);
 };
 
+export const updateCategoryCover = async (id: string, file: File) => {
+  console.log(file);
+  const formData = new FormData();
+  if (file) formData.append("cover", file);
+  return await instanceAxios.post("/categories/" + id + "/cover", formData);
+};
+
 // Trainings
 
 export const getAllTrainings = async () => {
@@ -85,6 +92,13 @@ export const updateTraining = async (data: UpdateTraining) => {
 
 export const deleteTraining = async (id: string) => {
   return await instanceAxios.delete("/trainings/" + id);
+};
+
+export const updateTrainingCover = async (id: string, file: File) => {
+  console.log(file);
+  const formData = new FormData();
+  if (file) formData.append("cover", file);
+  return await instanceAxios.post("/trainings/" + id + "/cover", formData);
 };
 
 // Courses

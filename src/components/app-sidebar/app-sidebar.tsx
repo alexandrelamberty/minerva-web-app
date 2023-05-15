@@ -19,6 +19,11 @@ export const AppSidebar = () => {
     loading,
     errors,
   } = useSelector((state: RootState) => state.auth);
+
+  const handleNavigation = () => {
+    //
+  };
+
   return (
     <>
       <Sidebar
@@ -41,7 +46,7 @@ export const AppSidebar = () => {
               <Link to="/courses">Courses</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiCalendar}>
-              <Link to="/schedule">Schedule</Link>
+              <Link to="/schedule">Schedules</Link>
             </Sidebar.Item>
             {/* if user is Admin */}
             {user?.role === UserRole.Admin && (

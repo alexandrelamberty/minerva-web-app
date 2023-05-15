@@ -1,5 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { getAllTrainingsAction } from "../actions/training.actions";
+import {
+  createTrainingAction,
+  deleteTrainingAction,
+  getAllTrainingsAction,
+  showTrainingCreateModalAction,
+} from "../actions/training.actions";
 import { TrainingCategory } from "../../models/training-category.model";
 import { Training } from "../../models/training.model";
 
@@ -39,13 +44,41 @@ const trainingReducer = createReducer(initialState, (builder) => {
     })
     .addCase(getAllTrainingsAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
-      state.trainings = state.trainings.concat(payload);
+      state.trainings = payload.results;
       state.count = state.trainings.length;
+    })
+    // Create
+    .addCase(createTrainingAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(createTrainingAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(createTrainingAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      state.trainings.push(payload.result);
+      state.showModal = false;
+    })
+    // TODO: Read
+    // TODO: Update
+    // Delete
+    .addCase(deleteTrainingAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(deleteTrainingAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(deleteTrainingAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      // We remove the deleted training category
+      state.trainings = state.trainings.filter(function (item) {
+        return item.id != payload;
+      });
+    })
+    // UI
+    .addCase(showTrainingCreateModalAction, (state, { payload }) => {
+      state.showModal = payload;
     });
-  // Create
-  // Read
-  // Update
-  // Delete
 });
 
 export default trainingReducer;

@@ -4,6 +4,7 @@ import {
   createTrainingCategoryAction,
   deleteTrainingCategoryAction,
   getAllTrainingsCategoriesAction,
+  showTrainingCategoryCreateModalAction,
 } from "../actions/training-category.actions";
 
 export type TrainingCategoryState = {
@@ -22,7 +23,7 @@ const initialState: TrainingCategoryState = {
   count: 0,
   loading: "idle",
   errors: null,
-  showModal: true,
+  showModal: false,
   successCreate: false,
   successUpdate: false,
   successDelete: false,
@@ -53,12 +54,13 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     })
     .addCase(createTrainingCategoryAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
+      // We push the created training category
       state.categories.push(payload.result);
+      state.showModal = false;
     })
-    // Read
-    // Update
+    // TODO: Read
+    // TODO: Update
     // Delete
-    // Create
     .addCase(deleteTrainingCategoryAction.pending, (state, action) => {
       state.loading = "pending";
     })
@@ -67,7 +69,14 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteTrainingCategoryAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
-      // state.categories.push(payload.result);
+      // We remove the deleted training category
+      state.categories = state.categories.filter(function (item) {
+        return item.id != payload;
+      });
+    })
+    // UI
+    .addCase(showTrainingCategoryCreateModalAction, (state, { payload }) => {
+      state.showModal = payload;
     });
 });
 

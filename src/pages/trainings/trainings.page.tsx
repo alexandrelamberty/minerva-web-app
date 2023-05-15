@@ -1,5 +1,5 @@
-import { Button, Modal, Table } from "flowbite-react";
-import { useState } from "react";
+import { Button, Modal, Table, TextInput } from "flowbite-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../components/modals/delete-model";
@@ -10,52 +10,76 @@ import {
   notificationShowAction,
 } from "../../store/actions/notification.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import {
+  deleteTrainingAction,
+  getAllTrainingsAction,
+  showTrainingCreateModalAction,
+} from "../../store/actions/training.actions";
+import { getAllTrainingsCategoriesAction } from "../../store/actions/training-category.actions";
+import { HiBookOpen, HiBookmarkAlt, HiOutlineBookOpen } from "react-icons/hi";
 
 const TrainingsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  const { categories } = useSelector((state: RootState) => state.categories);
   const { trainings, showModal, loading, errors } = useSelector(
     (state: RootState) => state.trainings
   );
 
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [editId, setEditId] = useState("");
 
-  const handleAddModalClose = () => {
-    setShowAddModal(false);
-  };
-
-  const handleAddModalSave = () => {
-    // dispatch store action
-  };
-
+  /**
+   * Handle the delete modal close action
+   */
   const handleDeleteClose = () => {
     setShowDeleteModal(!showDeleteModal);
   };
 
+  /**
+   * Handle the delete modal confirm action
+   */
   const handleDeleteConfirm = () => {
     setShowDeleteModal(!showDeleteModal);
+    dispatch(deleteTrainingAction(deleteId));
+
+    // FIXME: Global notification
     // move to useEffect or outside function with condition on state.successDelete
-    dispatch(notificationShowAction(2000));
-    setTimeout(() => {
-      dispatch(notificationHideAction());
-    }, 5000);
+    // dispatch(notificationShowAction(2000));
+    // setTimeout(() => {
+    //   dispatch(notificationHideAction());
+    // }, 5000);
   };
 
+  /**
+   * Handle search from the ActionMenu
+   * @param terms The terms to search
+   */
   const handleSearch = (terms: string) => {
     console.log(terms);
   };
 
+  useEffect(() => {
+    // FIXME: replace with a hook for the form select data
+    dispatch(getAllTrainingsCategoriesAction());
+    dispatch(getAllTrainingsAction());
+  }, []);
+
   return (
     <>
       <ActionMenu title="All Trainings" onSearch={handleSearch}>
+        <TextInput
+          id="search"
+          type="text"
+          icon={HiOutlineBookOpen}
+          placeholder="Search calendar ..."
+        />
         <Button
           onClick={() => {
-            setShowAddModal(true);
+            dispatch(showTrainingCreateModalAction(true));
           }}
         >
           Add Training
@@ -65,10 +89,10 @@ const TrainingsPage = () => {
       {/* Table | Grid */}
       <Table striped={true} hoverable={true} className="rounded-none">
         <Table.Head className="rounded-none">
+          <Table.HeadCell></Table.HeadCell>
           <Table.HeadCell>Category</Table.HeadCell>
           <Table.HeadCell>Training name</Table.HeadCell>
           <Table.HeadCell>Description</Table.HeadCell>
-          <Table.HeadCell>Duration</Table.HeadCell>
           <Table.HeadCell>Period</Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Edit</span>
@@ -77,12 +101,17 @@ const TrainingsPage = () => {
         <Table.Body className="divide-y">
           {trainings.map((training) => (
             <Table.Row className="table-row" key={training.id}>
-              <Table.Cell>{training.category.name}</Table.Cell>
+              <Table.Cell>
+                <img
+                  width={128}
+                  src={"http://localhost:3000/" + training.cover}
+                />
+              </Table.Cell>
+              <Table.Cell>{training.category?.name}</Table.Cell>
               <Table.Cell className="table-cell-title">
                 {training.name}
               </Table.Cell>
               <Table.Cell>{training.description}</Table.Cell>
-              <Table.Cell>{training.duration}</Table.Cell>
               <Table.Cell>
                 {training.startDate} - {training.endDate}
               </Table.Cell>
@@ -93,6 +122,7 @@ const TrainingsPage = () => {
                     onClick={() => {
                       setEditId(training.id);
                       setShowEditModal(true);
+                      navigate(training.id + "/edit");
                     }}
                   >
                     Edit
@@ -115,10 +145,19 @@ const TrainingsPage = () => {
       {/* 
         Add Modal 
       */}
-      <Modal show={showAddModal} onClose={handleAddModalClose}>
+      <Modal
+        show={showModal}
+        onClose={() => {
+          dispatch(showTrainingCreateModalAction(false));
+        }}
+      >
         <Modal.Header>Add Training</Modal.Header>
         <Modal.Body>
-          <TrainingForm />
+          {/* 
+            Training as a dependency with Category
+            Passing data for the TrainingCategoryId form select
+          */}
+          <TrainingForm categories={categories} />
         </Modal.Body>
       </Modal>
       {/* 
