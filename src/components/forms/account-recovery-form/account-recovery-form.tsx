@@ -7,8 +7,6 @@ import {
   LoginUserRequest,
   RecoverUserPasswordRequest,
 } from "../../../models/user.model";
-import { authFakeLoginAction } from "../../../store/actions/auth.actions";
-import userRecoverPassword from "../../../hooks/useRecoverPassword";
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required(),

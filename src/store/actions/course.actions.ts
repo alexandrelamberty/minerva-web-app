@@ -1,4 +1,8 @@
-import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import { CreateCourse, UpdateCourse } from "../../models/course.model";
 import {
   createCourse,
@@ -61,9 +65,21 @@ export const deleteCourseAction = createAsyncThunk(
   async (id: string) => {
     try {
       const response = await deleteCourse(id);
-      return response.data;
+      return id;
     } catch (err) {
       return isRejectedWithValue("Courses Error: " + err);
     }
+  }
+);
+
+/**
+ * Show a create form modal
+ */
+export const showCourseCreateModalAction = createAction(
+  "courses/show-create-modal",
+  (show: boolean) => {
+    return {
+      payload: show,
+    };
   }
 );

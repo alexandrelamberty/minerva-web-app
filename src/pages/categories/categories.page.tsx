@@ -56,10 +56,10 @@ const CategoriesPage = () => {
 
   return (
     <>
-      <ActionMenu title="All Training Categories" onSearch={handleSearch}>
+      <ActionMenu>
         <TextInput
-          id="email4"
-          type="email"
+          id="search"
+          type="text"
           icon={HiBookmark}
           placeholder="Search categories"
         />
@@ -96,9 +96,17 @@ const CategoriesPage = () => {
               </Table.Cell>
               <Table.Cell>{category.description}</Table.Cell>
               <Table.Cell>
-                <div className="space-x-2">
+                <div className="flex space-x-3 sm:space-x-4">
                   <button
-                    className="font-medium text-slate-50 bg-slate-600  px-2 pt-1 rounded-sm"
+                    className="btn-action-outline"
+                    onClick={() => {
+                      navigate("./" + category.id);
+                    }}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="btn-action-outline"
                     onClick={() => {
                       setEditId(category.id);
                       setShowEditModal(true);
@@ -108,7 +116,7 @@ const CategoriesPage = () => {
                     Edit
                   </button>
                   <button
-                    className="font-medium text-slate-50 bg-red-600  px-2 pt-1 rounded-sm"
+                    className="btn-action-outline"
                     onClick={() => {
                       setDeleteId(category.id);
                       setShowDeleteModal(true);
@@ -122,10 +130,12 @@ const CategoriesPage = () => {
           ))}
         </Table.Body>
       </Table>
+
       {/* 
         Add Modal 
       */}
       <Modal
+        size="4xl"
         show={showModal}
         onClose={() => {
           dispatch(showTrainingCategoryCreateModalAction(false));

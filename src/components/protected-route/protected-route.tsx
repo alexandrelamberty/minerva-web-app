@@ -24,6 +24,8 @@ const ProtectedRoute = ({ roles, children }: ProtectedRouteProps) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  // TODO: Check roles
+
   return children;
 };
 

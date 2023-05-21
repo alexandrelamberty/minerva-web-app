@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { CreateCourse, UpdateCourse } from "../models/course.model";
 import {
   CreateTrainingCategory,
@@ -8,6 +9,7 @@ import {
   LoginUserRequest,
   RecoverUserPasswordRequest,
   RegisterUserRequest,
+  UsersSuccessResponse,
 } from "../models/user.model";
 import axios from "axios";
 
@@ -45,6 +47,10 @@ export const recoverUserAccount = async (data: RecoverUserPasswordRequest) => {
 
 // Training Categories
 
+export const searchCategories = async (terms: string) => {
+  return await instanceAxios.get("/categories/search/" + terms);
+};
+
 export const getAllCategories = async () => {
   return await instanceAxios.get("/categories/");
 };
@@ -67,12 +73,17 @@ export const deleteCategory = async (id: string) => {
 
 export const updateCategoryCover = async (id: string, file: File) => {
   console.log(file);
+  // Create the form data and add appropriate headers
   const formData = new FormData();
   if (file) formData.append("cover", file);
   return await instanceAxios.post("/categories/" + id + "/cover", formData);
 };
 
 // Trainings
+
+export const searchTrainings = async (terms: string) => {
+  return await instanceAxios.get("/trainings/search/" + terms);
+};
 
 export const getAllTrainings = async () => {
   return await instanceAxios.get("/trainings/");
@@ -96,12 +107,17 @@ export const deleteTraining = async (id: string) => {
 
 export const updateTrainingCover = async (id: string, file: File) => {
   console.log(file);
+  // Create the form data and add appropriate headers
   const formData = new FormData();
   if (file) formData.append("cover", file);
   return await instanceAxios.post("/trainings/" + id + "/cover", formData);
 };
 
 // Courses
+
+export const searchCourses = async (terms: string) => {
+  return await instanceAxios.get("/courses/search/" + terms);
+};
 
 export const getAllCourses = async () => {
   return await instanceAxios.get("/courses/");
@@ -123,13 +139,37 @@ export const deleteCourse = async (id: string) => {
   return await instanceAxios.delete("/courses/" + id);
 };
 
+export const updateCourseCover = async (id: string, file: File) => {
+  console.log(file);
+  // Create the form data and add appropriate headers
+  const formData = new FormData();
+  if (file) formData.append("cover", file);
+  return await instanceAxios.post("/trainings/" + id + "/cover", formData);
+};
+
 // Course dates
 
 // Course dates attendances
 
 // Course materials
 
+// Teachers
+
+export const getAllTeachers = async () => {
+  return await instanceAxios.get("/teachers/");
+};
+
+// Students
+
+export const getAllStudents = async () => {
+  return await instanceAxios.get("/students/");
+};
+
 // Users
+
+export const searchUsers = async (terms: string) => {
+  return await instanceAxios.get("/users/search/" + terms);
+};
 
 export const getAllUsers = async () => {
   return await instanceAxios.get("/users/");

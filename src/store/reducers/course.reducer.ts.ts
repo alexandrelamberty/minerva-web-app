@@ -4,6 +4,7 @@ import {
   deleteCourseAction,
   getAllCoursesAction,
   readCourseAction,
+  showCourseCreateModalAction,
   updateCourseAction,
 } from "../actions/course.actions";
 
@@ -11,18 +12,20 @@ import { Course } from "../../models/course.model";
 
 export type CoursesState = {
   courses: Course[];
-  courseDetails: Course | null;
+  course: Course | null;
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
+  showCreateModal: boolean;
 };
 
 const initialState: CoursesState = {
   courses: [],
-  courseDetails: null,
+  course: null,
   count: 0,
   loading: "idle",
   errors: null,
+  showCreateModal: false,
 };
 
 const courseReducer = createReducer(initialState, (builder) => {
@@ -36,7 +39,7 @@ const courseReducer = createReducer(initialState, (builder) => {
     })
     .addCase(getAllCoursesAction.fulfilled, (state, { payload }) => {
       console.log("REDUCER", payload);
-      state.courses = state.courses.concat(payload);
+      state.courses = payload.results;
       state.count = state.courses.length;
       state.loading = "idle";
     })
@@ -48,9 +51,9 @@ const courseReducer = createReducer(initialState, (builder) => {
       state.loading = "failed";
     })
     .addCase(createCourseAction.fulfilled, (state, { payload }) => {
-      state.courses = state.courses.concat(payload);
-      state.count = state.courses.length;
       state.loading = "idle";
+      state.courses.push(payload);
+      state.count = state.courses.length;
     })
     // Read
     .addCase(readCourseAction.pending, (state, action) => {
@@ -61,7 +64,7 @@ const courseReducer = createReducer(initialState, (builder) => {
     })
     .addCase(readCourseAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
-      state.courseDetails = payload;
+      state.course = payload.result;
     })
     // Update
     .addCase(updateCourseAction.pending, (state, action) => {
@@ -73,7 +76,7 @@ const courseReducer = createReducer(initialState, (builder) => {
     .addCase(updateCourseAction.fulfilled, (state, { payload }) => {
       console.log("REDUCER", payload);
       state.loading = "idle";
-      // Replace
+      // TODO: Update
     })
     // Delete
     .addCase(deleteCourseAction.pending, (state, action) => {
@@ -84,7 +87,14 @@ const courseReducer = createReducer(initialState, (builder) => {
     })
     .addCase(deleteCourseAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
-      // Remove
+      state.courses = state.courses.filter(function (item) {
+        return item.id != payload;
+      });
+    })
+
+    // UI
+    .addCase(showCourseCreateModalAction, (state, { payload }) => {
+      state.showCreateModal = payload;
     });
 });
 

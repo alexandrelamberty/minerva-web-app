@@ -18,7 +18,7 @@ import { formatError } from "../../utils/utils";
 export const authLoginAction = createAsyncThunk(
   "auth/login",
   async (data: LoginUserRequest, thunkAPI) => {
-    console.log("Action data: ", data);
+    console.log("AuthLoginAction: ", data);
     try {
       const response = await loginUser(data);
       return response.data;

@@ -8,3 +8,7 @@ export const formatError = (err: any) => {
     return messages;
   } else if (err.message) return err.message;
 };
+
+export const classNames = (...classes: any) => {
+  return classes.filter(Boolean).join(" ");
+};

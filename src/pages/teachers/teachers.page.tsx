@@ -2,43 +2,71 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
 import { ActionMenu } from "../../components/action-menu/action-menu";
-import { Table } from "flowbite-react";
+import { Button, Table, TextInput } from "flowbite-react";
+import { HiUsers } from "react-icons/hi";
+import { useEffect } from "react";
+import { getAllTeachersAction } from "../../store/actions/teacher.actions";
 
 const TeachersPages = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { users, loading, errors } = useSelector(
-    (state: RootState) => state.users
+
+  /**
+   * Store Trainings
+   */
+  const { teachers, loading, errors } = useSelector(
+    (state: RootState) => state.teachers
   );
+
   const onSearch = (term: string) => {
     console.log("TeacherPage OnSearch ", term);
   };
+
+  /**
+   * Dispatch action to load teachers
+   */
+  useEffect(() => {
+    dispatch(getAllTeachersAction());
+  }, []);
+
   return (
     <>
-      <ActionMenu title="All Teachers" onSearch={onSearch} />
+      <ActionMenu>
+        <TextInput
+          id="search"
+          type="text"
+          icon={HiUsers}
+          placeholder="Search teachers ..."
+        />
+        <Button
+          onClick={() => {
+            // dispatch(showTrainingCreateModalAction(true));
+          }}
+        >
+          Add Training
+        </Button>
+      </ActionMenu>
       {/* Trainings Data View */}
       {/* Table | Grid */}
       <Table striped={true} hoverable={true}>
         <Table.Head>
-          <Table.HeadCell>Training name</Table.HeadCell>
-          <Table.HeadCell>Description</Table.HeadCell>
-          <Table.HeadCell>Teacher</Table.HeadCell>
-          <Table.HeadCell>Duration</Table.HeadCell>
-          <Table.HeadCell>Period</Table.HeadCell>
+          <Table.HeadCell>Company</Table.HeadCell>
+          <Table.HeadCell>First Name</Table.HeadCell>
+          <Table.HeadCell>Last Name</Table.HeadCell>
+          <Table.HeadCell>Email</Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Edit</span>
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {users.map((user) => (
-            <Table.Row className="table-row" key={user.id}>
-              <Table.Cell className="table-cell-title">{user.name}</Table.Cell>
-              <Table.Cell>{user.description}</Table.Cell>
-              <Table.Cell>{user.teacher}</Table.Cell>
-              <Table.Cell>{user.duration}</Table.Cell>
-              <Table.Cell>
-                {user.startDate} - {user.endDate}
+          {teachers.map((teacher) => (
+            <Table.Row className="table-row" key={teacher.id}>
+              <Table.Cell className="table-cell-title">
+                {teacher.company}
               </Table.Cell>
+              <Table.Cell>{teacher.user?.firstName}</Table.Cell>
+              <Table.Cell>{teacher.user?.lastName}</Table.Cell>
+              <Table.Cell>{teacher.user?.email}</Table.Cell>
               <Table.Cell>
                 <a
                   href="/tables"

@@ -1,40 +1,37 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useId, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { CreateCourse } from "../../../models/course.model";
-import { AppDispatch, RootState } from "../../../store/store";
-import SearchInput from "../../inputs/search-input/search-input";
-import { Label, TextInput } from "flowbite-react";
-import { HiUser } from "react-icons/hi";
+import { Training } from "../../../models/training.model";
+import { User } from "../../../models/user.model";
+import { searchTrainings, searchUsers } from "../../../services/api-service";
 import { createCourseAction } from "../../../store/actions/course.actions";
+import { AppDispatch } from "../../../store/store";
+import ComboboxAutocomplete from "../../inputs/combobox-autocomplete/combobox-autocomplete";
+import { HiCloud } from "react-icons/hi";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
   description: Yup.string().trim().required(),
-  training: Yup.string().trim().required(),
-  teacher: Yup.string().trim().required(),
+  // training: Yup.string().trim().required(),
+  // teacher: Yup.string().trim().required(),
 });
 
 const CourseForm = () => {
   const id = useId();
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  /**
-   * Store
-   */
-  const { courses, loading, errors } = useSelector(
-    (state: RootState) => state.courses
-  );
-  const [searchTeachers, setSearchTeachers] = useState([]);
+  // Results from the search for the teachers and trainings combobox
+  const [teachers, setTeachers] = useState<User[] | null>([]);
+  const [trainings, setTrainings] = useState<Training[] | null>([]);
 
   /**
    * Hook Form
    */
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -44,25 +41,73 @@ const CourseForm = () => {
     defaultValues: {
       name: "",
       description: "",
-      training: undefined,
-      teacher: undefined,
+      Training: null,
+      Teacher: null,
     },
   });
 
   /**
-   * Handle form submit
-   * @param user
+   * Call the api to search for users and update the teachers state with the results.
+   * @param terms The terms to search with
    */
-  const handleOnSubmit: SubmitHandler<CreateCourse> = (user) => {
-    console.log("SubmitHandler");
-    dispatch(createCourseAction(user));
+  const callSearchUsers = async (terms: string) => {
+    console.log("callSearchUsers: ", terms);
+    try {
+      const response = await searchUsers(terms);
+      setTeachers(response.data.results);
+    } catch (err: any) {
+      console.log("callSearchUsers ERROR", err);
+    }
+  };
+
+  /**
+   * Call the api to search for trainings and update the trainings  state with the results.
+   * @param terms The terms to search with
+   */
+  const callSearchTrainings = async (terms: string) => {
+    console.log("callSearchUsers: ", terms);
+    try {
+      const response = await searchTrainings(terms);
+      setTrainings(response.data.results);
+    } catch (err: any) {
+      console.log("callSearchTrainings ERROR", err);
+    }
+  };
+
+  /**
+   * Handle ComboboxAutocomplete search user event.
+   * @param terms The terms to search with
+   */
+  const handleSearchTeachers = (terms: string) => {
+    console.log("handleOnSearchTeachers: ", terms);
+    if (terms.length > 0) callSearchUsers(terms);
+    else setTeachers([]);
+  };
+
+  /**
+   * Handle ComboboxAutocomplete search user event.
+   * @param terms The terms to search with
+   */
+  const handleSearchTrainings = (terms: string) => {
+    console.log("handleOnSearchTeachers: ", terms);
+    if (terms.length > 0) callSearchTrainings(terms);
+    else setTrainings(null);
+  };
+
+  /**
+   * Handle react hook form submit
+   * @param course The course to be created
+   */
+  const handleOnSubmit: SubmitHandler<CreateCourse> = (course) => {
+    console.log("handleOnSubmit<CreateCourse> : ", course);
+    dispatch(createCourseAction(course));
   };
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
       <div className="grid gap-4 mb-4 sm:grid-cols-2">
         {/* Name */}
-        <div>
+        <div className="sm:col-span-2">
           <label htmlFor={id + "name"} className="form-label">
             Name
           </label>
@@ -76,27 +121,43 @@ const CourseForm = () => {
         </div>
         {/* Teacher */}
         <div>
-          <Label htmlFor="email4" className="form-label" value="Teacher" />
-          <SearchInput
-            placeholder="Search teachers ..."
-            data={searchTeachers}
+          <label htmlFor={id + "teacher"} className="form-label">
+            Assignee Teacher
+          </label>
+          <Controller
+            control={control}
+            name="Teacher"
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <ComboboxAutocomplete
+                onSearchChange={handleSearchTeachers}
+                onChange={(user) => onChange(user)}
+                selected={value}
+                placeholder="Search teachers"
+                data={teachers}
+              />
+            )}
           />
         </div>
-        {/* <div> 
-        </div> */}
-        {/* <div>
-          <label htmlFor={id + "teacher"} className="form-label">
-            Teacher
-          </label>
-          <input
-            type="text"
-            id={id + "teacher"}
-            className="form-input"
-            placeholder="$2999"
-            {...register("teacher")}
-          />
-        </div> */}
+
         {/* Training */}
+        <div>
+          <label htmlFor={id + "trainingId"} className="form-label">
+            Training
+          </label>
+          {/* <Controller
+            control={control}
+            name="Training"
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <ComboboxAutocomplete
+                onSearchChange={handleSearchTrainings}
+                onChange={(training) => onChange(training)}
+                selected={value}
+                placeholder="Search trainings"
+                data={trainings}
+              />
+            )}
+          /> */}
+        </div>
 
         {/* Description */}
         <div className="sm:col-span-2">
@@ -112,20 +173,11 @@ const CourseForm = () => {
           ></textarea>
         </div>
       </div>
-      {/* Submit */}
+      {/* 
+        Submit 
+        */}
       <button type="submit" className="form-button">
-        <svg
-          className="mr-1 -ml-1 w-6 h-6"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
+        <HiCloud className="mr-1 -ml-1 w-6 h-6" />
         Add new course
       </button>
     </form>

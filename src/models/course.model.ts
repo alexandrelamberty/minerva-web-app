@@ -1,13 +1,13 @@
 import { CourseDate } from "./course-date.model";
 import { Training } from "./training.model";
-import { User } from "./user.model";
+import { Teacher, User } from "./user.model";
 
 export interface Course {
   id: string;
   name: string;
   description: string;
   training: Training;
-  teacher: User;
+  teacher: Teacher;
   dates: CourseDate[];
   duration: number;
   startDate: string;
@@ -19,15 +19,15 @@ export interface Course {
 export interface CreateCourse {
   name: string;
   description: string;
-  training?: Training;
-  teacher?: User;
+  Training: Training | null;
+  Teacher: Teacher | null;
   dates?: CourseDate[];
 }
 
 export interface UpdateCourse {
   name: string;
   description: string;
-  training?: Training;
-  teacher?: User;
+  TrainingId: string;
+  TeacherId: string;
   dates?: CourseDate[];
 }

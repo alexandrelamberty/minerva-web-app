@@ -1,8 +1,9 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { getAllUsersAction } from "../actions/user.actions";
+import { User } from "../../models/user.model";
 
 export type UsersState = {
-  users: any[];
+  users: User[];
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
@@ -24,7 +25,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = "failed";
     })
     .addCase(getAllUsersAction.fulfilled, (state, { payload }) => {
-      state.users = state.users.concat(payload);
+      state.users = payload.results;
       state.count = state.users.length;
       state.loading = "idle";
     });

@@ -44,55 +44,9 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
-      <div className="grid gap-4 mb-4 sm:grid-cols-2">
-        {/* Name */}
-        <div>
-          <label htmlFor={id + "price"} className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            id={id + "name"}
-            className="form-input"
-            placeholder="Name"
-            required
-            {...register("name")}
-          />
-        </div>
-        {/* Category */}
-        <div>
-          <label htmlFor={id + "category"} className="form-label">
-            Category
-          </label>
-          {/* FIXME extract component */}
-          <select
-            id={id + "category"}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            {...register("TrainingCategoryId")}
-          >
-            <option selected>Select category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* Description */}
-        <div className="sm:col-span-2">
-          <label htmlFor={id + "description"} className="form-label">
-            Description
-          </label>
-          <textarea
-            id={id + "description"}
-            rows={4}
-            className="form-input-textarea"
-            placeholder="Write training description here"
-            {...register("description")}
-          ></textarea>
-        </div>
-        {/* Cover */}
-        <div className="sm:col-span-2 flex items-center justify-center w-full">
+      <div className="grid gap-4 mb-4 sm:grid-cols-2 ">
+        {/* Column left picture */}
+        <div className="flex items-center justify-center w-full">
           <label
             htmlFor={id + "cover"}
             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -129,32 +83,84 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
             />
           </label>
         </div>
-        {/* Start / End dates */}
-        <div>
-          <label htmlFor={id + "startDate"} className="form-label">
-            Start date
-          </label>
-          <input
-            type="date"
-            id={id + "startDate"}
-            className="form-input"
-            placeholder=""
-            {...register("startDate")}
-          />
-        </div>
-        <div>
-          <label htmlFor={id + "endDate"} className="form-label">
-            End date
-          </label>
-          <input
-            type="date"
-            id={id + "endDate"}
-            className="form-input"
-            placeholder=""
-            {...register("endDate")}
-          />
+
+        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+          {/* Name */}
+          <div>
+            <label htmlFor={id + "price"} className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              id={id + "name"}
+              className="form-input"
+              placeholder="Name"
+              required
+              {...register("name")}
+            />
+          </div>
+          {/* Category */}
+          <div>
+            <label htmlFor={id + "category"} className="form-label">
+              Category
+            </label>
+            {/* FIXME: extract component */}
+            <select
+              id={id + "category"}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              {...register("TrainingCategoryId")}
+            >
+              <option selected>Select category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Description */}
+          <div className="sm:col-span-2">
+            <label htmlFor={id + "description"} className="form-label">
+              Description
+            </label>
+            <textarea
+              id={id + "description"}
+              rows={4}
+              className="form-input-textarea"
+              placeholder="Write training description here"
+              {...register("description")}
+            ></textarea>
+          </div>
+          {/* Cover */}
+
+          {/* Start / End dates */}
+          <div>
+            <label htmlFor={id + "startDate"} className="form-label">
+              Start date
+            </label>
+            <input
+              type="date"
+              id={id + "startDate"}
+              className="form-input"
+              placeholder=""
+              {...register("startDate")}
+            />
+          </div>
+          <div>
+            <label htmlFor={id + "endDate"} className="form-label">
+              End date
+            </label>
+            <input
+              type="date"
+              id={id + "endDate"}
+              className="form-input"
+              placeholder=""
+              {...register("endDate")}
+            />
+          </div>
         </div>
       </div>
+
       {/* Submit */}
       <button type="submit" className="form-button">
         <svg

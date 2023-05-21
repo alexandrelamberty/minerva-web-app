@@ -1,6 +1,9 @@
+import { Course } from "./course.model";
 import { User } from "./user.model";
 
-export interface Teacher extends User {
+export interface Teacher {
   id: string;
-  courses: [];
+  company: string;
+  courses: Course[];
+  User: User;
 }

@@ -3,6 +3,7 @@ import {
   createTrainingAction,
   deleteTrainingAction,
   getAllTrainingsAction,
+  readTrainingAction,
   showTrainingCreateModalAction,
 } from "../actions/training.actions";
 import { TrainingCategory } from "../../models/training-category.model";
@@ -11,6 +12,7 @@ import { Training } from "../../models/training.model";
 export type TrainingState = {
   categories: TrainingCategory[];
   trainings: Training[];
+  training: Training | null;
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
@@ -23,10 +25,11 @@ export type TrainingState = {
 const initialState: TrainingState = {
   categories: [],
   trainings: [],
+  training: null,
   count: 0,
   loading: "idle",
   errors: null,
-  showModal: true,
+  showModal: false,
   successCreate: false,
   successUpdate: false,
   successDelete: false,
@@ -59,7 +62,19 @@ const trainingReducer = createReducer(initialState, (builder) => {
       state.trainings.push(payload.result);
       state.showModal = false;
     })
-    // TODO: Read
+    // Read
+    .addCase(readTrainingAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(readTrainingAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(readTrainingAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      // We assign the result category training
+      state.training = payload.result;
+      state.showModal = false;
+    })
     // TODO: Update
     // Delete
     .addCase(deleteTrainingAction.pending, (state, action) => {

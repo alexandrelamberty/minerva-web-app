@@ -4,11 +4,13 @@ import {
   createTrainingCategoryAction,
   deleteTrainingCategoryAction,
   getAllTrainingsCategoriesAction,
+  readTrainingCategoryAction,
   showTrainingCategoryCreateModalAction,
 } from "../actions/training-category.actions";
 
 export type TrainingCategoryState = {
   categories: TrainingCategory[];
+  category: TrainingCategory | null;
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
@@ -20,6 +22,7 @@ export type TrainingCategoryState = {
 
 const initialState: TrainingCategoryState = {
   categories: [],
+  category: null,
   count: 0,
   loading: "idle",
   errors: null,
@@ -58,8 +61,21 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
       state.categories.push(payload.result);
       state.showModal = false;
     })
-    // TODO: Read
+    // Read
+    .addCase(readTrainingCategoryAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(readTrainingCategoryAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(readTrainingCategoryAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      // We assign the result category training
+      state.category = payload.result;
+      state.showModal = false;
+    })
     // TODO: Update
+    // ...
     // Delete
     .addCase(deleteTrainingCategoryAction.pending, (state, action) => {
       state.loading = "pending";

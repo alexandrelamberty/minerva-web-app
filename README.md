@@ -1,1 +1,9 @@
-# Minerva - Training System Web Application
+# Minerva - Training Management System Web Application
+
+## Technologies
+
+- [React]()
+- [React Router]()
+- [Redux]()
+
+## Features

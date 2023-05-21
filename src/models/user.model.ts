@@ -6,12 +6,40 @@ import { Settings } from "./settings.model";
  */
 export interface User {
   id: string;
-  username: string;
   email: string;
+  name: string;
   firstName: string;
   lastName: string;
   role: UserRole;
   avatar: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * An Admin in the system
+ * FIXME: Good ?
+ */
+export interface Admin {
+  id: string;
+  isBot: boolean;
+  User: User;
+}
+
+
+export interface Teacher {
+  id: string;
+  company: string;
+  User: User;
+}
+
+/**
+ * A Student in the system
+ */
+export interface Student {
+  id: string;
+  identification: string;
+  User: User;
 }
 
 /**
@@ -55,4 +83,21 @@ export interface RegisterUserRequest {
 
 export interface RecoverUserPasswordRequest {
   email: string;
+}
+
+/**
+ * Users success response
+ */
+export interface UsersSuccessResponse {
+  results: User[];
+  count: number;
+  statusCode: number;
+}
+
+/**
+ * User success response
+ */
+export interface UserSuccessResponse {
+  result: User;
+  statusCode: number;
 }

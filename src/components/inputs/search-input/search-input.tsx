@@ -44,7 +44,7 @@ const SearchInput = ({ placeholder, data }: SearchInputProps) => {
         className="w-full"
       />
       {/* Search results */}
-      <ul className="z-10 hiddens absolute top-12 w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+      <ul className="z-10 hidden absolute top-12 w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
         {data.map(() => (
           <ListItem />
         ))}

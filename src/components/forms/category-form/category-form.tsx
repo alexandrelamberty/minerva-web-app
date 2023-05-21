@@ -42,34 +42,8 @@ const CategoryForm = () => {
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
       <div className="grid gap-4 mb-4 sm:grid-cols-2">
-        {/* Name */}
-        <div>
-          <label htmlFor={id + "name"} className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            id={id + "name"}
-            className="form-input"
-            placeholder="Type category name"
-            {...register("name", { required: true, minLength: 2 })}
-          />
-        </div>
-        {/* Description */}
-        <div className="sm:col-span-2">
-          <label htmlFor={id + "description"} className="form-label">
-            Description
-          </label>
-          <textarea
-            id={id + "description"}
-            rows={4}
-            className="form-input-textarea"
-            placeholder="Write category description here"
-            {...register("description", { required: true, minLength: 2 })}
-          ></textarea>
-        </div>
         {/* Cover */}
-        <div className="sm:col-span-2 flex items-center justify-center w-full">
+        <div className=" flex items-center justify-center w-full">
           <label
             htmlFor={id + "cover"}
             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -105,6 +79,35 @@ const CategoryForm = () => {
               {...register("cover")}
             />
           </label>
+        </div>
+
+        <div className="grid gap-4 mb-4">
+          {/* Name */}
+          <div>
+            <label htmlFor={id + "name"} className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              id={id + "name"}
+              className="form-input"
+              placeholder="Type category name"
+              {...register("name", { required: true, minLength: 2 })}
+            />
+          </div>
+          {/* Description */}
+          <div className="">
+            <label htmlFor={id + "description"} className="form-label">
+              Description
+            </label>
+            <textarea
+              id={id + "description"}
+              rows={4}
+              className="form-input-textarea"
+              placeholder="Write category description here"
+              {...register("description", { required: true, minLength: 2 })}
+            ></textarea>
+          </div>
         </div>
       </div>
       {/* Submit */}

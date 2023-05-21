@@ -1,27 +1,26 @@
-import { Button, Modal, Table, TextInput } from "flowbite-react";
+import { Button, Modal, Table, TextInput, Tooltip } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { HiEye, HiOutlineBookOpen } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import DeleteModal from "../../components/modals/delete-model";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import TrainingForm from "../../components/forms/training-form/training-form";
-import {
-  notificationHideAction,
-  notificationShowAction,
-} from "../../store/actions/notification.actions";
-import { AppDispatch, RootState } from "../../store/store";
+import DeleteModal from "../../components/modals/delete-model";
+import { getAllTrainingsCategoriesAction } from "../../store/actions/training-category.actions";
 import {
   deleteTrainingAction,
   getAllTrainingsAction,
   showTrainingCreateModalAction,
 } from "../../store/actions/training.actions";
-import { getAllTrainingsCategoriesAction } from "../../store/actions/training-category.actions";
-import { HiBookOpen, HiBookmarkAlt, HiOutlineBookOpen } from "react-icons/hi";
+import { AppDispatch, RootState } from "../../store/store";
 
 const TrainingsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  /**
+   * Store Trainings
+   */
   const { categories } = useSelector((state: RootState) => state.categories);
   const { trainings, showModal, loading, errors } = useSelector(
     (state: RootState) => state.trainings
@@ -62,20 +61,24 @@ const TrainingsPage = () => {
     console.log(terms);
   };
 
+  /**
+   * Dispatch action to load trainings and trainings categories
+   */
   useEffect(() => {
-    // FIXME: replace with a hook for the form select data
+    // FIXME: Move to component ?
     dispatch(getAllTrainingsCategoriesAction());
+    //
     dispatch(getAllTrainingsAction());
   }, []);
 
   return (
     <>
-      <ActionMenu title="All Trainings" onSearch={handleSearch}>
+      <ActionMenu>
         <TextInput
           id="search"
           type="text"
           icon={HiOutlineBookOpen}
-          placeholder="Search calendar ..."
+          placeholder="Search trainings ..."
         />
         <Button
           onClick={() => {
@@ -89,7 +92,7 @@ const TrainingsPage = () => {
       {/* Table | Grid */}
       <Table striped={true} hoverable={true} className="rounded-none">
         <Table.Head className="rounded-none">
-          <Table.HeadCell></Table.HeadCell>
+          <Table.HeadCell>Cover</Table.HeadCell>
           <Table.HeadCell>Category</Table.HeadCell>
           <Table.HeadCell>Training name</Table.HeadCell>
           <Table.HeadCell>Description</Table.HeadCell>
@@ -102,10 +105,20 @@ const TrainingsPage = () => {
           {trainings.map((training) => (
             <Table.Row className="table-row" key={training.id}>
               <Table.Cell>
-                <img
-                  width={128}
-                  src={"http://localhost:3000/" + training.cover}
-                />
+                <Tooltip
+                  placement="right"
+                  content={
+                    <img
+                      className="z-1000 rounded-md"
+                      width={256}
+                      src={"http://localhost:3000/" + training.cover}
+                    />
+                  }
+                >
+                  <button className="btn-action-outline">
+                    <HiEye className="mr-0 h-5 w-5 out" />
+                  </button>
+                </Tooltip>
               </Table.Cell>
               <Table.Cell>{training.category?.name}</Table.Cell>
               <Table.Cell className="table-cell-title">
@@ -116,9 +129,18 @@ const TrainingsPage = () => {
                 {training.startDate} - {training.endDate}
               </Table.Cell>
               <Table.Cell>
-                <div className="space-x-2">
+                <div className="flex items-center space-x-3 sm:space-x-4">
                   <button
-                    className="font-medium text-slate-50 bg-slate-600  px-2 pt-1 rounded-sm"
+                    className="btn-action-outline"
+                    onClick={() => {
+                      navigate("./" + training.id);
+                    }}
+                  >
+                    View
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-action-outline"
                     onClick={() => {
                       setEditId(training.id);
                       setShowEditModal(true);
@@ -128,7 +150,8 @@ const TrainingsPage = () => {
                     Edit
                   </button>
                   <button
-                    className="font-medium text-slate-50 bg-red-600  px-2 pt-1 rounded-sm"
+                    type="button"
+                    className="btn-action-outline"
                     onClick={() => {
                       setDeleteId(training.id);
                       setShowDeleteModal(true);
@@ -143,9 +166,10 @@ const TrainingsPage = () => {
         </Table.Body>
       </Table>
       {/* 
-        Add Modal 
+        Create Modal 
       */}
       <Modal
+        size="5xl"
         show={showModal}
         onClose={() => {
           dispatch(showTrainingCreateModalAction(false));
