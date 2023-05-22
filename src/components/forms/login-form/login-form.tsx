@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { LoginUserRequest } from "../../../models/user.model";
-import {
-  authFakeLoginAction,
-  authLoginAction,
-} from "../../../store/actions/auth.actions";
+import { authLoginAction } from "../../../store/actions/auth.actions";
 import { AppDispatch, RootState } from "../../../store/store";
 
 const validationSchema = Yup.object({
