@@ -1,15 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import courseReducer from "./reducers/course.reducer.ts";
 import authReducer from "./reducers/auth.reducer.js";
+import courseReducer from "./reducers/course.reducer.ts";
+import notificationReducer from "./reducers/notification.reducer.js";
+import studentReducer from "./reducers/student.reducer.js";
+import teacherReducer from "./reducers/teacher.reducer.js";
+import trainingCategoryReducer from "./reducers/training-category.reducer.js";
 import trainingReducer from "./reducers/training.reducer.js";
 import userReducer from "./reducers/user.reducer.js";
-import notificationReducer from "./reducers/notification.reducer.js";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     trainings: trainingReducer,
+    categories: trainingCategoryReducer,
     courses: courseReducer,
+    teachers: teacherReducer,
+    students: studentReducer,
     users: userReducer,
     notification: notificationReducer,
   },

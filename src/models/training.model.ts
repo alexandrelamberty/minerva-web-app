@@ -16,8 +16,17 @@ export interface Training {
 export interface CreateTraining {
   name: string;
   description: string;
-  cover: File;
-  category: TrainingCategory;
+  cover: FileList;
   startDate: string;
   endDate: string;
+  TrainingCategoryId: string;
+}
+
+export interface UpdateTraining {
+  name: string;
+  description: string;
+  cover: FileList;
+  startDate: string;
+  endDate: string;
+  TrainingCategoryId: string;
 }

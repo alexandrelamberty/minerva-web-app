@@ -1,62 +1,91 @@
-import { Button, Modal, Table } from "flowbite-react";
-import { TableHeader } from "../../components/page-header/page-header";
+import { Button, Modal, Table, TextInput } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { HiBookmark } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../../store/store";
-import { useState } from "react";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import CourseForm from "../../components/forms/course-form/course-form";
 import DeleteModal from "../../components/modals/delete-model";
-import CourseForm from "../../components/course-form/course-form";
+import {
+  deleteCourseAction,
+  getAllCoursesAction,
+  showCourseCreateModalAction,
+} from "../../store/actions/course.actions";
+import { AppDispatch, RootState } from "../../store/store";
 
 const CoursesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { courses, loading, errors } = useSelector(
+  /**
+   * Stores
+   */
+  const { trainings } = useSelector((state: RootState) => state.trainings);
+  const { courses, showCreateModal, loading, errors } = useSelector(
     (state: RootState) => state.courses
   );
 
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [editId, setEditId] = useState("");
 
-  const handleAddModalClose = () => {
-    setShowAddModal(false);
-  };
-
-  const handleAddModalSave = () => {
-    // dispatch store action
-  };
-
+  /**
+   * Handle the delete modal close action
+   */
   const handleDeleteClose = () => {
     setShowDeleteModal(!showDeleteModal);
   };
 
+  /**
+   * Handle the delete modal confirm action
+   */
   const handleDeleteConfirm = () => {
     setShowDeleteModal(!showDeleteModal);
+    dispatch(deleteCourseAction(deleteId));
   };
 
+  /**
+   * Handle search from the ActionMenu
+   * @param terms The terms to search
+   */
   const handleSearch = (terms: string) => {
     console.log(terms);
   };
+
+  /**
+   * Dispatch action to load all the courses
+   */
+  useEffect(() => {
+    dispatch(getAllCoursesAction());
+  }, []);
+
   return (
     <>
-      <TableHeader title="All Courses" onSearch={handleSearch}>
+      <ActionMenu>
+        {/* Allow to search for users */}
+        <TextInput
+          id="search"
+          type="text"
+          icon={HiBookmark}
+          placeholder="Search courses ..."
+        />
+
         <Button
           onClick={() => {
-            setShowAddModal(true);
+            dispatch(showCourseCreateModalAction(true));
           }}
         >
           Add Course
         </Button>
-      </TableHeader>
+      </ActionMenu>
       {/* Trainings Data View */}
       {/* Table | Grid */}
       <Table striped={true} hoverable={true}>
         <Table.Head>
           <Table.HeadCell>Course name</Table.HeadCell>
           <Table.HeadCell>Description</Table.HeadCell>
+          <Table.HeadCell>Training</Table.HeadCell>
           <Table.HeadCell>Teacher</Table.HeadCell>
           <Table.HeadCell>Duration</Table.HeadCell>
           <Table.HeadCell>Period</Table.HeadCell>
@@ -71,26 +100,38 @@ const CoursesPage = () => {
                 {course.name}
               </Table.Cell>
               <Table.Cell>{course.description}</Table.Cell>
-              <Table.Cell>{course.teacher}</Table.Cell>
+              <Table.Cell>
+                {course?.training ? course?.training.name : "no training"}
+              </Table.Cell>
+              <Table.Cell>{course.teacher.User.firstName}</Table.Cell>
               <Table.Cell>{course.duration}</Table.Cell>
               <Table.Cell>
                 {course.startDate} - {course.endDate}
               </Table.Cell>
               <Table.Cell>
-                <div className="space-x-2">
+                <div className="flex items-center space-x-3 sm:space-x-4">
                   <button
-                    className="font-medium text-slate-50 bg-slate-600  px-2 pt-1 rounded-sm"
+                    className="btn-action-outline"
                     onClick={() => {
-                      setEditId(category.id);
+                      navigate("./" + course.id);
+                    }}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="btn-action-outline"
+                    onClick={() => {
+                      setEditId(course.id);
                       setShowEditModal(true);
+                      navigate(course.id + "/edit");
                     }}
                   >
                     Edit
                   </button>
                   <button
-                    className="font-medium text-slate-50 bg-red-600  px-2 pt-1 rounded-sm"
+                    className="btn-action-outline"
                     onClick={() => {
-                      setDeleteId(category.id);
+                      setDeleteId(course.id);
                       setShowDeleteModal(true);
                     }}
                   >
@@ -103,9 +144,15 @@ const CoursesPage = () => {
         </Table.Body>
       </Table>
       {/* 
-        Add Modal 
+        Create Modal 
       */}
-      <Modal show={showAddModal} onClose={handleAddModalClose}>
+      <Modal
+        size="lg"
+        show={showCreateModal}
+        onClose={() => {
+          dispatch(showCourseCreateModalAction(false));
+        }}
+      >
         <Modal.Header>Add Course</Modal.Header>
         <Modal.Body>
           <CourseForm />
@@ -118,7 +165,7 @@ const CoursesPage = () => {
         show={showDeleteModal}
         onClose={handleDeleteClose}
         onConfirm={handleDeleteConfirm}
-        description="Are you sure you want to delete this Course?"
+        description="Are you sure you want to delete this course?"
       />
     </>
   );

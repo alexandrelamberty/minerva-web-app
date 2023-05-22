@@ -3,52 +3,83 @@ import {
   createAsyncThunk,
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
-import { Course } from "../../models/course.model";
+import { CreateCourse, UpdateCourse } from "../../models/course.model";
+import {
+  createCourse,
+  deleteCourse,
+  getAllCourses,
+  readCourse,
+  updateCourse,
+} from "../../services/api-service";
 
-export const courseGetAllAction = createAsyncThunk("course/fetch", async () => {
-  try {
-    const response = await fetch("https://fakestoreapi.com/products/", {
-      method: "GET",
-    });
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    // You can choose to use the message attached to err or write a custom error
-    return isRejectedWithValue("Opps there seems to be an error");
+export const getAllCoursesAction = createAsyncThunk(
+  "courses/fetch",
+  async () => {
+    try {
+      const response = await getAllCourses();
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Courses Error: " + err);
+    }
   }
-});
+);
 
-export const courseCreateAction = createAction(
+export const createCourseAction = createAsyncThunk(
   "courses/create",
-  (course: Course) => {
-    return {
-      payload: {
-        ...course,
-      },
-    };
+  async (data: CreateCourse) => {
+    try {
+      const response = await createCourse(data);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Courses Error: " + err);
+    }
   }
 );
 
-export const courseReadAction = createAction(
+export const readCourseAction = createAsyncThunk(
   "courses/read",
-  (course: Course) => {
-    return {
-      payload: {
-        ...course,
-      },
-    };
+  async (id: string) => {
+    try {
+      const response = await readCourse(id);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Courses Error: " + err);
+    }
   }
 );
 
-export const courseUpdateAction = createAction(
-  "products/update",
-  (product: Course) => {
-    return {
-      payload: {
-        ...product,
-      },
-    };
+export const updateCourseAction = createAsyncThunk(
+  "courses/update",
+  async (data: UpdateCourse) => {
+    try {
+      const response = await updateCourse(data);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Courses Error: " + err);
+    }
   }
 );
 
-export const courseDeleteAction = createAction<string>("courses/delete");
+export const deleteCourseAction = createAsyncThunk(
+  "courses/delete",
+  async (id: string) => {
+    try {
+      const response = await deleteCourse(id);
+      return id;
+    } catch (err) {
+      return isRejectedWithValue("Courses Error: " + err);
+    }
+  }
+);
+
+/**
+ * Show a create form modal
+ */
+export const showCourseCreateModalAction = createAction(
+  "courses/show-create-modal",
+  (show: boolean) => {
+    return {
+      payload: show,
+    };
+  }
+);

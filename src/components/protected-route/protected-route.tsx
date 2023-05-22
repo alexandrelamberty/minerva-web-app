@@ -10,9 +10,11 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({ roles, children }: ProtectedRouteProps) => {
   let location = useLocation();
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   if (!user) {
     // Redirect them to the /login page, but save the current location they were
@@ -21,6 +23,8 @@ const ProtectedRoute = ({ roles, children }: ProtectedRouteProps) => {
     // than dropping them off on the home page.
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
+
+  // TODO: Check roles
 
   return children;
 };

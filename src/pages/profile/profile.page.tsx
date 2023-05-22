@@ -1,8 +1,11 @@
+import SectionHeader from "../../components/section-header/section-header";
+
 const ProfilePage = () => {
   return (
-    <div>
-      <h1>Profile</h1>
-    </div>
+    <>
+      <SectionHeader title="Profile" />
+      {/* ProfileForm */}
+    </>
   );
 };
 

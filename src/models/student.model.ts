@@ -1,6 +1,13 @@
+import { Training } from "./training.model";
 import { User } from "./user.model";
 
-export interface Student extends User {
+export interface Student {
   id: string;
-  training: [];
+  identification: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  trainings: Training[];
+  createdDate: string;
+  updatedDate: string;
 }

@@ -4,13 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { CreateTrainingCategory } from "../../models/training-category.model";
-import { AppDispatch } from "../../store/store";
+import { CreateTrainingCategory } from "../../../models/training-category.model";
+import { AppDispatch } from "../../../store/store";
+import { createTrainingCategoryAction } from "../../../store/actions/training-category.actions";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
   description: Yup.string().trim().required(),
-  cover: Yup.string().trim().required(),
+  // cover: Yup.string().trim(),
 });
 
 const CategoryForm = () => {
@@ -23,7 +24,7 @@ const CategoryForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { formErrors }, // FIXME
+    formState: { errors: formErrors }, // FIXME
   } = useForm<CreateTrainingCategory>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -35,40 +36,14 @@ const CategoryForm = () => {
 
   const handleOnSubmit: SubmitHandler<CreateTrainingCategory> = (category) => {
     console.log("Submit Category Handler", category);
-    // dispatch(authFakeLoginAction());
+    dispatch(createTrainingCategoryAction(category));
   };
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
       <div className="grid gap-4 mb-4 sm:grid-cols-2">
-        {/* Name */}
-        <div>
-          <label htmlFor={id + "name"} className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            id={id + "name"}
-            className="form-input"
-            placeholder="Type category name"
-            {...register("name", { required: true, minLength: 2 })}
-          />
-        </div>
-        {/* Description */}
-        <div className="sm:col-span-2">
-          <label htmlFor={id + "description"} className="form-label">
-            Description
-          </label>
-          <textarea
-            id={id + "description"}
-            rows={4}
-            className="form-input-textarea"
-            placeholder="Write category description here"
-            {...register("description", { required: true, minLength: 2 })}
-          ></textarea>
-        </div>
         {/* Cover */}
-        <div className="sm:col-span-2 flex items-center justify-center w-full">
+        <div className=" flex items-center justify-center w-full">
           <label
             htmlFor={id + "cover"}
             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -83,9 +58,9 @@ const CategoryForm = () => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                 ></path>
               </svg>
@@ -105,6 +80,35 @@ const CategoryForm = () => {
             />
           </label>
         </div>
+
+        <div className="grid gap-4 mb-4">
+          {/* Name */}
+          <div>
+            <label htmlFor={id + "name"} className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              id={id + "name"}
+              className="form-input"
+              placeholder="Type category name"
+              {...register("name", { required: true, minLength: 2 })}
+            />
+          </div>
+          {/* Description */}
+          <div className="">
+            <label htmlFor={id + "description"} className="form-label">
+              Description
+            </label>
+            <textarea
+              id={id + "description"}
+              rows={4}
+              className="form-input-textarea"
+              placeholder="Write category description here"
+              {...register("description", { required: true, minLength: 2 })}
+            ></textarea>
+          </div>
+        </div>
       </div>
       {/* Submit */}
       <button type="submit" className="form-button">
@@ -115,9 +119,9 @@ const CategoryForm = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           ></path>
         </svg>
         Add new category

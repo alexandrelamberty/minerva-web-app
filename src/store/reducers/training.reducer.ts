@@ -1,18 +1,18 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
-  trainingsDeleteAction,
-  trainingsInsertAction,
-  trainingsFetchAction,
+  createTrainingAction,
+  deleteTrainingAction,
+  getAllTrainingsAction,
+  readTrainingAction,
+  showTrainingCreateModalAction,
 } from "../actions/training.actions";
-
-import TRAININGS from "../mock-data/trainings.json";
-import CATEGORIES from "../mock-data/trainings-categories.json";
-import { Training } from "../../models/training.model";
 import { TrainingCategory } from "../../models/training-category.model";
+import { Training } from "../../models/training.model";
 
 export type TrainingState = {
   categories: TrainingCategory[];
   trainings: Training[];
+  training: Training | null;
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
@@ -23,12 +23,13 @@ export type TrainingState = {
 };
 
 const initialState: TrainingState = {
-  categories: CATEGORIES,
-  trainings: TRAININGS,
+  categories: [],
+  trainings: [],
+  training: null,
   count: 0,
   loading: "idle",
   errors: null,
-  showModal: true,
+  showModal: false,
   successCreate: false,
   successUpdate: false,
   successDelete: false,
@@ -36,28 +37,62 @@ const initialState: TrainingState = {
 
 const trainingReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(trainingsFetchAction.pending, (state, action) => {
+    // Get All
+    .addCase(getAllTrainingsAction.pending, (state, action) => {
       state.loading = "pending";
     })
-    .addCase(trainingsFetchAction.rejected, (state, action) => {
+    .addCase(getAllTrainingsAction.rejected, (state, action) => {
+      state.loading = "failed";
+      state.errors = action.payload as string;
+    })
+    .addCase(getAllTrainingsAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      state.trainings = payload.results;
+      state.count = state.trainings.length;
+    })
+    // Create
+    .addCase(createTrainingAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(createTrainingAction.rejected, (state, action) => {
       state.loading = "failed";
     })
-    .addCase(trainingsFetchAction.fulfilled, (state, { payload }) => {
-      state.trainings = state.trainings.concat(payload);
-      state.count = state.trainings.length;
+    .addCase(createTrainingAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
+      state.trainings.push(payload.result);
+      state.showModal = false;
     })
-    .addCase(trainingsInsertAction, (state, action) => {
-      const training = action.payload;
-      state.trainings.push(training);
-      state.count = state.trainings.length;
+    // Read
+    .addCase(readTrainingAction.pending, (state, action) => {
+      state.loading = "pending";
     })
-    .addCase(trainingsDeleteAction, (state, action) => {
-      const trainingId = action.payload;
-      state.trainings = state.trainings.filter(
-        (product) => product.id !== trainingId
-      );
-      state.count = state.trainings.length;
+    .addCase(readTrainingAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(readTrainingAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      // We assign the result category training
+      state.training = payload.result;
+      state.showModal = false;
+    })
+    // TODO: Update
+    // Delete
+    .addCase(deleteTrainingAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(deleteTrainingAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(deleteTrainingAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      // We remove the deleted training category
+      state.trainings = state.trainings.filter(function (item) {
+        return item.id != payload;
+      });
+    })
+    // UI
+    .addCase(showTrainingCreateModalAction, (state, { payload }) => {
+      state.showModal = payload;
     });
 });
 

@@ -3,21 +3,56 @@ import {
   createAsyncThunk,
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
+import {
+  LoginUserRequest,
+  RecoverUserPasswordRequest,
+  RegisterUserRequest,
+} from "../../models/user.model";
+import {
+  loginUser,
+  recoverUserAccount,
+  registerUser,
+} from "../../services/api-service";
+import { formatError } from "../../utils/utils";
 
-export const authLoginAction = createAsyncThunk("auth/login", async () => {
-  try {
-    const response = await fetch("https://fakestoreapi.com/products/", {
-      method: "GET",
-    });
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    // You can choose to use the message attached to err or write a custom error
-    return isRejectedWithValue("Opps there seems to be an error");
+export const authLoginAction = createAsyncThunk(
+  "auth/login",
+  async (data: LoginUserRequest, thunkAPI) => {
+    console.log("AuthLoginAction: ", data);
+    try {
+      const response = await loginUser(data);
+      return response.data;
+    } catch (err: any) {
+      const message = formatError(err);
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const authFakeLoginAction = createAction("auth/fakelogin");
-export const authRegisterAction = createAction("auth/register");
-export const authRecoverAccountAction = createAction("auth/recover-account");
+export const authRegisterAction = createAsyncThunk(
+  "auth/register",
+  async (data: RegisterUserRequest, thunkAPI) => {
+    try {
+      const response = await registerUser(data);
+      return response.data;
+    } catch (err: any) {
+      const message = formatError(err);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const authRecoverPasswordAction = createAsyncThunk(
+  "auth/recover-account",
+  async (data: RecoverUserPasswordRequest, thunkAPI) => {
+    try {
+      const response = await recoverUserAccount(data);
+      return response.data;
+    } catch (err: any) {
+      const message = formatError(err);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authLogoutAction = createAction("auth/logout");

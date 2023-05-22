@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   DarkThemeToggle,
   Dropdown,
   useThemeMode,
@@ -84,9 +85,12 @@ type UserDropdownMenuProps = {
 const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  // FIXME: Move outside component?
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   const handleClick = (item: UserDropdownMenuItem) => {
     navigate(item.url);
@@ -111,7 +115,7 @@ const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
         </span>
       </Dropdown.Header>
       {items.map((item) => (
-        <Dropdown.Item onClick={() => handleClick(item)}>
+        <Dropdown.Item key={item.url} onClick={() => handleClick(item)}>
           {item.label}
         </Dropdown.Item>
       ))}
@@ -123,6 +127,12 @@ const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
 
 export const AppHeader = () => {
   const [mode, setMode, toggleMode] = useThemeMode();
+
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   const handleThemeToggle = () => {
     toggleMode();
@@ -209,6 +219,7 @@ export const AppHeader = () => {
           </div>
           <div className="flex items-center lg:order-2 space-x-2">
             <DarkThemeToggle onClick={handleThemeToggle} />
+            <Badge>{user?.role}</Badge>
             <UserDropdownMenu items={UserDropdownMenuItems} />
           </div>
         </div>

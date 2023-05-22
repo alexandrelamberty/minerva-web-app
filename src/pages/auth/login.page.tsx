@@ -1,6 +1,6 @@
 import { Label, TextInput, Checkbox, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
-import { LoginForm } from "../../components/login-form.tsx/login-form";
+import { LoginForm } from "../../components/forms/login-form/login-form";
 
 const LoginPage = () => {
   return (

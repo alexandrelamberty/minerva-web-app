@@ -1,28 +1,27 @@
-import { DarkThemeToggle, Sidebar } from "flowbite-react";
+import { Sidebar } from "flowbite-react";
 import {
   HiCalendar,
   HiChartPie,
   HiInbox,
   HiOutlinePrinter,
-  HiShoppingBag,
   HiUser,
   HiViewBoards,
 } from "react-icons/hi";
-import { Link } from "react-router-dom";
-import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { UserRole } from "../../enums/user-roles";
+import { RootState } from "../../store/store";
 
 export const AppSidebar = () => {
-  const { user, loading, errors } = useSelector(
-    (state: RootState) => state.auth
-  );
+  // Retrieve logged in user to show the corresponding menu according to the
+  // user role.
+  const { loggedInUser } = useSelector((state: RootState) => state.auth);
+
   return (
     <>
       <Sidebar
         id="drawer-example"
-        aria-label="Sidebar with logo branding example"
-        className="z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0 rounded-none"
+        className="z-40 w-64 transition-transform -translate-x-full sm:translate-x-0 rounded-none"
       >
         <Sidebar.Items>
           <Sidebar.ItemGroup>
@@ -39,24 +38,26 @@ export const AppSidebar = () => {
               <Link to="/courses">Courses</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiCalendar}>
-              <Link to="/schedule">Schedule</Link>
+              <Link to="/schedule">Schedules</Link>
             </Sidebar.Item>
-            {/* if user is Admin */}
-            {user?.role === UserRole.Admin && (
-              <Sidebar.Item icon={HiUser}>
-                <Link to="/users">Users</Link>
-              </Sidebar.Item>
-            )}
-            {/* If User is Student */}
-            {user?.role === UserRole.Student && (
+            {/* ONLY Admin and Student */}
+            {(loggedInUser?.role === UserRole.Admin ||
+              loggedInUser?.role === UserRole.Student) && (
               <Sidebar.Item icon={HiUser}>
                 <Link to="/teachers">Teachers</Link>
               </Sidebar.Item>
             )}
-            {/* If User is Teacher */}
-            {user?.role === UserRole.Teacher && (
+            {/* ONLY Admin and Teacher */}
+            {(loggedInUser?.role === UserRole.Admin ||
+              loggedInUser?.role === UserRole.Teacher) && (
               <Sidebar.Item icon={HiUser}>
                 <Link to="/students">Students</Link>
+              </Sidebar.Item>
+            )}
+            {/* ONLY Admin */}
+            {loggedInUser?.role === UserRole.Admin && (
+              <Sidebar.Item icon={HiUser}>
+                <Link to="/users">Users</Link>
               </Sidebar.Item>
             )}
           </Sidebar.ItemGroup>
