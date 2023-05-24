@@ -59,7 +59,7 @@ const StudentDetailsPage = () => {
             <img
               height={420}
               className="object-cover h-48 w-96"
-              src={"http://localhost:3000/" + student?.user.avatar}
+              src={"http://localhost:3000/" + student?.avatar}
             />
           </dd>
           <dt>FirstName</dt>
@@ -68,16 +68,16 @@ const StudentDetailsPage = () => {
           <dd>{student?.lastName}</dd>
           <dt>Email</dt>
           <dd>{student?.email}</dd>
-          <dt>Assignees</dt>
+          <dt>Trainings</dt>
           <dd>
-            {/* <ul>
+            <ul>
               {student?.trainings.map((training) => (
                 <li key={training.id}>{training.name}</li>
               ))}
-            </ul> */}
+            </ul>
             <p>No course assigned</p>
           </dd>
-          <dt>Courses</dt>
+          {/* <dt>Courses</dt>
           <dd>
             <ul>
               {student?.courses.map((course) => (
@@ -89,7 +89,7 @@ const StudentDetailsPage = () => {
                 </li>
               ))}
             </ul>
-          </dd>
+          </dd> */}
         </dl>
       </div>
     </>

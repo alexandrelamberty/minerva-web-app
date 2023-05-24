@@ -7,6 +7,7 @@ export interface Student {
   firstName: string;
   lastName: string;
   email: string;
+  avatar: string;
   trainings: Training[];
   createdDate: string;
   updatedDate: string;
