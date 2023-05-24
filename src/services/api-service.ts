@@ -12,10 +12,11 @@ import {
   UsersSuccessResponse,
 } from "../models/user.model";
 import axios from "axios";
+import { CreateEnrollment, UpdateEnrollment } from "../models/enrollment.model";
 
 export interface AxiosError {
   code: string;
-  config: {};
+  config: any;
   message: string;
   name: string;
   response: {
@@ -163,6 +164,10 @@ export const getAllTeachers = async () => {
   return await instanceAxios.get("/teachers/");
 };
 
+export const getTeacherById = async (id: string) => {
+  return await instanceAxios.get("/teachers/" + id);
+};
+
 // Students
 
 export const searchStudents = async (terms: string) => {
@@ -173,6 +178,36 @@ export const getAllStudents = async () => {
   return await instanceAxios.get("/students/");
 };
 
+export const getStudentById = async (id: string) => {
+  return await instanceAxios.get("/students/" + id);
+};
+
+// Enrollments
+
+export const searchEnrollments = async (terms: string) => {
+  return await instanceAxios.get("/enrollment/search/" + terms);
+};
+
+export const getAllEnrollments = async () => {
+  return await instanceAxios.get("/enrollments");
+};
+
+export const createEnrollment = async (data: CreateEnrollment) => {
+  return await instanceAxios.post("/enrollments", data);
+};
+
+export const readEnrollment = async (id: string) => {
+  return await instanceAxios.get("/enrollments/" + id);
+};
+
+export const updateEnrollment = async (data: UpdateEnrollment) => {
+  return await instanceAxios.patch("/enrollments", data);
+};
+
+export const deleteEnrollment = async (id: string) => {
+  return await instanceAxios.delete("/enrollments/" + id);
+};
+
 // Users
 
 export const searchUsers = async (terms: string) => {
@@ -181,4 +216,8 @@ export const searchUsers = async (terms: string) => {
 
 export const getAllUsers = async () => {
   return await instanceAxios.get("/users/");
+};
+
+export const getUserById = async (id: string) => {
+  return await instanceAxios.get("/users/" + id);
 };

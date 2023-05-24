@@ -96,7 +96,7 @@ const CategoriesPage = () => {
               </Table.Cell>
               <Table.Cell>{category.description}</Table.Cell>
               <Table.Cell>
-                <div className="flex space-x-3 sm:space-x-4">
+                <div className="flex justify-end space-x-3 sm:space-x-4">
                   <button
                     className="btn-action-outline"
                     onClick={() => {

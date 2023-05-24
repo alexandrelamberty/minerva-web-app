@@ -1,9 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { Teacher } from "../../models/teacher.model";
-import { getAllTeachersAction } from "../actions/teacher.actions";
+import {
+  getAllTeachersAction,
+  getTeacherByIdAction,
+} from "../actions/teacher.actions";
+import { getTeacherById } from "../../services/api-service";
 
 export type TeacherState = {
   teachers: Teacher[];
+  teacher: Teacher | null;
   count: number;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
@@ -11,6 +16,7 @@ export type TeacherState = {
 
 const initialState: TeacherState = {
   teachers: [],
+  teacher: null,
   count: 0,
   loading: "idle",
   errors: null,
@@ -18,6 +24,7 @@ const initialState: TeacherState = {
 
 const teacherReducer = createReducer(initialState, (builder) => {
   builder
+    // Get All Teachers
     .addCase(getAllTeachersAction.pending, (state, action) => {
       state.loading = "pending";
     })
@@ -28,6 +35,17 @@ const teacherReducer = createReducer(initialState, (builder) => {
       state.loading = "idle";
       state.teachers = payload.results;
       state.count = state.teachers.length;
+    })
+    // Get Teacher By Id
+    .addCase(getTeacherByIdAction.pending, (state, action) => {
+      state.loading = "pending";
+    })
+    .addCase(getTeacherByIdAction.rejected, (state, action) => {
+      state.loading = "failed";
+    })
+    .addCase(getTeacherByIdAction.fulfilled, (state, { payload }) => {
+      state.loading = "idle";
+      state.teacher = payload.result;
     });
 });
 

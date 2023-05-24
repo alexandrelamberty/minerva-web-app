@@ -27,6 +27,9 @@ import CategoryEditPage from "./pages/categories/category-edit.page";
 import CourseDetailsPage from "./pages/course/course-details.page";
 import CourseEditPage from "./pages/course/course-edit.page";
 import EnrollmentsPage from "./pages/enrollments/enrollments.page";
+import UserDetailsPage from "./pages/users/user-details.page";
+import TeacherDetailsPage from "./pages/teachers/teacher-details.page";
+import StudentDetailsPage from "./pages/students/student-details.page";
 
 function App() {
   // Store notification used to show / hide globals notifications
@@ -197,6 +200,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="teachers/:teacherId"
+            element={
+              <ProtectedRoute>
+                <TeacherDetailsPage />
+              </ProtectedRoute>
+            }
+          />
           {/* 
             Students 
               - /Students      View the associates students for a teacher account.
@@ -206,6 +217,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <StudentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="students/:studentId"
+            element={
+              <ProtectedRoute>
+                <StudentDetailsPage />
               </ProtectedRoute>
             }
           />
@@ -230,6 +249,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="users/:userId"
+            element={
+              <ProtectedRoute>
+                <UserDetailsPage />
               </ProtectedRoute>
             }
           />

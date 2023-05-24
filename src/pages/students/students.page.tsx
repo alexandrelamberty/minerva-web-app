@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import { getAllStudentsAction } from "../../store/actions/students.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
 const handleSearch = (terms: string) => {
   console.log(terms);
@@ -12,6 +13,7 @@ const handleSearch = (terms: string) => {
 
 const StudentsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   /**
    * Store Users
@@ -70,20 +72,27 @@ const StudentsPage = () => {
               <Table.Cell>{student.firstName}</Table.Cell>
               <Table.Cell>{student.lastName}</Table.Cell>
               <Table.Cell>{student.email}</Table.Cell>
-
               <Table.Cell>
-                <a
-                  href="/tables"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Edit
-                </a>
-                <a
-                  href="/tables"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Edit
-                </a>
+                <div className="flex justify-end space-x-3 sm:space-x-4">
+                  <button
+                    type="button"
+                    className="btn-action-outline"
+                    onClick={() => {
+                      navigate("./" + student.id);
+                    }}
+                  >
+                    View
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-action-outline"
+                    onClick={() => {
+                      navigate(student.id + "/edit");
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
               </Table.Cell>
             </Table.Row>
           ))}

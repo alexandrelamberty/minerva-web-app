@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./reducers/auth.reducer.js";
-import courseReducer from "./reducers/course.reducer.ts";
-import notificationReducer from "./reducers/notification.reducer.js";
-import studentReducer from "./reducers/student.reducer.js";
-import teacherReducer from "./reducers/teacher.reducer.js";
-import trainingCategoryReducer from "./reducers/training-category.reducer.js";
-import trainingReducer from "./reducers/training.reducer.js";
-import userReducer from "./reducers/user.reducer.js";
+import authReducer from "./reducers/auth.reducer";
+import courseReducer from "./reducers/course.reducer";
+import enrollmentReducer from "./reducers/enrollment.reducer";
+import notificationReducer from "./reducers/notification.reducer";
+import studentReducer from "./reducers/student.reducer";
+import teacherReducer from "./reducers/teacher.reducer";
+import trainingCategoryReducer from "./reducers/training-category.reducer";
+import trainingReducer from "./reducers/training.reducer";
+import userReducer from "./reducers/user.reducer";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     teachers: teacherReducer,
     students: studentReducer,
     users: userReducer,
+    enrollments: enrollmentReducer,
     notification: notificationReducer,
   },
   devTools: import.meta.env.DEV,

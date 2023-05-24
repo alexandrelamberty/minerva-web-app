@@ -1,5 +1,5 @@
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
-import { getAllUsers } from "../../services/api-service";
+import { getAllUsers, getUserById } from "../../services/api-service";
 import { formatError } from "../../utils/utils";
 
 export const getAllUsersAction = createAsyncThunk("users/fetch", async () => {
@@ -11,3 +11,16 @@ export const getAllUsersAction = createAsyncThunk("users/fetch", async () => {
     return isRejectedWithValue(message);
   }
 });
+
+export const getUserByIdAction = createAsyncThunk(
+  "users/get-by-id",
+  async (id: string) => {
+    try {
+      const response = await getUserById(id);
+      return response.data;
+    } catch (err: any) {
+      const message = formatError(err);
+      return isRejectedWithValue(message);
+    }
+  }
+);
