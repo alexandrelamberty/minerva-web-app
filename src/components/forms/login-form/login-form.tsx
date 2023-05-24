@@ -1,14 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useId } from "react";
+import { useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { LoginUserRequest } from "../../../models/user.model";
-import {
-  authFakeLoginAction,
-  authLoginAction,
-} from "../../../store/actions/auth.actions";
+import { authLoginAction } from "../../../store/actions/auth.actions";
 import { AppDispatch, RootState } from "../../../store/store";
 
 const validationSchema = Yup.object({
@@ -21,6 +18,7 @@ export const LoginForm = () => {
   const id = useId();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
   const {
     loggedInUser: user,
     loading,

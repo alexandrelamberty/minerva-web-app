@@ -155,11 +155,19 @@ export const updateCourseCover = async (id: string, file: File) => {
 
 // Teachers
 
+export const searchTeachers = async (terms: string) => {
+  return await instanceAxios.get("/teachers/");
+};
+
 export const getAllTeachers = async () => {
   return await instanceAxios.get("/teachers/");
 };
 
 // Students
+
+export const searchStudents = async (terms: string) => {
+  return await instanceAxios.get("/students/search/" + terms);
+};
 
 export const getAllStudents = async () => {
   return await instanceAxios.get("/students/");

@@ -15,6 +15,7 @@ import {
   updateCategory,
   updateCategoryCover,
 } from "../../services/api-service";
+import { AxiosError } from "axios";
 
 export const getAllTrainingsCategoriesAction = createAsyncThunk(
   "categories/fetch",
@@ -30,21 +31,25 @@ export const getAllTrainingsCategoriesAction = createAsyncThunk(
 
 export const createTrainingCategoryAction = createAsyncThunk(
   "categories/create",
-  async (data: CreateTrainingCategory) => {
-    console.log(data);
+  async (data: CreateTrainingCategory, thunkAPI) => {
+    console.log("createTrainingCategoryAction data: ", data);
     try {
       const response = await createCategory(data);
-      console.log(response);
+      console.log("createTrainingCategoryAction response: ", response);
       if (data.cover) {
         const cover = await updateCategoryCover(
           response.data.result.id,
           data.cover![0]
         );
-        response.data.cover = cover.data.filename;
+        console.log("cover:", cover);
+        // FIXME: image path
+        response.data.result.cover =
+          "/images/covers/" + cover.data.result.filename;
       }
       return response.data;
-    } catch (err) {
-      return isRejectedWithValue("Trainings Category Error: " + err);
+    } catch (err: any) {
+      // Send AxiosError response message
+      return thunkAPI.rejectWithValue(err.response.data.msg);
     }
   }
 );

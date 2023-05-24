@@ -1,16 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useId, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { HiCloud } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { CreateCourse } from "../../../models/course.model";
 import { Training } from "../../../models/training.model";
-import { User } from "../../../models/user.model";
-import { searchTrainings, searchUsers } from "../../../services/api-service";
+import {
+  searchTeachers,
+  searchTrainings,
+  searchUsers,
+} from "../../../services/api-service";
 import { createCourseAction } from "../../../store/actions/course.actions";
 import { AppDispatch } from "../../../store/store";
-import ComboboxAutocomplete from "../../inputs/combobox-autocomplete/combobox-autocomplete";
-import { HiCloud } from "react-icons/hi";
+import TeacherCombobox from "../../inputs/combobox-autocomplete/teacher-combobox";
+import TrainingCombobox from "../../inputs/combobox-autocomplete/trainings-combobox";
+import { Teacher } from "../../../models/teacher.model";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
@@ -24,8 +29,8 @@ const CourseForm = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Results from the search for the teachers and trainings combobox
-  const [teachers, setTeachers] = useState<User[] | null>([]);
-  const [trainings, setTrainings] = useState<Training[] | null>([]);
+  const [teachers, setTeachers] = useState<Teacher[] | null>(null);
+  const [trainings, setTrainings] = useState<Training[] | null>(null);
 
   /**
    * Hook Form
@@ -53,7 +58,7 @@ const CourseForm = () => {
   const callSearchUsers = async (terms: string) => {
     console.log("callSearchUsers: ", terms);
     try {
-      const response = await searchUsers(terms);
+      const response = await searchTeachers(terms);
       setTeachers(response.data.results);
     } catch (err: any) {
       console.log("callSearchUsers ERROR", err);
@@ -65,7 +70,7 @@ const CourseForm = () => {
    * @param terms The terms to search with
    */
   const callSearchTrainings = async (terms: string) => {
-    console.log("callSearchUsers: ", terms);
+    console.log("callSearchTrainings: ", terms);
     try {
       const response = await searchTrainings(terms);
       setTrainings(response.data.results);
@@ -128,11 +133,11 @@ const CourseForm = () => {
             control={control}
             name="Teacher"
             render={({ field: { onChange, onBlur, value, ref } }) => (
-              <ComboboxAutocomplete
+              <TeacherCombobox
                 onSearchChange={handleSearchTeachers}
-                onChange={(user) => onChange(user)}
+                onChange={(teacher) => onChange(teacher)}
                 selected={value}
-                placeholder="Search teachers"
+                placeholder="Search teachers ..."
                 data={teachers}
               />
             )}
@@ -144,19 +149,19 @@ const CourseForm = () => {
           <label htmlFor={id + "trainingId"} className="form-label">
             Training
           </label>
-          {/* <Controller
+          <Controller
             control={control}
             name="Training"
             render={({ field: { onChange, onBlur, value, ref } }) => (
-              <ComboboxAutocomplete
+              <TrainingCombobox
                 onSearchChange={handleSearchTrainings}
                 onChange={(training) => onChange(training)}
                 selected={value}
-                placeholder="Search trainings"
+                placeholder="Search trainings ..."
                 data={trainings}
               />
             )}
-          /> */}
+          />
         </div>
 
         {/* Description */}

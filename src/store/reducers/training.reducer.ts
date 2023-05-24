@@ -53,12 +53,16 @@ const trainingReducer = createReducer(initialState, (builder) => {
     // Create
     .addCase(createTrainingAction.pending, (state, action) => {
       state.loading = "pending";
+      state.successCreate = false;
     })
-    .addCase(createTrainingAction.rejected, (state, action) => {
+    .addCase(createTrainingAction.rejected, (state, { payload }) => {
       state.loading = "failed";
+      state.successCreate = false;
+      state.errors = payload as string;
     })
     .addCase(createTrainingAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
+      state.successCreate = true;
       state.trainings.push(payload.result);
       state.showModal = false;
     })

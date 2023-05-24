@@ -51,12 +51,16 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     // Create
     .addCase(createTrainingCategoryAction.pending, (state, action) => {
       state.loading = "pending";
+      state.successCreate = false;
     })
-    .addCase(createTrainingCategoryAction.rejected, (state, action) => {
+    .addCase(createTrainingCategoryAction.rejected, (state, { payload }) => {
       state.loading = "failed";
+      state.successCreate = false;
+      state.errors = payload as string;
     })
     .addCase(createTrainingCategoryAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
+      state.successCreate = true;
       // We push the created training category
       state.categories.push(payload.result);
       state.showModal = false;
@@ -66,11 +70,13 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
       state.loading = "pending";
     })
     .addCase(readTrainingCategoryAction.rejected, (state, action) => {
+      state.successCreate = false;
       state.loading = "failed";
     })
     .addCase(readTrainingCategoryAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
       // We assign the result category training
+      state.successCreate = true;
       state.category = payload.result;
       state.showModal = false;
     })
@@ -79,12 +85,15 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     // Delete
     .addCase(deleteTrainingCategoryAction.pending, (state, action) => {
       state.loading = "pending";
+      state.successDelete = false;
     })
     .addCase(deleteTrainingCategoryAction.rejected, (state, action) => {
       state.loading = "failed";
+      state.successDelete = false;
     })
     .addCase(deleteTrainingCategoryAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
+      state.successDelete = true;
       // We remove the deleted training category
       state.categories = state.categories.filter(function (item) {
         return item.id != payload;

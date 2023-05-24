@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import {
   deleteTrainingCategoryAction,
@@ -10,13 +10,18 @@ import { HiPencil, HiTrash } from "react-icons/hi";
 
 const CategoryDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  // read router variable
+  const navigate = useNavigate();
+
+  // Retrieve the id from the url
   let { categoryId } = useParams();
 
-  const { category } = useSelector((state: RootState) => state.categories);
+  //
+  const { category, loading, errors } = useSelector(
+    (state: RootState) => state.categories
+  );
 
   /**
-   * Dispatch action to load trainings and trainings categories
+   * Dispatch an action to retrieve the details of a training category
    */
   useEffect(() => {
     if (categoryId) dispatch(readTrainingCategoryAction(categoryId));
@@ -26,7 +31,11 @@ const CategoryDetailsPage = () => {
     <>
       {/*  */}
       <div className="flex items-center space-x-4">
-        <button type="button" className="btn-primary">
+        <button
+          type="button"
+          className="btn-primary"
+          onClick={() => navigate("./edit")}
+        >
           <HiPencil className="mr-2" />
           Edit
         </button>
@@ -47,8 +56,14 @@ const CategoryDetailsPage = () => {
       <div className="md:max-w-lg">
         <h2>{category?.name}</h2>
         <dl>
-          <dt>Created</dt>
-          {/* <dd>{category?.createdAt}</dd> */}
+          <dt>Cover</dt>
+          <dd>
+            <img
+              height={420}
+              className="object-cover h-48 w-96"
+              src={"http://localhost:3000/" + category?.cover}
+            />
+          </dd>
           <dt>Details</dt>
           <dd>{category?.description}</dd>
           <dt>Trainings</dt>
@@ -57,7 +72,7 @@ const CategoryDetailsPage = () => {
               {category?.trainings?.map((training) => (
                 <li
                   key={training.id}
-                  className="p-2 gap-y-2 rounded-md  bg-slate-400 hover:bg-slate-700"
+                  className="p-2 gap-y-2 rounded-md bg-slate-400 hover:bg-slate-700"
                 >
                   <div className="flex gap-x-4">
                     <img

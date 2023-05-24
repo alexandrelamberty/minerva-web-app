@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useId } from "react";
+import { useEffect, useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { CreateTrainingCategory } from "../../../models/training-category.model";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { createTrainingCategoryAction } from "../../../store/actions/training-category.actions";
 
 const validationSchema = Yup.object({
@@ -18,6 +18,11 @@ const CategoryForm = () => {
   const id = useId();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  // Store
+  const { successCreate, loading, errors } = useSelector(
+    (state: RootState) => state.categories
+  );
 
   // React Hook form
   const {
@@ -33,6 +38,13 @@ const CategoryForm = () => {
       cover: undefined,
     },
   });
+
+  // Reset form
+  useEffect(() => {
+    console.log("reset()");
+    // reset();
+    if (successCreate) reset();
+  }, [successCreate]);
 
   const handleOnSubmit: SubmitHandler<CreateTrainingCategory> = (category) => {
     console.log("Submit Category Handler", category);
@@ -110,6 +122,10 @@ const CategoryForm = () => {
           </div>
         </div>
       </div>
+      {/* Errors */}
+      <p className="text-sm font-bold text-red-500 dark:text-gray-400">
+        {errors}
+      </p>
       {/* Submit */}
       <button type="submit" className="form-button">
         <svg

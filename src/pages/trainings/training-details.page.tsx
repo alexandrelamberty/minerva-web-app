@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
 import {
   deleteTrainingAction,
@@ -8,14 +8,22 @@ import {
 import { useEffect } from "react";
 import { HiPencil, HiTrash } from "react-icons/hi";
 
+/**
+ * Show details about a Training and an action bar to edit or delete the
+ * training
+ *
+ */
 const TrainingDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  // read router variable
+  const navigate = useNavigate();
+
+  // Retrieve the id from the url
   let { trainingId } = useParams();
 
   const { training } = useSelector((state: RootState) => state.trainings);
+
   /**
-   * Dispatch action to load trainings and trainings categories
+   * Dispatch an action to retrieve the details of a training
    */
   useEffect(() => {
     if (trainingId) dispatch(readTrainingAction(trainingId));
@@ -27,7 +35,8 @@ const TrainingDetailsPage = () => {
       <div className="flex items-center space-x-4">
         <button
           type="button"
-          className=" inline-flex items-center text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          className="btn-primary"
+          onClick={() => navigate("./edit")}
         >
           <HiPencil className="mr-2" />
           Edit
@@ -49,6 +58,14 @@ const TrainingDetailsPage = () => {
       <div className="max-w-md">
         <h2>{training?.name}</h2>
         <dl>
+          <dt>Cover</dt>
+          <dd>
+            <img
+              height={420}
+              className="object-cover h-48 w-96"
+              src={"http://localhost:3000/" + training?.cover}
+            />
+          </dd>
           <dt>Details</dt>
           <dd>{training?.description}</dd>
           <dt>Courses</dt>

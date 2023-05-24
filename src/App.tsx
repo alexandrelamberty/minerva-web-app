@@ -26,6 +26,7 @@ import CategoryDetailsPage from "./pages/categories/category-details.page";
 import CategoryEditPage from "./pages/categories/category-edit.page";
 import CourseDetailsPage from "./pages/course/course-details.page";
 import CourseEditPage from "./pages/course/course-edit.page";
+import EnrollmentsPage from "./pages/enrollments/enrollments.page";
 
 function App() {
   // Store notification used to show / hide globals notifications
@@ -61,6 +62,7 @@ function App() {
           - Schedule
           - Teachers
           - Students
+          - Enrollments
           - Users
           - Profile
           - Settings
@@ -197,13 +199,25 @@ function App() {
           />
           {/* 
             Students 
-              - Students      View the associates students for a teacher account.
+              - /Students      View the associates students for a teacher account.
           */}
           <Route
             path="students"
             element={
               <ProtectedRoute>
                 <StudentsPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* 
+            Enrollments 
+              - /enrollments      View the all the students enrollments.
+          */}
+          <Route
+            path="enrollments"
+            element={
+              <ProtectedRoute>
+                <EnrollmentsPage />
               </ProtectedRoute>
             }
           />
@@ -260,7 +274,6 @@ function App() {
           Alert Notifications use the store notification
 
       */}
-      // FIXME: props
       <Alert
         color="info"
         className={`${

@@ -126,7 +126,8 @@ const TrainingsPage = () => {
               </Table.Cell>
               <Table.Cell>{training.description}</Table.Cell>
               <Table.Cell>
-                {training.startDate} - {training.endDate}
+                {new Date(training.startDate).toDateString()} -{" "}
+                {new Date(training.endDate).toDateString()}
               </Table.Cell>
               <Table.Cell>
                 <div className="flex items-center space-x-3 sm:space-x-4">

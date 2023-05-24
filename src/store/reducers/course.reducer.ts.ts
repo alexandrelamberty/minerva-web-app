@@ -52,8 +52,9 @@ const courseReducer = createReducer(initialState, (builder) => {
     })
     .addCase(createCourseAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
-      state.courses.push(payload);
+      state.courses.push(payload.result);
       state.count = state.courses.length;
+      state.showCreateModal = false;
     })
     // Read
     .addCase(readCourseAction.pending, (state, action) => {

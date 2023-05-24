@@ -11,7 +11,7 @@ export interface TrainingCategory {
 export interface CreateTrainingCategory {
   name: string;
   description: string;
-  cover?: FileList;
+  cover: FileList;
 }
 
 export interface UpdateTrainingCategory {

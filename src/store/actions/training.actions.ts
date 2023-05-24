@@ -31,10 +31,11 @@ export const getAllTrainingsAction = createAsyncThunk(
 export const createTrainingAction = createAsyncThunk(
   "trainings/create",
   async (data: CreateTraining, thunkAPI) => {
+    console.log("createTrainingAction data: ", data);
     try {
       // Call api to create a training
       const response = await createTraining(data);
-      console.log(response);
+      console.log("CreateTraining response: ", response);
 
       // Update cover
       if (data.cover) {
@@ -42,14 +43,14 @@ export const createTrainingAction = createAsyncThunk(
           response.data.result.id,
           data.cover![0]
         );
-        response.data.cover = cover.data.filename;
+        console.log("cover:", cover);
+        // Update the CreateTrainingResponse response with the CreateTrainingCoverResponse
+        response.data.result.cover =
+          "/images/covers/" + cover.data.result.filename;
       }
       return response.data;
     } catch (err: any) {
-      if (err.code === "ERR_BAD_REQUEST") {
-        const messages = err.response.data.msg.toString();
-        return thunkAPI.rejectWithValue(messages);
-      } else if (err.message) return thunkAPI.rejectWithValue(err.message);
+      return thunkAPI.rejectWithValue(err.response.data.msg);
     }
   }
 );

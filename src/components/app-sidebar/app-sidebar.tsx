@@ -5,6 +5,7 @@ import {
   HiInbox,
   HiOutlinePrinter,
   HiUser,
+  HiUsers,
   HiViewBoards,
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
@@ -56,9 +57,14 @@ export const AppSidebar = () => {
             )}
             {/* ONLY Admin */}
             {loggedInUser?.role === UserRole.Admin && (
-              <Sidebar.Item icon={HiUser}>
-                <Link to="/users">Users</Link>
-              </Sidebar.Item>
+              <>
+                <Sidebar.Item icon={HiUsers}>
+                  <Link to="/enrollments">Enrollments</Link>
+                </Sidebar.Item>
+                <Sidebar.Item icon={HiUser}>
+                  <Link to="/users">Users</Link>
+                </Sidebar.Item>
+              </>
             )}
           </Sidebar.ItemGroup>
           <Sidebar.ItemGroup>

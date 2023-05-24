@@ -26,22 +26,6 @@ export interface Admin {
   User: User;
 }
 
-
-export interface Teacher {
-  id: string;
-  company: string;
-  User: User;
-}
-
-/**
- * A Student in the system
- */
-export interface Student {
-  id: string;
-  identification: string;
-  User: User;
-}
-
 /**
  * The User logged in the web application
  */

@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useId } from "react";
+import { useEffect, useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { CreateTraining } from "../../../models/training.model";
 import { createTrainingAction } from "../../../store/actions/training.actions";
-import { AppDispatch } from "../../../store/store";
+import { AppDispatch, RootState } from "../../../store/store";
 import { TrainingCategory } from "../../../models/training-category.model";
 
 const validationSchema = Yup.object({
@@ -19,6 +19,11 @@ const validationSchema = Yup.object({
 const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
   const id = useId();
   const dispatch = useDispatch<AppDispatch>();
+
+  // Store
+  const { successCreate, loading, errors } = useSelector(
+    (state: RootState) => state.trainings
+  );
 
   const {
     register,
@@ -41,6 +46,10 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
     console.log("Submit Training Handler : ", training);
     dispatch(createTrainingAction(training));
   };
+
+  useEffect(() => {
+    if (successCreate) reset();
+  }, [successCreate]);
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>

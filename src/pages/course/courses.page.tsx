@@ -103,10 +103,15 @@ const CoursesPage = () => {
               <Table.Cell>
                 {course?.training ? course?.training.name : "no training"}
               </Table.Cell>
-              <Table.Cell>{course.teacher.User.firstName}</Table.Cell>
+              <Table.Cell>
+                {course?.teacher
+                  ? course?.teacher.User.firstName
+                  : "no teacher"}
+              </Table.Cell>
               <Table.Cell>{course.duration}</Table.Cell>
               <Table.Cell>
-                {course.startDate} - {course.endDate}
+                {new Date(course.startDate).getUTCDate()} -{" "}
+                {new Date(course.endDate).getUTCDate()}
               </Table.Cell>
               <Table.Cell>
                 <div className="flex items-center space-x-3 sm:space-x-4">

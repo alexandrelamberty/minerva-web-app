@@ -1,6 +1,6 @@
 import { CourseDate } from "./course-date.model";
 import { Training } from "./training.model";
-import { Teacher, User } from "./user.model";
+import { Teacher } from "./teacher.model";
 
 export interface Course {
   id: string;
