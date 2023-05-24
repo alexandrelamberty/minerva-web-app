@@ -8,10 +8,7 @@ import {
   LoginUserRequest,
   RegisterUserRequest,
 } from "../../../models/user.model";
-import {
-  authFakeLoginAction,
-  authRegisterAction,
-} from "../../../store/actions/auth.actions";
+import { authRegisterAction } from "../../../store/actions/auth.actions";
 import { AppDispatch, RootState } from "../../../store/store";
 
 const validationSchema = Yup.object({

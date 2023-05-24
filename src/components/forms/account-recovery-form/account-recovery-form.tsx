@@ -7,6 +7,8 @@ import {
   LoginUserRequest,
   RecoverUserPasswordRequest,
 } from "../../../models/user.model";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required(),
@@ -15,6 +17,11 @@ const validationSchema = Yup.object({
 export const AccountRecoveryForm = () => {
   const id = useId();
   const navigate = useNavigate();
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   const {
     register,
@@ -58,6 +65,10 @@ export const AccountRecoveryForm = () => {
           {...register("email")}
         />
       </div>
+      {/* Errors */}
+      <p className="text-sm font-bold text-red-500 dark:text-gray-400">
+        {errors}
+      </p>
       <button type="submit" className="w-full btn-primary">
         Reset password
       </button>
