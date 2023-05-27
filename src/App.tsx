@@ -1,16 +1,21 @@
-import { Alert } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
+import AppNotification from "./components/app-notification/app-notification";
 import { AccountRecoveryForm } from "./components/forms/account-recovery-form/account-recovery-form";
 import { LoginForm } from "./components/forms/login-form/login-form";
 import { FormRegister } from "./components/forms/register-form/register-form";
-import ProtectedRoute from "./components/protected-route/protected-route";
 import Layout from "./containers/app-layout/app-";
 import PublicLayout from "./containers/app-public-layout/public-layout";
+import ProtectedRoute from "./containers/protected-route/protected-route";
 import AdminPage from "./pages/admin/admin.page";
 import CategoriesPage from "./pages/categories/categories.page";
+import CategoryDetailsPage from "./pages/categories/category-details.page";
+import CategoryEditPage from "./pages/categories/category-edit.page";
+import CourseDetailsPage from "./pages/course/course-details.page";
+import CourseEditPage from "./pages/course/course-edit.page";
 import CoursesPage from "./pages/course/courses.page";
 import DashboardPage from "./pages/dashboard/dashboard.page";
+import EnrollmentsPage from "./pages/enrollments/enrollments.page";
 import NotFoundPage from "./pages/not-found/not-found.page";
 import ProfilePage from "./pages/profile/profile.page";
 import SchedulePage from "./pages/schedule/schedule.page";
@@ -22,15 +27,10 @@ import TrainingEditPage from "./pages/trainings/training-edit.page";
 import TrainingsPage from "./pages/trainings/trainings.page";
 import UsersPage from "./pages/users/users.page";
 import { RootState } from "./store/store";
-import CategoryDetailsPage from "./pages/categories/category-details.page";
-import CategoryEditPage from "./pages/categories/category-edit.page";
-import CourseDetailsPage from "./pages/course/course-details.page";
-import CourseEditPage from "./pages/course/course-edit.page";
-import EnrollmentsPage from "./pages/enrollments/enrollments.page";
 
 function App() {
   // Store notification used to show / hide globals notifications
-  const { show, errors } = useSelector(
+  const { show, title, message, errors } = useSelector(
     (state: RootState) => state.notification
   );
 
@@ -105,7 +105,7 @@ function App() {
             }
           />
           <Route
-            path="categories/:id/edit"
+            path="categories/:categoryId/edit"
             element={
               <ProtectedRoute>
                 <CategoryEditPage />
@@ -274,16 +274,7 @@ function App() {
           Alert Notifications use the store notification
 
       */}
-      <Alert
-        color="info"
-        className={`${
-          show ? "" : "hidden"
-        }  absolute top-3 left-1/2 transform -translate-x-1/2 `}
-      >
-        <span>
-          <span className="font-medium">Info alert!</span>Notification
-        </span>
-      </Alert>
+      <AppNotification />
     </>
   );
 }

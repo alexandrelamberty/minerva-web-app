@@ -1,13 +1,13 @@
-import { Button, Table, TextInput } from "flowbite-react";
-import { useEffect } from "react";
-import { HiUsers } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ActionMenu } from "../../components/action-menu/action-menu";
-import { getAllTeachersAction } from "../../store/actions/teacher.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import { Button, Table, TextInput } from "flowbite-react";
+import { HiUsers } from "react-icons/hi";
+import { useEffect } from "react";
+import { getAllTeachersAction } from "../../store/actions/teacher.actions";
 
-const TeachersPages = () => {
+const SessionsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const TeachersPages = () => {
   );
 
   const onSearch = (term: string) => {
-    console.log("TeacherPage OnSearch ", term);
+    console.log("handleOnSearch ", term);
   };
 
   /**
@@ -31,7 +31,7 @@ const TeachersPages = () => {
 
   return (
     <>
-      <ActionMenu title="Viewing Teachers">
+      <ActionMenu title="Viewing Training Sessions">
         <TextInput
           id="search"
           type="text"
@@ -89,4 +89,4 @@ const TeachersPages = () => {
   );
 };
 
-export default TeachersPages;
+export default SessionsPage;

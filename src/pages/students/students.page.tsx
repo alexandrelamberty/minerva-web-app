@@ -29,7 +29,7 @@ const StudentsPage = () => {
 
   return (
     <>
-      <ActionMenu>
+      <ActionMenu title="Viewing Students">
         <TextInput
           id="search"
           type="text"

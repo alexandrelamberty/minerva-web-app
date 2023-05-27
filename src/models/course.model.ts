@@ -14,6 +14,7 @@ export interface Course {
   endDate: string;
   status: "in progress" | "Completed";
   progress: number;
+  cover: string;
 }
 
 export interface CreateCourse {
@@ -22,6 +23,7 @@ export interface CreateCourse {
   Training: Training | null;
   Teacher: Teacher | null;
   dates?: CourseDate[];
+  cover?: FileList;
 }
 
 export interface UpdateCourse {

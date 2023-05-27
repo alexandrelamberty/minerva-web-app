@@ -68,6 +68,7 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     // Read
     .addCase(readTrainingCategoryAction.pending, (state, action) => {
       state.loading = "pending";
+      state.category = null;
     })
     .addCase(readTrainingCategoryAction.rejected, (state, action) => {
       state.successCreate = false;
@@ -75,8 +76,6 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     })
     .addCase(readTrainingCategoryAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
-      // We assign the result category training
-      state.successCreate = true;
       state.category = payload.result;
       state.showModal = false;
     })

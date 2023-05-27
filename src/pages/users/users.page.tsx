@@ -35,7 +35,7 @@ const UsersPage = () => {
 
   return (
     <>
-      <ActionMenu>
+      <ActionMenu title="Viewing Users">
         <TextInput
           id="search"
           type="text"

@@ -17,6 +17,13 @@ export type CoursesState = {
   loading: "idle" | "pending" | "succeeded" | "failed";
   errors: string | null;
   showCreateModal: boolean;
+  successCreate: boolean;
+  successDelete: boolean;
+  notifications: {
+    title: string;
+    message: string;
+    time: number;
+  };
 };
 
 const initialState: CoursesState = {
@@ -26,6 +33,13 @@ const initialState: CoursesState = {
   loading: "idle",
   errors: null,
   showCreateModal: false,
+  successCreate: false,
+  successDelete: false,
+  notifications: {
+    title: "",
+    message: "",
+    time: 1000,
+  },
 };
 
 const courseReducer = createReducer(initialState, (builder) => {
@@ -54,6 +68,7 @@ const courseReducer = createReducer(initialState, (builder) => {
       state.loading = "idle";
       state.courses.push(payload.result);
       state.count = state.courses.length;
+      state.successCreate = true;
       state.showCreateModal = false;
     })
     // Read
@@ -91,6 +106,7 @@ const courseReducer = createReducer(initialState, (builder) => {
       state.courses = state.courses.filter(function (item) {
         return item.id != payload;
       });
+      state.successDelete = true;
     })
 
     // UI

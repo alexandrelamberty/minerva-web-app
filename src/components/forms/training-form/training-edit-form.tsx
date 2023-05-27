@@ -3,8 +3,11 @@ import { useEffect, useId } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { CreateTraining } from "../../../models/training.model";
-import { createTrainingAction } from "../../../store/actions/training.actions";
+import { CreateTraining, UpdateTraining } from "../../../models/training.model";
+import {
+  createTrainingAction,
+  updateTrainingAction,
+} from "../../../store/actions/training.actions";
 import { AppDispatch, RootState } from "../../../store/store";
 import { TrainingCategory } from "../../../models/training-category.model";
 import InputImageViewer from "../../inputs/input-image-viewer/input-image-viewer";
@@ -17,7 +20,7 @@ const validationSchema = Yup.object({
   endDate: Yup.string().trim().required(),
 });
 
-const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
+const TrainingEditForm = () => {
   const id = useId();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -26,6 +29,8 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
     (state: RootState) => state.trainings
   );
 
+  const { categories } = useSelector((state: RootState) => state.categories);
+
   const {
     register,
     control,
@@ -33,7 +38,7 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
     handleSubmit,
     reset,
     formState: { errors: formErrors }, // FIXME
-  } = useForm<CreateTraining>({
+  } = useForm<UpdateTraining>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       name: "",
@@ -45,9 +50,9 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
     },
   });
 
-  const handleOnSubmit: SubmitHandler<CreateTraining> = (training) => {
+  const handleOnSubmit: SubmitHandler<UpdateTraining> = (training) => {
     console.log("Submit Training Handler : ", training);
-    dispatch(createTrainingAction(training));
+    dispatch(updateTrainingAction(training));
   };
 
   useEffect(() => {
@@ -177,4 +182,4 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
   );
 };
 
-export default TrainingForm;
+export default TrainingEditForm;

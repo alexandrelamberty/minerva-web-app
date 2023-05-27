@@ -66,14 +66,14 @@ const TrainingsPage = () => {
    */
   useEffect(() => {
     // FIXME: Move to component ?
-    dispatch(getAllTrainingsCategoriesAction());
+    dispatch(getAllTrainingsCategoriesAction(null));
     //
     dispatch(getAllTrainingsAction());
   }, []);
 
   return (
     <>
-      <ActionMenu>
+      <ActionMenu title="View Trainings">
         <TextInput
           id="search"
           type="text"

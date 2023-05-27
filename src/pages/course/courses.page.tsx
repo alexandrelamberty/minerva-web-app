@@ -12,6 +12,7 @@ import {
   showCourseCreateModalAction,
 } from "../../store/actions/course.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import { notificationShowAction } from "../../store/actions/notification.actions";
 
 const CoursesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,9 +22,8 @@ const CoursesPage = () => {
    * Stores
    */
   const { trainings } = useSelector((state: RootState) => state.trainings);
-  const { courses, showCreateModal, loading, errors } = useSelector(
-    (state: RootState) => state.courses
-  );
+  const { courses, showCreateModal, successDelete, loading, errors } =
+    useSelector((state: RootState) => state.courses);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,6 +41,7 @@ const CoursesPage = () => {
    * Handle the delete modal confirm action
    */
   const handleDeleteConfirm = () => {
+    // FIXME: move to reducer
     setShowDeleteModal(!showDeleteModal);
     dispatch(deleteCourseAction(deleteId));
   };
@@ -60,9 +61,16 @@ const CoursesPage = () => {
     dispatch(getAllCoursesAction());
   }, []);
 
+  /**
+   * Handle the delete modal confirm action
+   */
+  const handleDeleteSuccess = () => {
+    dispatch(deleteCourseAction(deleteId));
+  };
+
   return (
     <>
-      <ActionMenu>
+      <ActionMenu title="Viewing Courses">
         {/* Allow to search for users */}
         <TextInput
           id="search"

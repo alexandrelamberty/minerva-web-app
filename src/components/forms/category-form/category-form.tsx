@@ -1,17 +1,18 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useId } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { CreateTrainingCategory } from "../../../models/training-category.model";
 import { AppDispatch, RootState } from "../../../store/store";
 import { createTrainingCategoryAction } from "../../../store/actions/training-category.actions";
+import InputImageViewer from "../../inputs/input-image-viewer/input-image-viewer";
 
 const validationSchema = Yup.object({
   name: Yup.string().trim().required(),
   description: Yup.string().trim().required(),
-  // cover: Yup.string().trim(),
+  // cover: Yup.mixed().required("Cover is required"),
 });
 
 const CategoryForm = () => {
@@ -20,12 +21,14 @@ const CategoryForm = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Store
-  const { successCreate, loading, errors } = useSelector(
+  const { successCreate, showModal, loading, errors } = useSelector(
     (state: RootState) => state.categories
   );
 
   // React Hook form
   const {
+    control,
+    setValue,
     register,
     handleSubmit,
     reset,
@@ -44,7 +47,7 @@ const CategoryForm = () => {
     console.log("reset()");
     // reset();
     if (successCreate) reset();
-  }, [successCreate]);
+  }, [successCreate, showModal]);
 
   const handleOnSubmit: SubmitHandler<CreateTrainingCategory> = (category) => {
     console.log("Submit Category Handler", category);
@@ -55,43 +58,26 @@ const CategoryForm = () => {
     <form onSubmit={handleSubmit(handleOnSubmit)}>
       <div className="grid gap-4 mb-4 sm:grid-cols-2">
         {/* Cover */}
-        <div className=" flex items-center justify-center w-full">
-          <label
-            htmlFor={id + "cover"}
-            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-          >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg
-                aria-hidden="true"
-                className="w-10 h-10 mb-3 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                ></path>
-              </svg>
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
-            </div>
-            <input
-              id={id + "cover"}
-              type="file"
-              className="hidden"
-              {...register("cover")}
+        <Controller
+          control={control}
+          name="cover"
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { invalid, isTouched, isDirty, error },
+            formState,
+          }) => (
+            <InputImageViewer
+              className="w-full h-64"
+              register={register}
+              name="cover"
+              onChange={(e) => {
+                console.log("onnChange() ", e);
+                setValue(name, e);
+                onChange(e);
+              }}
             />
-          </label>
-        </div>
+          )}
+        />
 
         <div className="grid gap-4 mb-4">
           {/* Name */}
@@ -108,14 +94,14 @@ const CategoryForm = () => {
             />
           </div>
           {/* Description */}
-          <div className="">
+          <div>
             <label htmlFor={id + "description"} className="form-label">
               Description
             </label>
             <textarea
               id={id + "description"}
               rows={4}
-              className="form-input-textarea"
+              className="form-input-textarea h-full"
               placeholder="Write category description here"
               {...register("description", { required: true, minLength: 2 })}
             ></textarea>
@@ -126,7 +112,11 @@ const CategoryForm = () => {
       <p className="text-sm font-bold text-red-500 dark:text-gray-400">
         {errors}
       </p>
-      {/* Submit */}
+
+      {/* 
+          Submit 
+          FIXME: 
+      */}
       <button type="submit" className="form-button">
         <svg
           className="mr-1 -ml-1 w-6 h-6"

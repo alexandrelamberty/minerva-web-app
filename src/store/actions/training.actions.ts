@@ -12,6 +12,7 @@ import {
   updateTraining,
   updateTrainingCover,
 } from "../../services/api-service";
+import { notificationShowAction } from "./notification.actions";
 
 export const getAllTrainingsAction = createAsyncThunk(
   "trainings/fetch",
@@ -48,6 +49,16 @@ export const createTrainingAction = createAsyncThunk(
         response.data.result.cover =
           "/images/covers/" + cover.data.result.filename;
       }
+      // Dispatch notification
+      if (response)
+        thunkAPI.dispatch(
+          notificationShowAction({
+            type: "info",
+            title: "Training",
+            message: "created successfully",
+            time: 3000,
+          })
+        );
       return response.data;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response.data.msg);
@@ -72,8 +83,20 @@ export const updateTrainingAction = createAsyncThunk(
   async (data: UpdateTraining, thunkAPI) => {
     try {
       const response = await updateTraining(data);
+      // dispatch notification
+      if (response.data)
+        thunkAPI.dispatch(
+          notificationShowAction({
+            type: "info",
+            title: "Training",
+            message: "updated successfully",
+            time: 3000,
+          })
+        );
+      // payload
       return response.data;
     } catch (err) {
+      // payload
       return isRejectedWithValue("Trainings Error: " + err);
     }
   }
@@ -81,9 +104,19 @@ export const updateTrainingAction = createAsyncThunk(
 
 export const deleteTrainingAction = createAsyncThunk(
   "trainings/delete",
-  async (id: string) => {
+  async (id: string, thunkAPI) => {
     try {
       const response = await deleteTraining(id);
+      // Dispatch notification
+      if (response)
+        thunkAPI.dispatch(
+          notificationShowAction({
+            type: "info",
+            title: "Training",
+            message: "updated successfully",
+            time: 3000,
+          })
+        );
       // return id as payload
       return id;
     } catch (err) {

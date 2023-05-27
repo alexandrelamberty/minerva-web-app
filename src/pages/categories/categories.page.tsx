@@ -12,12 +12,13 @@ import {
 } from "../../store/actions/training-category.actions";
 import { AppDispatch, RootState } from "../../store/store";
 import { HiBookmark } from "react-icons/hi";
+import { notificationShowAction } from "../../store/actions/notification.actions";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { categories, showModal, loading, errors } = useSelector(
+  const { categories, showModal, loading, successDelete, errors } = useSelector(
     (state: RootState) => state.categories
   );
 
@@ -50,13 +51,17 @@ const CategoriesPage = () => {
     // TODO: dispatch Action
   };
 
+  if (successDelete) {
+    // dispatch(notificationShowAction(1000));
+  }
+
   useEffect(() => {
-    dispatch(getAllTrainingsCategoriesAction());
+    dispatch(getAllTrainingsCategoriesAction(null));
   }, []);
 
   return (
     <>
-      <ActionMenu>
+      <ActionMenu title="View Categories">
         <TextInput
           id="search"
           type="text"

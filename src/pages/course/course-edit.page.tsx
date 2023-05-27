@@ -1,8 +1,12 @@
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import CourseEditForm from "../../components/forms/course-form/course-edit-form";
+
 const CourseEditPage = () => {
   return (
-    <div>
-      <h1>Edit Course</h1>
-    </div>
+    <>
+      <ActionMenu title="Editing Course"></ActionMenu>
+      <CourseEditForm />
+    </>
   );
 };
 

@@ -25,7 +25,7 @@ const validationSchema = Yup.object({
   // teacher: Yup.string().trim().required(),
 });
 
-const CourseForm = () => {
+const CourseEditForm = () => {
   const id = useId();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -214,4 +214,4 @@ const CourseForm = () => {
   );
 };
 
-export default CourseForm;
+export default CourseEditForm;

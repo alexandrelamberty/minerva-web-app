@@ -9,7 +9,7 @@ const SchedulePage = () => {
 
   return (
     <div>
-      <ActionMenu title="All Courses" onSearch={handleSearch}>
+      <ActionMenu title="Viewing Schedule">
         <TextInput
           id="search"
           type="text"
@@ -21,7 +21,7 @@ const SchedulePage = () => {
             // setShowAddModal(true);
           }}
         >
-          Schedule date
+          Export
         </Button>
       </ActionMenu>
     </div>

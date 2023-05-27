@@ -1,12 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { AppDispatch, RootState } from "../../store/store";
-import {
-  deleteTrainingAction,
-  readTrainingAction,
-} from "../../store/actions/training.actions";
 import { useEffect } from "react";
 import { HiPencil, HiTrash } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import AppAlert from "../../components/app-alert/app-alert";
+import CourseListItem from "../../components/course-list-item/course-list-item";
+import { readTrainingAction } from "../../store/actions/training.actions";
+import { AppDispatch, RootState } from "../../store/store";
 
 /**
  * Show details about a Training and an action bar to edit or delete the
@@ -31,7 +30,9 @@ const TrainingDetailsPage = () => {
 
   return (
     <section className="bg-white dark:bg-gray-900">
-      {/*  */}
+      {/* 
+        Action Menu 
+      */}
       <div className="flex items-center space-x-4">
         <button
           type="button"
@@ -43,56 +44,65 @@ const TrainingDetailsPage = () => {
         </button>
         <button
           type="button"
-          className="inline-flex items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+          className="btn-danger"
           onClick={() => {
-            if (trainingId)
+            if (trainingId) {
               // FIXME: set id to delete and show confirm dialog
-              dispatch(deleteTrainingAction(trainingId));
+              // dispatch(deleteTrainingAction(trainingId));
+            }
           }}
         >
           <HiTrash className="mr-2" />
           Delete
         </button>
       </div>
-      {/*  */}
-      <div className="max-w-md">
-        <h2>{training?.name}</h2>
-        <dl>
-          <dt>Cover</dt>
-          <dd>
-            <img
-              height={420}
-              className="object-cover h-48 w-96"
-              src={"http://localhost:3000/" + training?.cover}
-            />
-          </dd>
-          <dt>Details</dt>
-          <dd>{training?.description}</dd>
-          <dt>Courses</dt>
-          <dd>
-            <ul className="max-w-md">
-              {training?.courses?.map((course) => (
-                <li key={course.id} className="flex gap-x-6 py-5">
-                  <div className="flex gap-x-4">
-                    <img
-                      className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                      // src={"http://localhost:3000/" + course.cover}
-                      alt=""
-                    />
-                    <div className="min-w-0 ">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        {course.name}
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {course.description}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </dd>
-        </dl>
+      {/* 
+        Training Details 
+        Description list in a single column on small device and two columns on
+        medium and beyond.
+        
+      */}
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="max-w-md">
+          <dl>
+            <dt className="sr-only">name</dt>
+            <dd>
+              <h2>{training?.name}</h2>
+            </dd>
+            <dt>Details</dt>
+            <dd>{training?.description}</dd>
+            <dt>Courses</dt>
+            <dd>
+              <ul className="max-w-md">
+                {training?.courses && training.courses.length > 0 ? (
+                  training.courses?.map((course) => (
+                    <CourseListItem course={course} />
+                  ))
+                ) : (
+                  <AppAlert
+                    title="Info"
+                    message="The is no courses at the moment"
+                  />
+                )}
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        {/*  */}
+        <div>
+          <dl>
+            <dt>Cover</dt>
+            <dd>
+              <img
+                height={420}
+                className="object-cover h-48 w-96"
+                src={"http://localhost:3000/" + training?.cover}
+              />
+            </dd>
+            <dt>Assignee Teacher</dt>
+            <dd>{/* <TeacherItem teacher={training.teacher} /> */}</dd>
+          </dl>
+        </div>
       </div>
     </section>
   );

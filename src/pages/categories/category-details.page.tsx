@@ -6,13 +6,16 @@ import {
   deleteTrainingCategoryAction,
   readTrainingCategoryAction,
 } from "../../store/actions/training-category.actions";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiBookOpen, HiPencil, HiTrash } from "react-icons/hi";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import TrainingListItem from "../../components/training-list-item/training-list-item";
+import AppAlert from "../../components/app-alert/app-alert";
 
 const CategoryDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  // Retrieve the id from the url
+  // Retrieve the id of the category
   let { categoryId } = useParams();
 
   //
@@ -30,7 +33,10 @@ const CategoryDetailsPage = () => {
   return (
     <>
       {/*  */}
-      <div className="flex items-center space-x-4">
+      <ActionMenu
+        title="Viewing Category Details"
+        icon={<HiBookOpen className="w-12 h-12 mr-2" />}
+      >
         <button
           type="button"
           className="btn-primary"
@@ -51,49 +57,44 @@ const CategoryDetailsPage = () => {
           <HiTrash className="mr-2" />
           Delete
         </button>
-      </div>
-      {/*  */}
-      <div className="md:max-w-lg">
-        <h2>{category?.name}</h2>
-        <dl>
-          <dt>Cover</dt>
-          <dd>
-            <img
-              height={420}
-              className="object-cover h-48 w-96"
-              src={"http://localhost:3000/" + category?.cover}
-            />
-          </dd>
-          <dt>Details</dt>
-          <dd>{category?.description}</dd>
-          <dt>Trainings</dt>
-          <dd>
-            <ul className="space-y-2">
-              {category?.trainings?.map((training) => (
-                <li
-                  key={training.id}
-                  className="p-2 gap-y-2 rounded-md bg-slate-400 hover:bg-slate-700"
-                >
-                  <div className="flex gap-x-4">
-                    <img
-                      className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                      src={"http://localhost:3000/" + training.cover}
-                      alt=""
-                    />
-                    <div>
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        {training.name}
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {training.description}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </dd>
-        </dl>
+      </ActionMenu>
+      {/* Category Details */}
+      <div className="flex flex-col-reverse md:flex-row md:space-x-2">
+        <div className="md:basis-3/4">
+          <dl>
+            <dt className="sr-only">name</dt>
+            <h2>{category?.name}</h2>
+            <dt>Description</dt>
+            <dd>{category?.description}</dd>
+            <dt>Trainings in this category</dt>
+            <dd>
+              <ul className="space-y-2">
+                {category?.trainings && category?.trainings.length > 0 ? (
+                  category?.trainings.map((training) => (
+                    <TrainingListItem key={training.id} training={training} />
+                  ))
+                ) : (
+                  <AppAlert
+                    title="Info"
+                    message="The is no trainings at the moment"
+                  />
+                )}
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div className="md:basis-2/4">
+          <dl>
+            <dt>Cover</dt>
+            <dd>
+              <img
+                height={420}
+                className="object-cover h-48 w-96"
+                src={"http://localhost:3000/" + category?.cover}
+              />
+            </dd>
+          </dl>
+        </div>
       </div>
     </>
   );

@@ -16,12 +16,14 @@ import {
   updateCategoryCover,
 } from "../../services/api-service";
 import { AxiosError } from "axios";
+import { notificationShowAction } from "./notification.actions";
 
 export const getAllTrainingsCategoriesAction = createAsyncThunk(
   "categories/fetch",
-  async () => {
+  async (data: any, thunkAPI) => {
     try {
       const response = await getAllCategories();
+
       return response.data;
     } catch (err) {
       return isRejectedWithValue("Trainings Category Error: " + err);
@@ -46,6 +48,16 @@ export const createTrainingCategoryAction = createAsyncThunk(
         response.data.result.cover =
           "/images/covers/" + cover.data.result.filename;
       }
+      // Dispatch notification
+      if (response)
+        thunkAPI.dispatch(
+          notificationShowAction({
+            type: "warning",
+            title: "Category",
+            message: "created successfully",
+            time: 3000,
+          })
+        );
       return response.data;
     } catch (err: any) {
       // Send AxiosError response message
@@ -56,7 +68,7 @@ export const createTrainingCategoryAction = createAsyncThunk(
 
 export const readTrainingCategoryAction = createAsyncThunk(
   "categories/read",
-  async (id: string) => {
+  async (id: string, thunkAPI) => {
     try {
       const response = await readCategory(id);
       return response.data;
@@ -68,9 +80,29 @@ export const readTrainingCategoryAction = createAsyncThunk(
 
 export const updateTrainingCategoryAction = createAsyncThunk(
   "categories/update",
-  async (data: UpdateTrainingCategory) => {
+  async (data: UpdateTrainingCategory, thunkAPI) => {
     try {
       const response = await updateCategory(data);
+      if (data.cover) {
+        const cover = await updateCategoryCover(
+          response.data.result.id,
+          data.cover![0]
+        );
+        console.log("cover:", cover);
+        // FIXME: image path
+        response.data.result.cover =
+          "/images/covers/" + cover.data.result.filename;
+      }
+      // Dispatch notification
+      if (response)
+        thunkAPI.dispatch(
+          notificationShowAction({
+            type: "info",
+            title: "Category",
+            message: "updated successfully",
+            time: 3000,
+          })
+        );
       return response.data;
     } catch (err) {
       return isRejectedWithValue("Trainings Error: " + err);
@@ -80,9 +112,19 @@ export const updateTrainingCategoryAction = createAsyncThunk(
 
 export const deleteTrainingCategoryAction = createAsyncThunk(
   "categories/delete",
-  async (id: string) => {
+  async (id: string, thunkAPI) => {
     try {
       const response = await deleteCategory(id);
+      // Dispatch notification
+      if (response)
+        thunkAPI.dispatch(
+          notificationShowAction({
+            type: "info",
+            title: "Category",
+            message: "deleted successfully",
+            time: 3000,
+          })
+        );
       // return the id as payload
       return id;
     } catch (err) {

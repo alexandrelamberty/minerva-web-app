@@ -6,16 +6,24 @@ import {
   readCourseAction,
 } from "../../store/actions/course.actions";
 import { AppDispatch, RootState } from "../../store/store";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiAnnotation, HiPencil, HiTrash } from "react-icons/hi";
+import { Avatar } from "flowbite-react";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import AppAlert from "../../components/app-alert/app-alert";
+import CourseDateListItem from "../../components/course-date-list-item/course-date-list-item";
+import TeacherItem from "../../components/teacher-item/teacher-item";
 
 const CourseDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   // read router variable
   let { courseId } = useParams();
 
+  // The course to display that we have loaded
   const { course } = useSelector((state: RootState) => state.courses);
+
   /**
-   * Dispatch action to load trainings and trainings categories
+   * Dispatch action to load the course we want to display
    */
   useEffect(() => {
     if (courseId) dispatch(readCourseAction(courseId));
@@ -24,17 +32,15 @@ const CourseDetailsPage = () => {
   return (
     <section className="bg-white dark:bg-gray-900">
       {/*  */}
-      <div className="flex items-center space-x-4">
-        <button
-          type="button"
-          className=" inline-flex items-center text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
+      <ActionMenu title="View Course Details">
+        <button type="button" className="btn-primary">
           <HiPencil className="mr-2" />
           Edit
         </button>
+
         <button
           type="button"
-          className="inline-flex items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+          className="btn-danger"
           onClick={() => {
             if (courseId)
               // FIXME: set id to delete and show confirm dialog
@@ -44,42 +50,70 @@ const CourseDetailsPage = () => {
           <HiTrash className="mr-2" />
           Delete
         </button>
-      </div>
+      </ActionMenu>
       {/*  */}
-      <div className="max-w-md">
-        <h2>{course?.name}</h2>
+      <div className="flex flex-col-reverse md:flex-row">
         <dl>
+          <dt className="sr-only">name</dt>
+          <dd>
+            <h2>{course?.name}</h2>
+          </dd>
           <dt>Details</dt>
           <dd>{course?.description}</dd>
-          <dt>Teacher</dt>
+          {/* Assigne teacher */}
+          <dt>Assignee Teacher</dt>
           <dd>
-            <div className="flex gap-x-4">
-              {/* <img
-                className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                src={"http://localhost:3000/" + course?.cover?}
-                alt=""
-              /> */}
-            </div>
-            {course?.teacher?.User.firstName}
+            {course?.teacher ? (
+              <TeacherItem teacher={course?.teacher} />
+            ) : (
+              // FIXME: Move login to item
+              <p>No Teacher</p>
+            )}
           </dd>
+          {/* Dates */}
           <dt>Dates</dt>
           <dd>
             <ul className="max-w-md">
-              {course?.dates?.map((courseDate) => (
-                <li key={courseDate.id} className="flex gap-x-6 py-5">
-                  <div className="flex gap-x-4">
-                    <div className="min-w-0 ">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        {courseDate.date}
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {courseDate.teacher?.User.firstName}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))}
+              {course?.dates && course.dates.length > 0 ? (
+                course?.dates?.map((courseDate) => (
+                  <CourseDateListItem courseDate={courseDate} />
+                ))
+              ) : (
+                // FIXME: Move ternary logic into an list component containing the list item
+                <AppAlert
+                  title="Info"
+                  message="The is no course dates at the moment"
+                />
+              )}
             </ul>
+          </dd>
+
+          {/* Materials */}
+          <dt>Links</dt>
+          <dd>
+            <ul>
+              <li>
+                <HiAnnotation />
+                Web
+              </li>
+              <li>Github</li>
+            </ul>
+          </dd>
+          <dt>Materials</dt>
+          <dd>
+            <ul>
+              <li>Introduction document</li>
+              <li>Github</li>
+            </ul>
+          </dd>
+          <dt>External Resources</dt>
+        </dl>
+        <dl>
+          <dt className="">Cover</dt>
+          <dd>
+            <h2>
+              <img src={course?.cover} />
+            </h2>
           </dd>
         </dl>
       </div>

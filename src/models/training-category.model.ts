@@ -1,3 +1,4 @@
+import { Course } from "./course.model";
 import { Training } from "./training.model";
 
 export interface TrainingCategory {
@@ -11,11 +12,13 @@ export interface TrainingCategory {
 export interface CreateTrainingCategory {
   name: string;
   description: string;
-  cover: FileList;
+  cover?: FileList;
 }
 
 export interface UpdateTrainingCategory {
-  name: string;
+  name?: string;
   description?: string;
   cover?: FileList;
+  category?: TrainingCategory;
+  courses?: Course[];
 }

@@ -2,9 +2,12 @@ import { Sidebar } from "flowbite-react";
 import {
   HiCalendar,
   HiChartPie,
+  HiIdentification,
   HiInbox,
   HiOutlinePrinter,
+  HiShieldExclamation,
   HiUser,
+  HiUserGroup,
   HiUsers,
   HiViewBoards,
 } from "react-icons/hi";
@@ -25,10 +28,39 @@ export const AppSidebar = () => {
         className="z-40 w-64 transition-transform -translate-x-full sm:translate-x-0 rounded-none"
       >
         <Sidebar.Items>
+          {/* ONLY User */}
           <Sidebar.ItemGroup>
             <Sidebar.Item icon={HiChartPie}>
               <Link to="/dashboard">Dashboard</Link>
             </Sidebar.Item>
+            <Sidebar.Item icon={HiViewBoards}>
+              <Link to="/sessions">My Sessions</Link>
+            </Sidebar.Item>
+            <Sidebar.Item icon={HiUserGroup}>
+              <Link to="/enrollments">Teachers</Link>
+            </Sidebar.Item>
+            <Sidebar.Item icon={HiCalendar}>
+              <Link to="/schedule">Schedules</Link>
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
+          {/* ONLY Admin */}
+          {loggedInUser?.role === UserRole.Admin && (
+            <Sidebar.ItemGroup>
+              <Sidebar.Item icon={HiChartPie}>
+                <Link to="/dashboard">Dashboard</Link>
+              </Sidebar.Item>
+              <Sidebar.Item icon={HiViewBoards}>
+                <Link to="/sessions">Training Sessions</Link>
+              </Sidebar.Item>
+              <Sidebar.Item icon={HiUserGroup}>
+                <Link to="/enrollments">Enrollments</Link>
+              </Sidebar.Item>
+              <Sidebar.Item icon={HiCalendar}>
+                <Link to="/schedule">Schedules</Link>
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+          )}
+          <Sidebar.ItemGroup>
             <Sidebar.Item icon={HiViewBoards}>
               <Link to="/categories">Categories</Link>
             </Sidebar.Item>
@@ -38,35 +70,28 @@ export const AppSidebar = () => {
             <Sidebar.Item icon={HiInbox}>
               <Link to="/courses">Courses</Link>
             </Sidebar.Item>
-            <Sidebar.Item icon={HiCalendar}>
-              <Link to="/schedule">Schedules</Link>
-            </Sidebar.Item>
-            {/* ONLY Admin and Student */}
-            {(loggedInUser?.role === UserRole.Admin ||
-              loggedInUser?.role === UserRole.Student) && (
-              <Sidebar.Item icon={HiUser}>
-                <Link to="/teachers">Teachers</Link>
-              </Sidebar.Item>
-            )}
-            {/* ONLY Admin and Teacher */}
-            {(loggedInUser?.role === UserRole.Admin ||
-              loggedInUser?.role === UserRole.Teacher) && (
-              <Sidebar.Item icon={HiUser}>
-                <Link to="/students">Students</Link>
-              </Sidebar.Item>
-            )}
-            {/* ONLY Admin */}
-            {loggedInUser?.role === UserRole.Admin && (
-              <>
-                <Sidebar.Item icon={HiUsers}>
-                  <Link to="/enrollments">Enrollments</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiUser}>
-                  <Link to="/users">Users</Link>
-                </Sidebar.Item>
-              </>
-            )}
           </Sidebar.ItemGroup>
+          {loggedInUser?.role === UserRole.Admin && (
+            <Sidebar.ItemGroup>
+              {/* ONLY Admin and Student */}
+              {(loggedInUser?.role === UserRole.Admin ||
+                loggedInUser?.role === UserRole.Student) && (
+                <Sidebar.Item icon={HiIdentification}>
+                  <Link to="/teachers">Teachers</Link>
+                </Sidebar.Item>
+              )}
+              {/* ONLY Admin and Teacher */}
+              {(loggedInUser?.role === UserRole.Admin ||
+                loggedInUser?.role === UserRole.Teacher) && (
+                <Sidebar.Item icon={HiIdentification}>
+                  <Link to="/students">Students</Link>
+                </Sidebar.Item>
+              )}
+              <Sidebar.Item icon={HiUserGroup}>
+                <Link to="/users">Users</Link>
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+          )}
           <Sidebar.ItemGroup>
             <Sidebar.Item href="#" icon={HiOutlinePrinter}>
               Help
