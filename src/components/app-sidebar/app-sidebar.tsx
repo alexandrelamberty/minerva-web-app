@@ -37,7 +37,7 @@ export const AppSidebar = () => {
               <Link to="/sessions">My Sessions</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiUserGroup}>
-              <Link to="/enrollments">Teachers</Link>
+              <Link to="/enrollments">Trainers</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiCalendar}>
               <Link to="/schedule">Schedules</Link>
@@ -71,6 +71,7 @@ export const AppSidebar = () => {
               <Link to="/courses">Courses</Link>
             </Sidebar.Item>
           </Sidebar.ItemGroup>
+
           {loggedInUser?.role === UserRole.Admin && (
             <Sidebar.ItemGroup>
               {/* ONLY Admin and Student */}
