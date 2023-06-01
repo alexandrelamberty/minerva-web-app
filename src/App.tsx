@@ -20,21 +20,16 @@ import NotFoundPage from "./pages/not-found/not-found.page";
 import ProfilePage from "./pages/profile/profile.page";
 import SchedulePage from "./pages/schedule/schedule.page";
 import SettingsPage from "./pages/settings/settings.page";
+import StudentDetailsPage from "./pages/students/student-details.page";
 import StudentsPage from "./pages/students/students.page";
+import TeacherDetailsPage from "./pages/teachers/teacher-details.page";
 import TeachersPages from "./pages/teachers/teachers.page";
 import TrainingDetailsPage from "./pages/trainings/training-details.page";
 import TrainingEditPage from "./pages/trainings/training-edit.page";
 import TrainingsPage from "./pages/trainings/trainings.page";
+import UserDetailsPage from "./pages/users/user-details.page";
 import UsersPage from "./pages/users/users.page";
 import { RootState } from "./store/store";
-import CategoryDetailsPage from "./pages/categories/category-details.page";
-import CategoryEditPage from "./pages/categories/category-edit.page";
-import CourseDetailsPage from "./pages/course/course-details.page";
-import CourseEditPage from "./pages/course/course-edit.page";
-import EnrollmentsPage from "./pages/enrollments/enrollments.page";
-import UserDetailsPage from "./pages/users/user-details.page";
-import TeacherDetailsPage from "./pages/teachers/teacher-details.page";
-import StudentDetailsPage from "./pages/students/student-details.page";
 
 function App() {
   // Store notification used to show / hide globals notifications
