@@ -2,27 +2,27 @@ import { useEffect } from "react";
 import { HiPencil, HiTrash } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getTeacherByIdAction } from "../../store/actions/teacher.actions";
+import { getStudentByIdAction } from "../../store/actions/students.actions";
 import { deleteTrainingCategoryAction } from "../../store/actions/training-category.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
-const TeacherDetailsPage = () => {
+const StudentDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   // Retrieve the id from the url
-  const { teacherId } = useParams();
+  const { studentId: studentId } = useParams();
 
   //
-  const { teacher, loading, errors } = useSelector(
-    (state: RootState) => state.teachers
+  const { student, loading, errors } = useSelector(
+    (state: RootState) => state.students
   );
 
   /**
    * Dispatch an action to retrieve the details of a training category
    */
   useEffect(() => {
-    if (teacherId) dispatch(getTeacherByIdAction(teacherId));
+    if (studentId) dispatch(getStudentByIdAction(studentId));
   }, []);
 
   return (
@@ -41,9 +41,9 @@ const TeacherDetailsPage = () => {
           type="button"
           className="btn-danger"
           onClick={() => {
-            if (teacherId)
+            if (studentId)
               // FIXME: set id to delete and show confirm dialog
-              dispatch(deleteTrainingCategoryAction(teacherId));
+              dispatch(deleteTrainingCategoryAction(studentId));
           }}
         >
           <HiTrash className="mr-2" />
@@ -52,35 +52,35 @@ const TeacherDetailsPage = () => {
       </div>
       {/*  */}
       <div className="md:max-w-lg">
-        <h2>{teacher?.user.firstName}</h2>
+        <h2>{student?.firstName}</h2>
         <dl>
           <dt>Avatar</dt>
           <dd>
             <img
               height={420}
               className="object-cover h-48 w-96"
-              src={"http://localhost:3000/" + teacher?.user.avatar}
+              src={"http://localhost:3000/" + student?.avatar}
             />
           </dd>
           <dt>FirstName</dt>
-          <dd>{teacher?.user.firstName}</dd>
+          <dd>{student?.firstName}</dd>
           <dt>LastName</dt>
-          <dd>{teacher?.user.lastName}</dd>
+          <dd>{student?.lastName}</dd>
           <dt>Email</dt>
-          <dd>{teacher?.user.email}</dd>
-          <dt>Assignees</dt>
-          <dd>
-            {/* <ul>
-              {teacher?.trainings.map((training) => (
-                <li key={training.id}>{training.name}</li>
-              ))}
-            </ul> */}
-            <p>No course assigned</p>
-          </dd>
-          <dt>Courses</dt>
+          <dd>{student?.email}</dd>
+          <dt>Trainings</dt>
           <dd>
             <ul>
-              {teacher?.courses.map((course) => (
+              {student?.trainings.map((training) => (
+                <li key={training.id}>{training.name}</li>
+              ))}
+            </ul>
+            <p>No course assigned</p>
+          </dd>
+          {/* <dt>Courses</dt>
+          <dd>
+            <ul>
+              {student?.courses.map((course) => (
                 <li
                   key={course.id}
                   className="p-2 rounded-md bg-slate-300 dark:bg-slate-700 hover:bg-slate-400"
@@ -89,11 +89,11 @@ const TeacherDetailsPage = () => {
                 </li>
               ))}
             </ul>
-          </dd>
+          </dd> */}
         </dl>
       </div>
     </>
   );
 };
 
-export default TeacherDetailsPage;
+export default StudentDetailsPage;

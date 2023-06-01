@@ -38,11 +38,12 @@ export const createTrainingAction = createAsyncThunk(
       const response = await createTraining(data);
       console.log("CreateTraining response: ", response);
 
-      // Update cover
+      // Check if the user submitted a cover
       if (data.cover) {
+        // Update the training cover
         const cover = await updateTrainingCover(
           response.data.result.id,
-          data.cover![0]
+          data.cover[0]
         );
         console.log("cover:", cover);
         // Update the CreateTrainingResponse response with the CreateTrainingCoverResponse

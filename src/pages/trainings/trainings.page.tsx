@@ -67,7 +67,6 @@ const TrainingsPage = () => {
   useEffect(() => {
     // FIXME: Move to component ?
     dispatch(getAllTrainingsCategoriesAction(null));
-    //
     dispatch(getAllTrainingsAction());
   }, []);
 
@@ -130,7 +129,7 @@ const TrainingsPage = () => {
                 {new Date(training.endDate).toDateString()}
               </Table.Cell>
               <Table.Cell>
-                <div className="flex items-center space-x-3 sm:space-x-4">
+                <div className="flex justify-end items-center space-x-3 sm:space-x-4">
                   <button
                     className="btn-action-outline"
                     onClick={() => {

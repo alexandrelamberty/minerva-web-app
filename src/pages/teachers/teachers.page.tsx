@@ -68,18 +68,26 @@ const TeachersPages = () => {
               <Table.Cell>{teacher.user?.lastName}</Table.Cell>
               <Table.Cell>{teacher.user?.email}</Table.Cell>
               <Table.Cell>
-                <a
-                  href="/tables"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Edit
-                </a>
-                <a
-                  href="/tables"
-                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                  Edit
-                </a>
+                <div className="flex justify-end space-x-3 sm:space-x-4">
+                  <button
+                    type="button"
+                    className="btn-action-outline"
+                    onClick={() => {
+                      navigate("./" + teacher.id);
+                    }}
+                  >
+                    View
+                  </button>
+                  <button
+                    type="button"
+                    className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                    onClick={() => {
+                      navigate(teacher.id + "/edit");
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
               </Table.Cell>
             </Table.Row>
           ))}

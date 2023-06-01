@@ -112,8 +112,8 @@ const CoursesPage = () => {
                 {course?.training ? course?.training.name : "no training"}
               </Table.Cell>
               <Table.Cell>
-                {course?.teacher
-                  ? course?.teacher.User.firstName
+                {course?.teacher !== null
+                  ? course.teacher.user.firstName
                   : "no teacher"}
               </Table.Cell>
               <Table.Cell>{course.duration}</Table.Cell>
@@ -122,7 +122,7 @@ const CoursesPage = () => {
                 {new Date(course.endDate).getUTCDate()}
               </Table.Cell>
               <Table.Cell>
-                <div className="flex items-center space-x-3 sm:space-x-4">
+                <div className="flex justify-end items-center space-x-3 sm:space-x-4">
                   <button
                     className="btn-action-outline"
                     onClick={() => {
