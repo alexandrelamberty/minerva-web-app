@@ -31,9 +31,8 @@ const CategoryEditForm = () => {
   console.log("CATEGORY ID: ", categoryId);
 
   // Store
-  const { category, successCreate, showModal, loading, errors } = useSelector(
-    (state: RootState) => state.categories
-  );
+  const { category, successCreate, showModal, loadingCreate, errorsCreate } =
+    useSelector((state: RootState) => state.categories);
 
   //
   const [trainings, setTrainings] = useState<Training[] | null>(null);
@@ -117,7 +116,7 @@ const CategoryEditForm = () => {
             formState,
           }) => (
             <InputImageViewer
-              className="w-full h-64"
+              className="aspect-video h-64"
               register={register}
               name="cover"
               image={category?.cover}
@@ -209,7 +208,7 @@ const CategoryEditForm = () => {
 
         {/* Errors */}
         <p className="text-sm font-bold text-red-500 dark:text-gray-400">
-          {errors}
+          {errorsCreate}
         </p>
 
         {/* 

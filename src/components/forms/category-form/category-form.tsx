@@ -1,12 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useId } from "react";
+import { useEffect, useId, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { CreateTrainingCategory } from "../../../models/training-category.model";
-import { AppDispatch, RootState } from "../../../store/store";
+import { getCategorySuggestion } from "../../../services/api-service";
+import { getCategoryDescriptionAction } from "../../../store/actions/ai.action";
 import { createTrainingCategoryAction } from "../../../store/actions/training-category.actions";
+import { AppDispatch, RootState } from "../../../store/store";
+import ButtonAI from "../../button-generate/button-ai";
 import InputImageViewer from "../../inputs/input-image-viewer/input-image-viewer";
 
 const validationSchema = Yup.object({
@@ -20,15 +23,24 @@ const CategoryForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  // Store
-  const { successCreate, showModal, loading, errors } = useSelector(
+  // States
+  const { successCreate, showModal, loadingCreate, errorsCreate } = useSelector(
     (state: RootState) => state.categories
   );
+
+  const { description, status, loading, errors } = useSelector(
+    (state: RootState) => state.ai
+  );
+
+  const [loadingSuggestion, setLoadingSuggestion] = useState(false);
+
+  // const [description, loading, errors] = useCategoryDescription(terms);
 
   // React Hook form
   const {
     control,
     setValue,
+    getValues,
     register,
     handleSubmit,
     reset,
@@ -42,21 +54,59 @@ const CategoryForm = () => {
     },
   });
 
-  // Reset form
-  useEffect(() => {
-    console.log("reset()");
-    // reset();
-    if (successCreate) reset();
-  }, [successCreate, showModal]);
-
   const handleOnSubmit: SubmitHandler<CreateTrainingCategory> = (category) => {
     console.log("Submit Category Handler", category);
     dispatch(createTrainingCategoryAction(category));
   };
 
+  /**
+   * Handle suggest category name
+   */
+  const handleSuggestCategoryName = async () => {
+    console.log("handleSuggestCategoryName");
+    try {
+      // call api
+      setLoadingSuggestion(true);
+      const response = await getCategorySuggestion();
+      const suggestion = response.data.suggestion;
+      console.log("suggestion: ", suggestion);
+      setValue("name", suggestion);
+      setLoadingSuggestion(false);
+    } catch (error: any) {
+      console.log("Errors", errors);
+    }
+  };
+
+  /**
+   * Handle generate description
+   */
+  const handleDescribe = () => {
+    // Get hook form value
+    const categoryName = getValues("name");
+    if (categoryName !== "")
+      // Dispatch hook store action
+      dispatch(getCategoryDescriptionAction(categoryName));
+  };
+
+  /**
+   *
+   */
+  useEffect(() => {
+    // Set hook form value
+    if (description) setValue("description", description);
+  }, [description]);
+
+  /**
+   * Reset the form
+   */
+  useEffect(() => {
+    // Reset hook form values
+    if (successCreate) reset();
+  }, [successCreate, showModal]);
+
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
-      <div className="grid gap-4 mb-4 sm:grid-cols-2">
+      <div className="grid gap-4 mb-4 sm:grid-cols-1">
         {/* Cover */}
         <Controller
           control={control}
@@ -67,11 +117,10 @@ const CategoryForm = () => {
             formState,
           }) => (
             <InputImageViewer
-              className="w-full h-64"
+              className="aspect-video"
               register={register}
               name="cover"
               onChange={(e) => {
-                console.log("onnChange() ", e);
                 setValue(name, e);
                 onChange(e);
               }}
@@ -85,29 +134,39 @@ const CategoryForm = () => {
             <label htmlFor={id + "name"} className="form-label">
               Name
             </label>
-            <input
-              type="text"
-              id={id + "name"}
-              className="form-input"
-              placeholder="Type category name"
-              {...register("name", { required: true, minLength: 2 })}
-            />
+            <div className="flex gap-2">
+              <input
+                type="text"
+                id={id + "name"}
+                className="form-input"
+                placeholder="Type category name"
+                {...register("name", { required: true, minLength: 2 })}
+              />
+              <ButtonAI
+                loading={loadingSuggestion}
+                onClick={() => handleSuggestCategoryName()}
+              />
+            </div>
           </div>
           {/* Description */}
           <div>
             <label htmlFor={id + "description"} className="form-label">
               Description
             </label>
-            <textarea
-              id={id + "description"}
-              rows={4}
-              className="form-input-textarea h-full"
-              placeholder="Write category description here"
-              {...register("description", { required: true, minLength: 2 })}
-            ></textarea>
+            <div className="flex space-x-2">
+              <textarea
+                id={id + "description"}
+                rows={4}
+                className="form-input-textarea h-full"
+                placeholder="Write category description here"
+                {...register("description", { required: true, minLength: 2 })}
+              ></textarea>
+              <ButtonAI loading={loading} onClick={() => handleDescribe()} />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Errors */}
       <p className="text-sm font-bold text-red-500 dark:text-gray-400">
         {errors}

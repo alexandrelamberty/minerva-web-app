@@ -19,7 +19,7 @@ const CategoryDetailsPage = () => {
   let { categoryId } = useParams();
 
   //
-  const { category, loading, errors } = useSelector(
+  const { category, loadingCreate, errors } = useSelector(
     (state: RootState) => state.categories
   );
 
@@ -89,7 +89,7 @@ const CategoryDetailsPage = () => {
             <dd>
               <img
                 height={420}
-                className="object-cover h-48 w-96"
+                className="aspect-video h-64"
                 src={"http://localhost:3000/" + category?.cover}
               />
             </dd>

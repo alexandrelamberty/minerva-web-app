@@ -67,7 +67,7 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
             formState,
           }) => (
             <InputImageViewer
-              className="h-64"
+              className="aspect-video h-64tra"
               register={register}
               name="cover"
               image=""
@@ -80,7 +80,7 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
           )}
         />
 
-        <div className="grid gap-4 mb-4 sm:grid-cols-2">
+        <div className="grid gap-4 mb-4">
           {/* Name */}
           <div>
             <label htmlFor={id + "price"} className="form-label">
@@ -127,8 +127,6 @@ const TrainingForm = ({ categories }: { categories: TrainingCategory[] }) => {
               {...register("description")}
             ></textarea>
           </div>
-          {/* Cover */}
-
           {/* Start / End dates */}
           <div>
             <label htmlFor={id + "startDate"} className="form-label">

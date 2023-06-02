@@ -12,8 +12,8 @@ export type TrainingCategoryState = {
   categories: TrainingCategory[];
   category: TrainingCategory | null;
   count: number;
-  loading: "idle" | "pending" | "succeeded" | "failed";
-  errors: string | null;
+  loadingCreate: "idle" | "pending" | "succeeded" | "failed";
+  errorsCreate: string | null;
   showModal: boolean;
   successCreate: boolean;
   successUpdate: boolean;
@@ -24,8 +24,8 @@ const initialState: TrainingCategoryState = {
   categories: [],
   category: null,
   count: 0,
-  loading: "idle",
-  errors: null,
+  loadingCreate: "idle",
+  errorsCreate: null,
   showModal: false,
   successCreate: false,
   successUpdate: false,
@@ -36,30 +36,30 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
   builder
     // Get All
     .addCase(getAllTrainingsCategoriesAction.pending, (state, action) => {
-      state.loading = "pending";
+      state.loadingCreate = "pending";
     })
     .addCase(getAllTrainingsCategoriesAction.rejected, (state, action) => {
-      state.loading = "failed";
+      state.loadingCreate = "failed";
     })
     .addCase(
       getAllTrainingsCategoriesAction.fulfilled,
       (state, { payload }) => {
-        state.loading = "idle";
+        state.loadingCreate = "idle";
         state.categories = payload.results;
       }
     )
     // Create
     .addCase(createTrainingCategoryAction.pending, (state, action) => {
-      state.loading = "pending";
+      state.loadingCreate = "pending";
       state.successCreate = false;
     })
     .addCase(createTrainingCategoryAction.rejected, (state, { payload }) => {
-      state.loading = "failed";
+      state.loadingCreate = "failed";
       state.successCreate = false;
-      state.errors = payload as string;
+      state.errorsCreate = payload as string;
     })
     .addCase(createTrainingCategoryAction.fulfilled, (state, { payload }) => {
-      state.loading = "idle";
+      state.loadingCreate = "idle";
       state.successCreate = true;
       // We push the created training category
       state.categories.push(payload.result);
@@ -67,15 +67,15 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     })
     // Read
     .addCase(readTrainingCategoryAction.pending, (state, action) => {
-      state.loading = "pending";
+      state.loadingCreate = "pending";
       state.category = null;
     })
     .addCase(readTrainingCategoryAction.rejected, (state, action) => {
       state.successCreate = false;
-      state.loading = "failed";
+      state.loadingCreate = "failed";
     })
     .addCase(readTrainingCategoryAction.fulfilled, (state, { payload }) => {
-      state.loading = "idle";
+      state.loadingCreate = "idle";
       state.category = payload.result;
       state.showModal = false;
     })
@@ -83,15 +83,15 @@ const trainingCategoryReducer = createReducer(initialState, (builder) => {
     // ...
     // Delete
     .addCase(deleteTrainingCategoryAction.pending, (state, action) => {
-      state.loading = "pending";
+      state.loadingCreate = "pending";
       state.successDelete = false;
     })
     .addCase(deleteTrainingCategoryAction.rejected, (state, action) => {
-      state.loading = "failed";
+      state.loadingCreate = "failed";
       state.successDelete = false;
     })
     .addCase(deleteTrainingCategoryAction.fulfilled, (state, { payload }) => {
-      state.loading = "idle";
+      state.loadingCreate = "idle";
       state.successDelete = true;
       // We remove the deleted training category
       state.categories = state.categories.filter(function (item) {

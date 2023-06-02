@@ -169,7 +169,7 @@ const TrainingsPage = () => {
         Create Modal 
       */}
       <Modal
-        size="5xl"
+        size="2xl"
         show={showModal}
         onClose={() => {
           dispatch(showTrainingCreateModalAction(false));

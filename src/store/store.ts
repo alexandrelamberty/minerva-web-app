@@ -8,6 +8,7 @@ import teacherReducer from "./reducers/teacher.reducer";
 import trainingCategoryReducer from "./reducers/training-category.reducer";
 import trainingReducer from "./reducers/training.reducer";
 import userReducer from "./reducers/user.reducer";
+import aiReducer from "./reducers/ai.reducer";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     users: userReducer,
     enrollments: enrollmentReducer,
     notification: notificationReducer,
+    ai: aiReducer,
   },
   devTools: import.meta.env.DEV,
 });

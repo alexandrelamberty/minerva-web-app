@@ -18,9 +18,8 @@ const CategoriesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { categories, showModal, loading, successDelete, errors } = useSelector(
-    (state: RootState) => state.categories
-  );
+  const { categories, showModal, loadingCreate, successDelete, errorsCreate } =
+    useSelector((state: RootState) => state.categories);
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -140,7 +139,7 @@ const CategoriesPage = () => {
         Add Modal 
       */}
       <Modal
-        size="4xl"
+        size="2xl"
         show={showModal}
         onClose={() => {
           dispatch(showTrainingCategoryCreateModalAction(false));

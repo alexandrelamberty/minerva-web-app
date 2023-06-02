@@ -221,3 +221,13 @@ export const getAllUsers = async () => {
 export const getUserById = async (id: string) => {
   return await instanceAxios.get("/users/" + id);
 };
+
+// AI
+
+export const getCategorySuggestion = async () => {
+  return await instanceAxios.get("/ai/category/suggest");
+};
+
+export const getCategoryDescription = async (terms: string) => {
+  return await instanceAxios.post("/ai/category/describe", terms);
+};
