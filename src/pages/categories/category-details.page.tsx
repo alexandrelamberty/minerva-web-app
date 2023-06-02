@@ -76,7 +76,7 @@ const CategoryDetailsPage = () => {
                 ) : (
                   <AppAlert
                     title="Info"
-                    message="The is no trainings at the moment"
+                    message="There is no trainings at the moment"
                   />
                 )}
               </ul>

@@ -2,14 +2,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useId } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { CreateTraining, UpdateTraining } from "../../../models/training.model";
+import { UpdateTraining } from "../../../models/training.model";
 import {
-  createTrainingAction,
+  readTrainingAction,
   updateTrainingAction,
 } from "../../../store/actions/training.actions";
 import { AppDispatch, RootState } from "../../../store/store";
-import { TrainingCategory } from "../../../models/training-category.model";
 import InputImageViewer from "../../inputs/input-image-viewer/input-image-viewer";
 
 const validationSchema = Yup.object({
@@ -23,12 +23,17 @@ const validationSchema = Yup.object({
 const TrainingEditForm = () => {
   const id = useId();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  // Retrieve the id from the url
+  const { trainingId } = useParams();
 
   // Store
-  const { successCreate, loading, errors } = useSelector(
+  const { training, successCreate, loading, errors } = useSelector(
     (state: RootState) => state.trainings
   );
 
+  // Store
   const { categories } = useSelector((state: RootState) => state.categories);
 
   const {
@@ -50,14 +55,47 @@ const TrainingEditForm = () => {
     },
   });
 
+  /**
+   * Handle the form submission
+   * @param training
+   */
   const handleOnSubmit: SubmitHandler<UpdateTraining> = (training) => {
     console.log("Submit Training Handler : ", training);
     dispatch(updateTrainingAction(training));
   };
 
+  /**
+   * Dispatch an action to retrieve the details of a training
+   */
+  useEffect(() => {
+    // reset();
+    if (trainingId) dispatch(readTrainingAction(trainingId));
+  }, [trainingId]);
+
+  /**
+   * Reset the form
+   */
   useEffect(() => {
     if (successCreate) reset();
   }, [successCreate]);
+
+  /**
+   * Update the form
+   */
+  useEffect(() => {
+    if (training) {
+      const { name, description, category, startDate, endDate } = training;
+
+      console.log(startDate, endDate);
+      reset({
+        name,
+        description,
+        TrainingCategoryId: category.id,
+        startDate,
+        endDate,
+      });
+    }
+  }, [training, reset]);
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
@@ -75,7 +113,7 @@ const TrainingEditForm = () => {
               className="h-64"
               register={register}
               name="cover"
-              image=""
+              image={training?.cover}
               onChange={(e) => {
                 console.log("onnChange() ", e);
                 setValue(name, e);
@@ -176,7 +214,7 @@ const TrainingEditForm = () => {
             clipRule="evenodd"
           ></path>
         </svg>
-        Add new training
+        Update
       </button>
     </form>
   );

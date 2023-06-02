@@ -12,3 +12,7 @@ export const formatError = (err: any) => {
 export const classNames = (...classes: any) => {
   return classes.filter(Boolean).join(" ");
 };
+
+export const toISODate = (date: string): string => {
+  return new Date(date).toLocaleDateString();
+};

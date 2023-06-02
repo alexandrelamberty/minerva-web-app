@@ -64,8 +64,12 @@ export const readCategory = async (id: string) => {
   return await instanceAxios.get("/categories/" + id);
 };
 
-export const updateCategory = async (data: UpdateTrainingCategory) => {
-  return await instanceAxios.patch("/categories/", data);
+export const updateCategory = async (
+  id: string,
+  data: UpdateTrainingCategory
+) => {
+  console.log("UpdateCategory", id, data);
+  return await instanceAxios.patch("/categories/" + id, data);
 };
 
 export const deleteCategory = async (id: string) => {
