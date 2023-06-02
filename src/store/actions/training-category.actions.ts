@@ -17,6 +17,7 @@ import {
 } from "../../services/api-service";
 import { AxiosError } from "axios";
 import { notificationShowAction } from "./notification.actions";
+import { useNavigate } from "react-router-dom";
 
 export const getAllTrainingsCategoriesAction = createAsyncThunk(
   "categories/fetch",
@@ -80,21 +81,27 @@ export const readTrainingCategoryAction = createAsyncThunk(
 
 export const updateTrainingCategoryAction = createAsyncThunk(
   "categories/update",
-  async (data: UpdateTrainingCategory, thunkAPI) => {
+  async (
+    { id, data }: { id: string; data: UpdateTrainingCategory },
+    thunkAPI
+  ) => {
     try {
-      const response = await updateCategory(data);
-      if (data.cover) {
-        const cover = await updateCategoryCover(
-          response.data.result.id,
-          data.cover![0]
-        );
+      console.log("UpdateData", data);
+      const response = await updateCategory(id, data);
+      console.log("UpdateResponse", response);
+      // Check if we send an image from the form
+      console.log("Cover data", data.cover);
+      if (data.cover !== undefined) {
+        console.log("Updating cover...");
+        const cover = await updateCategoryCover(id, data.cover[0]);
         console.log("cover:", cover);
         // FIXME: image path
         response.data.result.cover =
           "/images/covers/" + cover.data.result.filename;
       }
+
       // Dispatch notification
-      if (response)
+      if (response) {
         thunkAPI.dispatch(
           notificationShowAction({
             type: "info",
@@ -103,6 +110,8 @@ export const updateTrainingCategoryAction = createAsyncThunk(
             time: 3000,
           })
         );
+      }
+
       return response.data;
     } catch (err) {
       return isRejectedWithValue("Trainings Error: " + err);

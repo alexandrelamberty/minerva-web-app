@@ -1,23 +1,39 @@
 import { useEffect } from "react";
+import { HiAnnotation, HiPencil, HiTrash } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import AppAlert from "../../components/app-alert/app-alert";
+import CourseDateListItem from "../../components/course-date-list-item/course-date-list-item";
+import TeacherItem from "../../components/teacher-item/teacher-item";
 import {
   deleteCourseAction,
   readCourseAction,
 } from "../../store/actions/course.actions";
 import { AppDispatch, RootState } from "../../store/store";
-import { HiAnnotation, HiPencil, HiTrash } from "react-icons/hi";
-import { Avatar } from "flowbite-react";
-import { ActionMenu } from "../../components/action-menu/action-menu";
-import AppAlert from "../../components/app-alert/app-alert";
-import CourseDateListItem from "../../components/course-date-list-item/course-date-list-item";
-import TeacherItem from "../../components/teacher-item/teacher-item";
+import MaterialListItem from "../../components/material-list-item/material-list-item";
+import { CourseMaterial } from "../../models/course-material.model";
+
+const courseMaterials = [
+  {
+    id: "78657685",
+    name: "Introduction document",
+    file: "introduction_document.pdf",
+    type: "document",
+  },
+  {
+    id: "78657665",
+    name: "Introduction document",
+    file: "introduction_document.pdf",
+    type: "document",
+  },
+];
 
 const CourseDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   // read router variable
-  let { courseId } = useParams();
+  const { courseId } = useParams();
 
   // The course to display that we have loaded
   const { course } = useSelector((state: RootState) => state.courses);
@@ -76,13 +92,16 @@ const CourseDetailsPage = () => {
             <ul className="max-w-md">
               {course?.dates && course.dates.length > 0 ? (
                 course?.dates?.map((courseDate) => (
-                  <CourseDateListItem courseDate={courseDate} />
+                  <CourseDateListItem
+                    key={courseDate.id}
+                    courseDate={courseDate}
+                  />
                 ))
               ) : (
                 // FIXME: Move ternary logic into an list component containing the list item
                 <AppAlert
                   title="Info"
-                  message="The is no course dates at the moment"
+                  message="There is no course dates at the moment"
                 />
               )}
             </ul>
@@ -101,13 +120,15 @@ const CourseDetailsPage = () => {
           </dd>
           <dt>Materials</dt>
           <dd>
-            <ul>
-              <li>Introduction document</li>
-              <li>Github</li>
+            <ul className="space-y-1">
+              {courseMaterials.map((material: CourseMaterial) => (
+                <MaterialListItem key={material.id} material={material} />
+              ))}
             </ul>
           </dd>
           <dt>External Resources</dt>
         </dl>
+        {/*  */}
         <dl>
           <dt className="">Cover</dt>
           <dd>

@@ -35,7 +35,7 @@ const AppAlert = ({ title, message }: Props) => {
         </svg>
         <span className="sr-only">Info</span>
         <div>
-          <span className="font-medium">{title}</span> {message}
+          <span className="font-medium"></span> {message}
         </div>
       </div>
     </>

@@ -1,4 +1,5 @@
 import { Course } from "./course.model";
+import { Teacher } from "./teacher.model";
 import { TrainingCategory } from "./training-category.model";
 
 export interface Training {
@@ -11,6 +12,7 @@ export interface Training {
   startDate: string;
   endDate: string;
   courses?: Course[];
+  teacher: Teacher;
 }
 
 export interface CreateTraining {

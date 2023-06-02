@@ -23,19 +23,18 @@ const validationSchema = Yup.object({
 
 const CategoryEditForm = () => {
   const id = useId();
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   // Retrieve the id from the url
-  let { categoryId } = useParams();
-  console.log("CATEGORY ID: ", categoryId);
+  const { categoryId } = useParams();
 
   // Store
   const { category, successCreate, showModal, loading, errors } = useSelector(
     (state: RootState) => state.categories
   );
 
-  //
+  // Store the trainings
   const [trainings, setTrainings] = useState<Training[] | null>(null);
 
   // React Hook form
@@ -81,7 +80,21 @@ const CategoryEditForm = () => {
   };
 
   /**
-   * Reset the modal
+   * Handle the form submission
+   * @param category
+   */
+  const handleOnSubmit: SubmitHandler<UpdateTrainingCategory> = (category) => {
+    console.log("Submit Update Category Handler", category);
+    if (categoryId)
+      dispatch(
+        updateTrainingCategoryAction({ id: categoryId, data: category })
+      ).then(() => {
+        navigate("/categories");
+      });
+  };
+
+  /**
+   * Reset the form
    */
   useEffect(() => {
     console.log("reset()");
@@ -95,14 +108,19 @@ const CategoryEditForm = () => {
    * Dispatch an action to retrieve the details of a training category
    */
   useEffect(() => {
-    reset();
+    // reset();
     if (categoryId) dispatch(readTrainingCategoryAction(categoryId));
   }, [categoryId]);
 
-  const handleOnSubmit: SubmitHandler<UpdateTrainingCategory> = (category) => {
-    console.log("Submit Update Category Handler", category);
-    dispatch(updateTrainingCategoryAction(category));
-  };
+  /**
+   * Update the form
+   */
+  useEffect(() => {
+    if (category) {
+      const { name, description } = category;
+      reset({ name, description });
+    }
+  }, [category, reset]);
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
@@ -229,7 +247,7 @@ const CategoryEditForm = () => {
               clipRule="evenodd"
             ></path>
           </svg>
-          Add new category
+          Update
         </button>
       </div>
     </form>
