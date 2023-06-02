@@ -7,9 +7,11 @@ type Props = {
 
 const TeacherItem = ({ teacher }: Props) => {
   return (
-    <div className="flex gap-x-4">
-      <Avatar img={teacher?.User.avatar} />
-      {teacher?.User.firstName}
+    <div className="flex items-center gap-x-4 rounded-md cursor-pointer bg-slate-100 hover:bg-slate-200 p-2">
+      <Avatar img={teacher?.user.avatar} />
+      <p className="text-blue-500">
+        {teacher?.user.firstName} {teacher?.user.lastName}
+      </p>
     </div>
   );
 };

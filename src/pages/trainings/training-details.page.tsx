@@ -6,6 +6,8 @@ import AppAlert from "../../components/app-alert/app-alert";
 import CourseListItem from "../../components/course-list-item/course-list-item";
 import { readTrainingAction } from "../../store/actions/training.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import TeacherItem from "../../components/teacher-item/teacher-item";
+import { toISODate } from "../../utils/utils";
 
 /**
  * Show details about a Training and an action bar to edit or delete the
@@ -17,7 +19,7 @@ const TrainingDetailsPage = () => {
   const navigate = useNavigate();
 
   // Retrieve the id from the url
-  let { trainingId } = useParams();
+  const { trainingId } = useParams();
 
   const { training } = useSelector((state: RootState) => state.trainings);
 
@@ -76,13 +78,10 @@ const TrainingDetailsPage = () => {
               <ul className="max-w-md">
                 {training?.courses && training.courses.length > 0 ? (
                   training.courses?.map((course) => (
-                    <CourseListItem course={course} />
+                    <CourseListItem key={course.id} course={course} />
                   ))
                 ) : (
-                  <AppAlert
-                    title="Info"
-                    message="The is no courses at the moment"
-                  />
+                  <AppAlert title="Info" message="There is no courses" />
                 )}
               </ul>
             </dd>
@@ -100,7 +99,30 @@ const TrainingDetailsPage = () => {
               />
             </dd>
             <dt>Assignee Teacher</dt>
-            <dd>{/* <TeacherItem teacher={training.teacher} /> */}</dd>
+            <dd>
+              {training?.teacher !== undefined ? (
+                <TeacherItem teacher={training.teacher} />
+              ) : (
+                <AppAlert
+                  title="Info"
+                  message="The is no teacher assigned to the training"
+                />
+              )}
+            </dd>
+            <dt>Dates</dt>
+            {training?.startDate !== undefined ? (
+              <>
+                <dd>
+                  {toISODate(training.startDate)} -{" "}
+                  {toISODate(training.endDate)}
+                </dd>
+              </>
+            ) : (
+              <AppAlert
+                title="Info"
+                message="The is no teacher assigned to the training"
+              />
+            )}
           </dl>
         </div>
       </div>

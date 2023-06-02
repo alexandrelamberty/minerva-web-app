@@ -4,7 +4,7 @@ import TrainingEditForm from "../../components/forms/training-form/training-edit
 const TrainingEditPage = () => {
   return (
     <>
-      <ActionMenu title="Editing Training"></ActionMenu>
+      <ActionMenu title="Editing Training" />
       <TrainingEditForm />
     </>
   );
