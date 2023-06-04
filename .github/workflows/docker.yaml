@@ -18,13 +18,21 @@ jobs:
       matrix:
         node-version: [16.x, 18.x]
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      # - run: npm ci
-      - run: npm run build --if-present
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          CI: false
+
+      - name: Create build
+        run: npm run build --if-present
         env:
           CI: false
 
@@ -35,17 +43,22 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: What
+
+      - name: Get branch
         run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
+
+      - name: Set up Buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{secrets.DOCKER_USER}}
           password: ${{secrets.DOCKER_PASSWORD}}
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
