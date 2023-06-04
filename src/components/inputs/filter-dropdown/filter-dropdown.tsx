@@ -1,5 +1,5 @@
 const FilterDropdown = () => {
-  return ()
-}
+  return <></>;
+};
 
 export default FilterDropdown;
