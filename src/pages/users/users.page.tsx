@@ -6,6 +6,7 @@ import { ActionMenu } from "../../components/action-menu/action-menu";
 import { getAllUsersAction } from "../../store/actions/user.actions";
 import { AppDispatch, RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
+import UserStatus from "../../components/user-status/user-status";
 
 const UsersPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,7 +42,6 @@ const UsersPage = () => {
           type="text"
           icon={HiUsers}
           placeholder="Search users ..."
-          className="w-full md:w-2/6"
           onChange={(event) => handleSearch(event.target.value)}
         />
         <Button
@@ -52,15 +52,16 @@ const UsersPage = () => {
           Invite User
         </Button>
       </ActionMenu>
-      <Table striped={true} hoverable={true} className="rounded-none">
+      <Table striped={true} hoverable={true}>
         <Table.Head className="rounded-none">
           <Table.HeadCell>
             <span className="sr-only">Cover</span>
           </Table.HeadCell>
-          <Table.HeadCell>Email</Table.HeadCell>
           <Table.HeadCell>First name</Table.HeadCell>
           <Table.HeadCell>Last name</Table.HeadCell>
+          <Table.HeadCell>Email</Table.HeadCell>
           <Table.HeadCell>Role</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell>Creation Date</Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Edit</span>
@@ -72,10 +73,13 @@ const UsersPage = () => {
               <Table.Cell>
                 <Avatar alt="User settings" img={user?.avatar} rounded={true} />
               </Table.Cell>
-              <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.firstName}</Table.Cell>
               <Table.Cell>{user.lastName}</Table.Cell>
+              <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.role}</Table.Cell>
+              <Table.Cell>
+                <UserStatus status="active" />
+              </Table.Cell>
               <Table.Cell>{user.createdAt}</Table.Cell>
               <Table.Cell>
                 <div className="flex justify-end space-x-3 sm:space-x-4">

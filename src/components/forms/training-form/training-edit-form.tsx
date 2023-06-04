@@ -110,7 +110,7 @@ const TrainingEditForm = () => {
             formState,
           }) => (
             <InputImageViewer
-              className="h-64"
+              className="aspect-video h-64"
               register={register}
               name="cover"
               image={training?.cover}

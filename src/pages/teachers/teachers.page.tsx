@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import { getAllTeachersAction } from "../../store/actions/teacher.actions";
 import { AppDispatch, RootState } from "../../store/store";
+import UserStatus from "../../components/user-status/user-status";
 
 const TeachersPages = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -38,13 +39,6 @@ const TeachersPages = () => {
           icon={HiUsers}
           placeholder="Search teachers ..."
         />
-        <Button
-          onClick={() => {
-            // dispatch(showTrainingCreateModalAction(true));
-          }}
-        >
-          Add Training
-        </Button>
       </ActionMenu>
       {/* Trainings Data View */}
       {/* Table | Grid */}
@@ -54,6 +48,7 @@ const TeachersPages = () => {
           <Table.HeadCell>First Name</Table.HeadCell>
           <Table.HeadCell>Last Name</Table.HeadCell>
           <Table.HeadCell>Email</Table.HeadCell>
+          <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell>
             <span className="sr-only">Edit</span>
           </Table.HeadCell>
@@ -67,6 +62,9 @@ const TeachersPages = () => {
               <Table.Cell>{teacher.user?.firstName}</Table.Cell>
               <Table.Cell>{teacher.user?.lastName}</Table.Cell>
               <Table.Cell>{teacher.user?.email}</Table.Cell>
+              <Table.Cell>
+                <UserStatus status="active" />
+              </Table.Cell>
               <Table.Cell>
                 <div className="flex justify-end space-x-3 sm:space-x-4">
                   <button

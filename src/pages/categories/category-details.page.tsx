@@ -10,6 +10,7 @@ import { HiBookOpen, HiPencil, HiTrash } from "react-icons/hi";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import TrainingListItem from "../../components/training-list-item/training-list-item";
 import AppAlert from "../../components/app-alert/app-alert";
+import ImagePreview from "../../components/image-preview/image-preview";
 
 const CategoryDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -58,8 +59,11 @@ const CategoryDetailsPage = () => {
           Delete
         </button>
       </ActionMenu>
-      {/* Category Details */}
-      <div className="flex flex-col-reverse md:flex-row md:space-x-2">
+      {/* 
+        Category Details 
+      */}
+      <div className="flex flex-col-reverse md:flex-row md:space-x-4">
+        {/*  */}
         <div className="md:basis-3/4">
           <dl>
             <dt className="sr-only">name</dt>
@@ -68,7 +72,7 @@ const CategoryDetailsPage = () => {
             <dd>{category?.description}</dd>
             <dt>Trainings in this category</dt>
             <dd>
-              <ul className="space-y-2">
+              <ul className="max-w-md space-y-2">
                 {category?.trainings && category?.trainings.length > 0 ? (
                   category?.trainings.map((training) => (
                     <TrainingListItem key={training.id} training={training} />
@@ -83,14 +87,14 @@ const CategoryDetailsPage = () => {
             </dd>
           </dl>
         </div>
+        {/*  */}
         <div className="md:basis-2/4">
           <dl>
-            <dt>Cover</dt>
+            <dt className="sr-only">Cover</dt>
             <dd>
-              <img
-                height={420}
-                className="aspect-video h-64"
+              <ImagePreview
                 src={"http://localhost:3000/" + category?.cover}
+                alt="category cover"
               />
             </dd>
           </dl>

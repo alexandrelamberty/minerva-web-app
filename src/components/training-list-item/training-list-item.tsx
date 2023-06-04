@@ -7,10 +7,7 @@ type Props = {
 const TrainingListItem = ({ training }: Props) => {
   return (
     <>
-      <li
-        key={training.id}
-        className="p-2 gap-y-2 rounded-md bg-slate-400 hover:bg-slate-700"
-      >
+      <li key={training.id} className="p-2 gap-y-2 list-item">
         <div className="flex gap-x-4">
           <img
             className="h-12 w-12 flex-none rounded-full bg-gray-50"

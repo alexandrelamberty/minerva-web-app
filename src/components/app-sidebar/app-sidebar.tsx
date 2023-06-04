@@ -32,6 +32,9 @@ export const AppSidebar = () => {
           <Sidebar.ItemGroup>
             <Sidebar.Item icon={HiChartPie}>
               <Link to="/dashboard">Dashboard</Link>
+            </Sidebar.Item>{" "}
+            <Sidebar.Item icon={HiViewBoards}>
+              <Link to="/catalog">Training Catalog</Link>
             </Sidebar.Item>
             <Sidebar.Item icon={HiViewBoards}>
               <Link to="/sessions">My Sessions</Link>

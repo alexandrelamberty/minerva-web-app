@@ -17,7 +17,7 @@ const AppAlert = ({ title, message }: Props) => {
   return (
     <>
       <div
-        className="flex p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+        className="flex p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-900 dark:text-blue-400"
         role="alert"
       >
         <svg

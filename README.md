@@ -1,4 +1,8 @@
-# Minerva - Training Management System Web Application
+# Minerva Web Application
+
+Training management system web application part of the [Minerva](https://github.com/alexandrelamberty/minerva) project.
+
+## Features
 
 ## Technologies
 
@@ -6,4 +10,19 @@
 - [React Router]()
 - [Redux]()
 
-## Features
+## Requirements
+
+- [Docker]()
+- [NPM]() for development
+
+## Usage
+
+This web application rely on the [Minerva API]() to work.
+
+## Development
+
+## Tests
+
+## Docker
+
+## References

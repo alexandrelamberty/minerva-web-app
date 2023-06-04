@@ -15,11 +15,11 @@ type ActionMenuProps = {
  */
 export const ActionMenu = ({ icon, title, children }: ActionMenuProps) => {
   return (
-    <div className="flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0 md:space-x-4">
-      <div className="flex align-bottom">
-        {icon}
-        <h1 className="text-blue-600 dark:text-blue-200 text-lg">{title}</h1>
-      </div>
+    <div className="pb-4 flex flex-col items-center justify-between space-y-3 md:flex-row md:space-y-0 md:space-x-4 border-b border-slate-300 dark:border-slate-700">
+      {/* <div className="flex items-center">
+        <div className="aspect-auto">{icon}</div>
+      </div> */}
+      <h1 className="text-blue-500 dark:text-blue-200 text-lg">{title}</h1>
       <div className="flex flex-row space-x-2">{children}</div>
     </div>
   );

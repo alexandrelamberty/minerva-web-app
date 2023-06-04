@@ -1,13 +1,18 @@
 import { useEffect } from "react";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiBookOpen, HiPencil, HiTrash } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import AppAlert from "../../components/app-alert/app-alert";
 import CourseListItem from "../../components/course-list-item/course-list-item";
-import { readTrainingAction } from "../../store/actions/training.actions";
+import {
+  deleteTrainingAction,
+  readTrainingAction,
+} from "../../store/actions/training.actions";
 import { AppDispatch, RootState } from "../../store/store";
 import TeacherItem from "../../components/teacher-item/teacher-item";
 import { toISODate } from "../../utils/utils";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import ImagePreview from "../../components/image-preview/image-preview";
 
 /**
  * Show details about a Training and an action bar to edit or delete the
@@ -31,11 +36,14 @@ const TrainingDetailsPage = () => {
   }, []);
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <>
       {/* 
         Action Menu 
       */}
-      <div className="flex items-center space-x-4">
+      <ActionMenu
+        title="Viewing Training Details"
+        icon={<HiBookOpen className="w-12 h-12 mr-2" />}
+      >
         <button
           type="button"
           className="btn-primary"
@@ -48,24 +56,24 @@ const TrainingDetailsPage = () => {
           type="button"
           className="btn-danger"
           onClick={() => {
-            if (trainingId) {
+            if (trainingId)
               // FIXME: set id to delete and show confirm dialog
-              // dispatch(deleteTrainingAction(trainingId));
-            }
+              dispatch(deleteTrainingAction(trainingId));
           }}
         >
           <HiTrash className="mr-2" />
           Delete
         </button>
-      </div>
+      </ActionMenu>
       {/* 
         Training Details 
         Description list in a single column on small device and two columns on
         medium and beyond.
         
       */}
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="max-w-md">
+      <div className="flex flex-col-reverse md:flex-row md:space-x-2">
+        {/*  */}
+        <div className="md:basis-3/4">
           <dl>
             <dt className="sr-only">name</dt>
             <dd>
@@ -88,14 +96,13 @@ const TrainingDetailsPage = () => {
           </dl>
         </div>
         {/*  */}
-        <div>
+        <div className="md:basis-2/4">
           <dl>
-            <dt>Cover</dt>
+            <dt className="sr-only">Cover</dt>
             <dd>
-              <img
-                height={420}
-                className="object-cover h-48 w-96"
+              <ImagePreview
                 src={"http://localhost:3000/" + training?.cover}
+                alt="training cover"
               />
             </dd>
             <dt>Assignee Teacher</dt>
@@ -126,7 +133,7 @@ const TrainingDetailsPage = () => {
           </dl>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 export default TrainingDetailsPage;
