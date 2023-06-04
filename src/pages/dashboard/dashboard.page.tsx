@@ -42,9 +42,9 @@ const TodayCourse = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           ></path>
         </svg>
       </a>
@@ -71,7 +71,7 @@ const DashboardPage = () => {
         <h2>Full Stack Web Development</h2>
         <Progress progress={35} className="mb-2" />
         <p></p>
-        <TeacherItem teacher={null} />
+        <TeacherItem teacher={undefined} />
       </Widget>
       {/* 
         Tomorrow

@@ -3,13 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../utils/utils";
 
 export const AppBreadcrumb = () => {
-  let location = useLocation();
+  const location = useLocation();
   const [paths, setPaths] = useState<string[]>([]);
 
   useEffect(() => {
     console.log(location);
 
-    let segments = location.pathname.split("/");
+    const segments = location.pathname.split("/");
     segments.shift();
 
     setPaths(segments);

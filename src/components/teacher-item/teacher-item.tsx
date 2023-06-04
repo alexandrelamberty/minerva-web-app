@@ -2,7 +2,7 @@ import { Avatar } from "flowbite-react";
 import { Teacher } from "../../models/teacher.model";
 
 type Props = {
-  teacher: Teacher;
+  teacher: Teacher | undefined;
 };
 
 const TeacherItem = ({ teacher }: Props) => {

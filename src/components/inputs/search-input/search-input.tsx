@@ -4,10 +4,7 @@ import { HiUser } from "react-icons/hi";
 
 const ListItem = () => {
   return (
-    <li
-      className="hiddens
-        "
-    >
+    <li className="hiddens">
       <div className="flex items-center pl-2 rounded bg-gray-100 hover:bg-gray-400 dark:hover:bg-gray-600">
         <input
           id="checkbox-item-11"
@@ -45,8 +42,8 @@ const SearchInput = ({ placeholder, data }: SearchInputProps) => {
       />
       {/* Search results */}
       <ul className="z-10 hidden absolute top-12 w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-        {data.map(() => (
-          <ListItem />
+        {data.map((data, index) => (
+          <ListItem key={index} />
         ))}
       </ul>
     </div>

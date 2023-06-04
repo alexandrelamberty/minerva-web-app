@@ -1,26 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { HiBookOpen, HiPencil, HiTrash } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import AppAlert from "../../components/app-alert/app-alert";
+import ImagePreview from "../../components/image-preview/image-preview";
+import TrainingListItem from "../../components/training-list-item/training-list-item";
 import {
   deleteTrainingCategoryAction,
   readTrainingCategoryAction,
 } from "../../store/actions/training-category.actions";
-import { HiBookOpen, HiPencil, HiTrash } from "react-icons/hi";
-import { ActionMenu } from "../../components/action-menu/action-menu";
-import TrainingListItem from "../../components/training-list-item/training-list-item";
-import AppAlert from "../../components/app-alert/app-alert";
-import ImagePreview from "../../components/image-preview/image-preview";
+import { AppDispatch, RootState } from "../../store/store";
 
 const CategoryDetailsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   // Retrieve the id of the category
-  let { categoryId } = useParams();
+  const { categoryId } = useParams();
 
   //
-  const { category, loadingCreate, errors } = useSelector(
+  const { category, loadingCreate, errorsCreate } = useSelector(
     (state: RootState) => state.categories
   );
 

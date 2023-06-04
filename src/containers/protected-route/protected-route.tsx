@@ -12,7 +12,7 @@ type ProtectedRouteProps = {
  * FIXME: Move this to the application private layout ?
  */
 const ProtectedRoute = ({ roles, children }: ProtectedRouteProps) => {
-  let location = useLocation();
+  const location = useLocation();
   const {
     loggedInUser: user,
     loading,

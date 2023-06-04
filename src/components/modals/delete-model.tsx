@@ -1,11 +1,13 @@
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+
 type DeleteModalProps = {
   show: boolean;
   onClose: () => void;
   onConfirm: () => void;
   description: string;
 };
+
 const DeleteModal = ({
   show,
   onClose,
@@ -23,7 +25,7 @@ const DeleteModal = ({
           </h3>
           <div className="flex justify-center gap-4">
             <Button color="failure" onClick={onConfirm}>
-              Yes, I'm sure
+              {`Yes, I'm sure`}
             </Button>
             <Button color="gray" onClick={onClose}>
               No, cancel
