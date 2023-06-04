@@ -4,7 +4,7 @@ import { HiUser } from "react-icons/hi";
 
 const ListItem = () => {
   return (
-    <li className="hiddens">
+    <li>
       <div className="flex items-center pl-2 rounded bg-gray-100 hover:bg-gray-400 dark:hover:bg-gray-600">
         <input
           id="checkbox-item-11"

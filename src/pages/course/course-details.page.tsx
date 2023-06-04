@@ -139,7 +139,7 @@ const CourseDetailsPage = () => {
                 alt="training cover"
               />
             </dd>
-            {/* Assigne teacher */}
+            {/* Assignee teacher */}
             <dt>Assignee Teacher</dt>
             <dd>
               {course?.teacher ? (

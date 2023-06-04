@@ -73,7 +73,7 @@ export const AccountRecoveryForm = () => {
         Reset password
       </button>
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-        Remeber your password?{" "}
+        Remember your password?{" "}
         <Link to="/login" className="form-link">
           Login here
         </Link>
