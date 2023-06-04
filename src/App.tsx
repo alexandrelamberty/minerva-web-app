@@ -4,7 +4,7 @@ import AppNotification from "./components/app-notification/app-notification";
 import { AccountRecoveryForm } from "./components/forms/account-recovery-form/account-recovery-form";
 import { LoginForm } from "./components/forms/login-form/login-form";
 import { FormRegister } from "./components/forms/register-form/register-form";
-import Layout from "./containers/app-layout/app-";
+import Layout from "./containers/app-layout/app-layout";
 import PublicLayout from "./containers/app-public-layout/public-layout";
 import ProtectedRoute from "./containers/protected-route/protected-route";
 import AdminPage from "./pages/admin/admin.page";
