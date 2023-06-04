@@ -14,7 +14,7 @@ const CourseDateListItem = ({ courseDate }: Props) => {
               {courseDate.date}
             </p>
             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-              {courseDate.teacher?.User.firstName}
+              {courseDate.teacher?.user.firstName}
             </p>
           </div>
         </div>

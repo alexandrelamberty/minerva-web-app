@@ -68,7 +68,7 @@ const EnrollmentsPage = () => {
 
   return (
     <>
-      <ActionMenu>
+      <ActionMenu title="Enrollments">
         <TextInput
           id="search"
           type="text"
