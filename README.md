@@ -2,6 +2,7 @@
 [![Linting](https://github.com/alexandrelamberty/minerva-web-app/actions/workflows/lint.yaml/badge.svg)](https://github.com/alexandrelamberty/minerva-web-app/actions/workflows/lint.yaml)
 [![Formatting](https://github.com/alexandrelamberty/minerva-web-app/actions/workflows/prettier.yaml/badge.svg)](https://github.com/alexandrelamberty/minerva-web-app/actions/workflows/prettier.yaml)
 [![DockerHub](https://github.com/alexandrelamberty/minerva-web-app/actions/workflows/docker.yaml/badge.svg)](https://github.com/alexandrelamberty/minerva-web-app/actions/workflows/docker.yaml)
+[![DockerHub](https://img.shields.io/badge/DockerHub-images-important.svg?logo=Docker)](https://hub.docker.com/r/alexandrelamberty/minerva-web-app)
 
 # Minerva Web Application
 
