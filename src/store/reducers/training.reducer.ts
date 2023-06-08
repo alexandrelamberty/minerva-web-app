@@ -1,4 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { TrainingCategory } from "../../models/training-category.model";
+import { Training } from "../../models/training.model";
 import {
   createTrainingAction,
   deleteTrainingAction,
@@ -6,8 +8,6 @@ import {
   readTrainingAction,
   showTrainingCreateModalAction,
 } from "../actions/training.actions";
-import { TrainingCategory } from "../../models/training-category.model";
-import { Training } from "../../models/training.model";
 
 export type TrainingState = {
   categories: TrainingCategory[];
@@ -48,7 +48,7 @@ const trainingReducer = createReducer(initialState, (builder) => {
     .addCase(getAllTrainingsAction.fulfilled, (state, { payload }) => {
       state.loading = "idle";
       state.trainings = payload.results;
-      state.count = state.trainings.length;
+      state.count = payload.count;
     })
     // Create
     .addCase(createTrainingAction.pending, (state, action) => {

@@ -9,7 +9,9 @@ import {
 } from "../../models/enrollment.model";
 
 import {
+  approveEnrollment,
   createEnrollment,
+  declineEnrollment,
   deleteEnrollment,
   getAllEnrollments,
   readEnrollment,
@@ -78,6 +80,30 @@ export const deleteEnrollmentAction = createAsyncThunk(
       const response = await deleteEnrollment(id);
       // return id as payload
       return id;
+    } catch (err) {
+      return isRejectedWithValue("Enrollments Error: " + err);
+    }
+  }
+);
+
+export const approveEnrollmentAction = createAsyncThunk(
+  "enrollments/approve",
+  async (id: string) => {
+    try {
+      const response = await approveEnrollment(id);
+      return response.data;
+    } catch (err) {
+      return isRejectedWithValue("Enrollments Error: " + err);
+    }
+  }
+);
+
+export const declineEnrollmentAction = createAsyncThunk(
+  "enrollments/decline",
+  async (id: string) => {
+    try {
+      const response = await declineEnrollment(id);
+      return response.data;
     } catch (err) {
       return isRejectedWithValue("Enrollments Error: " + err);
     }

@@ -2,11 +2,11 @@ import { Avatar, Button, Table, TextInput } from "flowbite-react";
 import { useEffect } from "react";
 import { HiUsers } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
+import UserStatus from "../../components/enrollment-status/enrollment-status";
 import { getAllUsersAction } from "../../store/actions/user.actions";
 import { AppDispatch, RootState } from "../../store/store";
-import { useNavigate } from "react-router-dom";
-import UserStatus from "../../components/user-status/user-status";
 
 const UsersPage = () => {
   const dispatch = useDispatch<AppDispatch>();

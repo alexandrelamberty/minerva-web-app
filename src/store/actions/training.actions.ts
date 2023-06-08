@@ -16,9 +16,9 @@ import { notificationShowAction } from "./notification.actions";
 
 export const getAllTrainingsAction = createAsyncThunk(
   "trainings/fetch",
-  async () => {
+  async (data: { offset: number; limit: number }) => {
     try {
-      const response = await getAllTrainings();
+      const response = await getAllTrainings(data);
       return response.data;
     } catch (err) {
       return isRejectedWithValue("Trainings Error: " + err);

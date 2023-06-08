@@ -1,11 +1,18 @@
-import { Button, Modal, Table, TextInput, Tooltip } from "flowbite-react";
+import {
+  Button,
+  Modal,
+  Pagination,
+  Table,
+  TextInput,
+  Tooltip,
+} from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiEye, HiOutlineBookOpen } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import TrainingForm from "../../components/forms/training-form/training-form";
-import DeleteModal from "../../components/modals/delete-model";
+import { showActionModalAction } from "../../store/actions/modals.actoions";
 import { getAllTrainingsCategoriesAction } from "../../store/actions/training-category.actions";
 import {
   deleteTrainingAction,
@@ -22,7 +29,7 @@ const TrainingsPage = () => {
    * Store Trainings
    */
   const { categories } = useSelector((state: RootState) => state.categories);
-  const { trainings, showModal, loading, errors } = useSelector(
+  const { trainings, count, showModal, loading, errors } = useSelector(
     (state: RootState) => state.trainings
   );
 
@@ -30,6 +37,7 @@ const TrainingsPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [editId, setEditId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   /**
    * Handle the delete modal close action
@@ -54,6 +62,15 @@ const TrainingsPage = () => {
   };
 
   /**
+   * Handle pagination from the ActionMenu
+   * @param terms The terms to search
+   */
+  const handlePagination = (page: number) => {
+    console.log(page);
+    setCurrentPage(page);
+  };
+
+  /**
    * Handle search from the ActionMenu
    * @param terms The terms to search
    */
@@ -67,7 +84,7 @@ const TrainingsPage = () => {
   useEffect(() => {
     // FIXME: Move to component ?
     dispatch(getAllTrainingsCategoriesAction(null));
-    dispatch(getAllTrainingsAction());
+    dispatch(getAllTrainingsAction({ offset: 0, limit: 20 }));
   }, []);
 
   return (
@@ -155,6 +172,15 @@ const TrainingsPage = () => {
                     onClick={() => {
                       setDeleteId(training.id);
                       setShowDeleteModal(true);
+                      dispatch(
+                        showActionModalAction({
+                          title: "Delete training",
+                          message:
+                            "Are you sure you want to delete this training?",
+                          action: "training/delete",
+                          id: training.id,
+                        })
+                      );
                     }}
                   >
                     Delete
@@ -165,6 +191,32 @@ const TrainingsPage = () => {
           ))}
         </Table.Body>
       </Table>
+
+      {/* 
+        Pagination
+      */}
+      <div className="flex">
+        <Pagination
+          currentPage={currentPage}
+          onPageChange={handlePagination}
+          showIcons
+          totalPages={count}
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-400">
+          Showing page {currentPage}{" "}
+          <span className="font-semibold text-gray-900 dark:text-white">1</span>{" "}
+          to{" "}
+          <span className="font-semibold text-gray-900 dark:text-white">
+            10
+          </span>{" "}
+          of{" "}
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {count}
+          </span>{" "}
+          Entries
+        </span>
+      </div>
+
       {/* 
         Create Modal 
       */}
@@ -184,15 +236,16 @@ const TrainingsPage = () => {
           <TrainingForm categories={categories} />
         </Modal.Body>
       </Modal>
+
       {/* 
         Delete Modal 
       */}
-      <DeleteModal
+      {/* <DeleteModal
         show={showDeleteModal}
         onClose={handleDeleteClose}
         onConfirm={handleDeleteConfirm}
         description="Are you sure you want to delete this training?"
-      />
+      /> */}
     </>
   );
 };

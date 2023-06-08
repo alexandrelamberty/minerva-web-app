@@ -2,17 +2,17 @@ import { useEffect } from "react";
 import { HiBookOpen, HiPencil, HiTrash } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { ActionMenu } from "../../components/action-menu/action-menu";
 import AppAlert from "../../components/app-alert/app-alert";
 import CourseListItem from "../../components/course-list-item/course-list-item";
+import ImagePreview from "../../components/image-preview/image-preview";
+import TeacherItem from "../../components/teacher-item/teacher-item";
 import {
   deleteTrainingAction,
   readTrainingAction,
 } from "../../store/actions/training.actions";
 import { AppDispatch, RootState } from "../../store/store";
-import TeacherItem from "../../components/teacher-item/teacher-item";
 import { toISODate } from "../../utils/utils";
-import { ActionMenu } from "../../components/action-menu/action-menu";
-import ImagePreview from "../../components/image-preview/image-preview";
 
 /**
  * Show details about a Training and an action bar to edit or delete the
@@ -86,7 +86,11 @@ const TrainingDetailsPage = () => {
               <ul className="max-w-md">
                 {training?.courses && training.courses.length > 0 ? (
                   training.courses?.map((course) => (
-                    <CourseListItem key={course.id} course={course} />
+                    <CourseListItem
+                      key={course.id}
+                      course={course}
+                      onClick={() => console.log("CourseItemClick....")}
+                    />
                   ))
                 ) : (
                   <AppAlert title="Info" message="There is no courses" />
@@ -100,10 +104,7 @@ const TrainingDetailsPage = () => {
           <dl>
             <dt className="sr-only">Cover</dt>
             <dd>
-              <ImagePreview
-                src={"http://localhost:3000/" + training?.cover}
-                alt="training cover"
-              />
+              <ImagePreview src={training?.cover} alt="training cover" />
             </dd>
             <dt>Assignee Teacher</dt>
             <dd>

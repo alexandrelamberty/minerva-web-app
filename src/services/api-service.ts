@@ -1,5 +1,6 @@
-import { useDispatch } from "react-redux";
+import axios from "axios";
 import { CreateCourse, UpdateCourse } from "../models/course.model";
+import { CreateEnrollment, UpdateEnrollment } from "../models/enrollment.model";
 import {
   CreateTrainingCategory,
   UpdateTrainingCategory,
@@ -9,10 +10,7 @@ import {
   LoginUserRequest,
   RecoverUserPasswordRequest,
   RegisterUserRequest,
-  UsersSuccessResponse,
 } from "../models/user.model";
-import axios from "axios";
-import { CreateEnrollment, UpdateEnrollment } from "../models/enrollment.model";
 
 export interface AxiosError {
   code: string;
@@ -90,8 +88,17 @@ export const searchTrainings = async (terms: string) => {
   return await instanceAxios.get("/trainings/search/" + terms);
 };
 
-export const getAllTrainings = async () => {
-  return await instanceAxios.get("/trainings/");
+export const getAllTrainings = async ({
+  offset = 0,
+  limit = 20,
+}: {
+  offset: number;
+  limit: number;
+}) => {
+  const paginationParams = new URLSearchParams();
+  paginationParams.set("offset", String(offset));
+  paginationParams.set("limit", String(limit));
+  return await instanceAxios.get("/trainings/", { params: paginationParams });
 };
 
 export const createTraining = async (data: CreateTraining) => {
@@ -210,6 +217,20 @@ export const updateEnrollment = async (data: UpdateEnrollment) => {
 
 export const deleteEnrollment = async (id: string) => {
   return await instanceAxios.delete("/enrollments/" + id);
+};
+
+export const approveEnrollment = async (id: string) => {
+  const data = {
+    status: "approved",
+  };
+  return await instanceAxios.patch("/enrollments/" + id, data);
+};
+
+export const declineEnrollment = async (id: string) => {
+  const data = {
+    status: "declined",
+  };
+  return await instanceAxios.patch("/enrollments/" + id, data);
 };
 
 // Users

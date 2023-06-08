@@ -1,21 +1,21 @@
+import { Button, Table, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { HiOutlineBookOpen } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { ActionMenu } from "../../components/action-menu/action-menu";
+import EnrollmentStatus from "../../components/enrollment-status/enrollment-status";
+import DeleteModal from "../../components/modals/delete-model";
 import {
+  approveEnrollmentAction,
+  declineEnrollmentAction,
   deleteEnrollmentAction,
   getAllEnrollmentsAction,
 } from "../../store/actions/enrollment.actions";
-import { AppDispatch, RootState } from "../../store/store";
-import { ActionMenu } from "../../components/action-menu/action-menu";
-import { TextInput, Button, Table, Tooltip, Modal } from "flowbite-react";
-import { HiOutlineBookOpen, HiEye } from "react-icons/hi";
-import TrainingForm from "../../components/forms/training-form/training-form";
-import DeleteModal from "../../components/modals/delete-model";
 import { showTrainingCreateModalAction } from "../../store/actions/training.actions";
+import { AppDispatch, RootState } from "../../store/store";
 
 const EnrollmentsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
   /**
    * Store Enrollments
@@ -24,16 +24,25 @@ const EnrollmentsPage = () => {
     (state: RootState) => state.enrollments
   );
 
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteId, setDeleteId] = useState("");
-  const [editId, setEditId] = useState("");
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [enrollmentId, setEnrollmentId] = useState("");
 
   /**
-   * Handle the delete modal close action
+   * Handle the "Approve" modal confirm action
    */
-  const handleDeleteClose = () => {
-    setShowDeleteModal(!showDeleteModal);
+  const handleApproveConfirm = () => {
+    setShowApproveModal(!showApproveModal);
+    dispatch(approveEnrollmentAction(enrollmentId));
+  };
+
+  /**
+   * Handle the "Decline" modal confirm action
+   */
+  const handleDeclineConfirm = () => {
+    setShowDeclineModal(!showDeclineModal);
+    dispatch(declineEnrollmentAction(enrollmentId));
   };
 
   /**
@@ -41,7 +50,7 @@ const EnrollmentsPage = () => {
    */
   const handleDeleteConfirm = () => {
     setShowDeleteModal(!showDeleteModal);
-    dispatch(deleteEnrollmentAction(deleteId));
+    dispatch(deleteEnrollmentAction(enrollmentId));
 
     // FIXME: Global notification
     // move to useEffect or outside function with condition on state.successDelete
@@ -74,6 +83,9 @@ const EnrollmentsPage = () => {
           type="text"
           icon={HiOutlineBookOpen}
           placeholder="Search trainings ..."
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            handleSearch(event.target.value)
+          }
         />
         <Button
           onClick={() => {
@@ -98,39 +110,53 @@ const EnrollmentsPage = () => {
         <Table.Body className="divide-y">
           {enrollments.map((enrollment) => (
             <Table.Row className="table-row" key={enrollment.id}>
-              <Table.Cell>{enrollment?.status}</Table.Cell>
+              <Table.Cell>
+                <EnrollmentStatus
+                  status={enrollment?.status}
+                  rules={[
+                    {
+                      status: "approved",
+                      color: "green",
+                    },
+                    {
+                      status: "declined",
+                      color: "red",
+                    },
+                  ]}
+                />
+              </Table.Cell>
               <Table.Cell className="table-cell-title">
                 {enrollment.student.identification}
               </Table.Cell>
               <Table.Cell>{enrollment.training.name}</Table.Cell>
-              <Table.Cell>{enrollment.id}</Table.Cell>
+              <Table.Cell>{enrollment.validated}</Table.Cell>
               <Table.Cell>
                 <div className="flex justify-end items-center space-x-3 sm:space-x-4">
                   <button
                     type="button"
                     className="btn-action-outline"
                     onClick={() => {
-                      navigate("./" + enrollment.id);
+                      setEnrollmentId(enrollment.id);
+                      setShowApproveModal(true);
                     }}
                   >
-                    Validate
+                    Approve
                   </button>
                   <button
                     type="button"
                     className="btn-action-outline"
                     onClick={() => {
-                      setEditId(enrollment.id);
-                      setShowEditModal(true);
-                      navigate(enrollment.id + "/edit");
+                      setEnrollmentId(enrollment.id);
+                      setShowDeclineModal(true);
                     }}
                   >
-                    Edit
+                    Decline
                   </button>
                   <button
                     type="button"
                     className="btn-action-outline"
                     onClick={() => {
-                      setDeleteId(enrollment.id);
+                      setEnrollmentId(enrollment.id);
                       setShowDeleteModal(true);
                     }}
                   >
@@ -147,9 +173,29 @@ const EnrollmentsPage = () => {
       */}
       <DeleteModal
         show={showDeleteModal}
-        onClose={handleDeleteClose}
+        onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDeleteConfirm}
         description="Are you sure you want to delete this enrollment?"
+      />
+
+      {/* 
+        Approve Modal 
+      */}
+      <DeleteModal
+        show={showApproveModal}
+        onClose={() => setShowApproveModal(false)}
+        onConfirm={handleApproveConfirm}
+        description="Are you sure you want to approve this enrollment?"
+      />
+
+      {/* 
+        Decline Modal 
+      */}
+      <DeleteModal
+        show={showDeclineModal}
+        onClose={() => setShowDeclineModal(false)}
+        onConfirm={handleDeclineConfirm}
+        description="Are you sure you want to decline this enrollment?"
       />
     </>
   );

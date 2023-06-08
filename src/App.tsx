@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppNotification from "./components/app-notification/app-notification";
 import { AccountRecoveryForm } from "./components/forms/account-recovery-form/account-recovery-form";
 import { LoginForm } from "./components/forms/login-form/login-form";
 import { FormRegister } from "./components/forms/register-form/register-form";
+import DeleteModal from "./components/modals/delete-model";
 import Layout from "./containers/app-layout/app-layout";
 import PublicLayout from "./containers/app-public-layout/public-layout";
 import ProtectedRoute from "./containers/protected-route/protected-route";
@@ -29,13 +30,25 @@ import TrainingEditPage from "./pages/trainings/training-edit.page";
 import TrainingsPage from "./pages/trainings/trainings.page";
 import UserDetailsPage from "./pages/users/user-details.page";
 import UsersPage from "./pages/users/users.page";
-import { RootState } from "./store/store";
+import {
+  acceptActionModalAction,
+  declineActionModalAction,
+} from "./store/actions/modals.actoions";
+import { AppDispatch, RootState } from "./store/store";
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+
   // Store notification used to show / hide globals notifications
   const { show, title, message, errors } = useSelector(
     (state: RootState) => state.notification
   );
+
+  const {
+    show: showModal,
+    title: titleModal,
+    message: messageModal,
+  } = useSelector((state: RootState) => state.modals);
 
   return (
     <>
@@ -302,6 +315,23 @@ function App() {
 
       */}
       <AppNotification />
+
+      {/* 
+
+        Delete Modal 
+        
+      */}
+      <DeleteModal
+        show={showModal}
+        onClose={() => {
+          // dispatch modal close
+          dispatch(declineActionModalAction());
+        }}
+        onConfirm={() => {
+          dispatch(acceptActionModalAction());
+        }}
+        description={messageModal}
+      />
     </>
   );
 }

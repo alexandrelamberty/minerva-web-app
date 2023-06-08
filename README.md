@@ -23,7 +23,13 @@ Training management system web application part of the [Minerva](https://github.
 
 ## Usage
 
-This web application rely on the [Minerva API]() to work.
+This web application rely on the [Minerva API](https://github.com/alexandrelamberty/minerva-api) to work.
+
+### Configuration
+
+```properties
+VITE_API_URL=http://localhost:300
+```
 
 ## Development
 
