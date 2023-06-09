@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "format": "",
     "preview": "vite preview",
-    "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts,src/**/*.tsx}\" --color"
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format:check": "prettier --check .",
+    "format:format": "prettier --write **/*.{js,md}",
+    "spell": "cspell \"{README.md,.github/*.md,src/**/*.ts,src/**/*.tsx}\" --color"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",

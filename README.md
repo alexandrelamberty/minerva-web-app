@@ -6,34 +6,80 @@
 
 # Minerva Web Application
 
-Training management system web application part of the [Minerva](https://github.com/alexandrelamberty/minerva) project.
+This repository contains the source code and documentation for a Training Management System web application, designed to consume the [Minerva API]() backend.
+It facilitate the management of training programs. The system is built to cater to the needs of administrators, staff members, students, and teachers involved in the training process.
+
+> This repository is part of the [Minerva](https://github.com/alexandrelamberty/minerva) project.
 
 ## Features
+
+## Admin and Staff
+
+- Manage, create, update, and delete various entities including:
+  - Categories: Categorize different types of courses.
+  - Courses: Create and manage courses offered.
+  - Trainings: Organize and manage training programs.
+  - Students: Add, update, and remove student records.
+  - Teachers: Manage teacher information.
+  - Users: Control user access and permissions.
+  - Course dates: Set dates for courses.
+  - Course dates attendances: Track attendance for course dates.
+  - Course materials: Upload and manage course materials.
+- Assign teachers to courses and trainings.
+- Arrange the schedule of courses to avoid conflicts.
+- Add materials to courses for students' reference.
+- Invite users to join the system and provide necessary access.
+- Approve or decline enrollment requests from students.
+
+## Students
+
+- Dashboard: Display upcoming courses, main trainings, and other relevant information.
+- View enrolled trainings: Access a list of trainings they are enrolled in.
+- View assigned courses: See the courses they are assigned to.
+- View assigned teachers: Identify teachers associated with their trainings and courses.
+- Track attendance and progress: Monitor attendance and progress in their courses.
+- Access course materials and schedule: View and download materials related to their courses, along with the schedule.
+- Message teachers: Send messages directly to their assigned teachers.
+
+## Teachers
+
+- Dashboard: Provide an overview of upcoming courses, main trainings, and other relevant information.
+- View assigned trainings: See the trainings they are assigned to.
+- View assigned courses: Access the courses they are assigned to.
+- View assigned course dates: Identify the specific dates they are assigned to for courses.
+- Manage course data: Update course-related information such as course dates, attendances, materials, name, description, and schedule.
+- Message students: Communicate with students through the messaging system.
 
 ## Technologies
 
 - [React]()
 - [React Router]()
+- [React Hook Form]()
 - [Redux]()
+- [TailwindCSS]()
+- [Flowbite React]()
+- [HeadlessUI]()
 
 ## Requirements
 
+- [PNPM]()
 - [Docker]()
-- [NPM]() for development
 
 ## Usage
 
-This web application rely on the [Minerva API](https://github.com/alexandrelamberty/minerva-api) to work.
+See the [Minerva](https://github.com/alexandrelamberty/minerva) project.
+
+## Development
 
 ### Configuration
 
 ```properties
-VITE_API_URL=http://localhost:300
+VITE_API_URL=http://localhost:3000
 ```
 
-## Development
-
 ## Tests
+
+##
 
 ## Docker
 
