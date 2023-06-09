@@ -1,11 +1,9 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 import {
   acceptActionModalAction,
   declineActionModalAction,
   showActionModalAction,
-} from "../actions/modals.actoions";
-import { AppDispatch } from "../store";
+} from "../actions/modals.actions";
 
 export type NotificationStateType = "info" | "success" | "warning";
 
@@ -28,7 +26,7 @@ const initialState: ModalState = {
 };
 
 const modalReducer = createReducer(initialState, (builder) => {
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   builder
     .addCase(showActionModalAction, (state, { payload }) => {
       state.title = payload.title;
@@ -42,7 +40,7 @@ const modalReducer = createReducer(initialState, (builder) => {
       state.message = "";
       state.show = false;
       // dispatch action
-      dispatch(state.function);
+      // dispatch();
     })
     .addCase(declineActionModalAction, (state, { payload }) => {
       state.title = "";

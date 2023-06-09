@@ -1,4 +1,4 @@
-import { Button, Table, TextInput } from "flowbite-react";
+import { Table, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import {
   deleteEnrollmentAction,
   getAllEnrollmentsAction,
 } from "../../store/actions/enrollment.actions";
-import { showTrainingCreateModalAction } from "../../store/actions/training.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
 const EnrollmentsPage = () => {
@@ -51,13 +50,6 @@ const EnrollmentsPage = () => {
   const handleDeleteConfirm = () => {
     setShowDeleteModal(!showDeleteModal);
     dispatch(deleteEnrollmentAction(enrollmentId));
-
-    // FIXME: Global notification
-    // move to useEffect or outside function with condition on state.successDelete
-    // dispatch(notificationShowAction(2000));
-    // setTimeout(() => {
-    //   dispatch(notificationHideAction());
-    // }, 5000);
   };
 
   /**
@@ -87,16 +79,11 @@ const EnrollmentsPage = () => {
             handleSearch(event.target.value)
           }
         />
-        <Button
-          onClick={() => {
-            dispatch(showTrainingCreateModalAction(true));
-          }}
-        >
-          Add Training
-        </Button>
       </ActionMenu>
-      {/* Trainings Data View */}
-      {/* Table | Grid */}
+
+      {/* 
+        Table
+      */}
       <Table striped={true} hoverable={true} className="rounded-none">
         <Table.Head className="rounded-none">
           <Table.HeadCell>Status</Table.HeadCell>
@@ -168,6 +155,7 @@ const EnrollmentsPage = () => {
           ))}
         </Table.Body>
       </Table>
+
       {/* 
         Delete Modal 
       */}

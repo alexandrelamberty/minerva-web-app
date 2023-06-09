@@ -18,8 +18,8 @@ export interface User {
 
 /**
  * An Admin in the system
- * FIXME: Good ?
  */
+// FIXME: Good ?
 export interface Admin {
   id: string;
   isBot: boolean;
@@ -52,7 +52,6 @@ export interface LoginUserRequest {
 /**
  * User registration request
  */
-
 export interface RegisterUserRequest {
   firstName: string;
   lastName: string;
@@ -64,9 +63,39 @@ export interface RegisterUserRequest {
 /**
  * User password recovery request
  */
-
 export interface RecoverUserPasswordRequest {
   email: string;
+}
+
+/**
+ * User invite request
+ */
+
+export interface InviteUserRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+}
+
+/**
+ * Search user result
+ */
+export interface UserSearchResult {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  role: string;
+}
+
+/**
+ * Search users success response
+ */
+export interface UsersSearchSuccess {
+  results: UserSearchResult[];
+  statusCode: number;
 }
 
 /**

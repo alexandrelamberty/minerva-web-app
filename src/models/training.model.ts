@@ -32,3 +32,20 @@ export interface UpdateTraining {
   endDate: string;
   TrainingCategoryId: string;
 }
+
+/**
+ * Search training result
+ */
+export interface TrainingSearchResult {
+  id: string;
+  name: string;
+  courseName: string;
+}
+
+/**
+ * Search trainings success response
+ */
+export interface TrainingsSearchSuccess {
+  results: TrainingSearchResult[];
+  statusCode: number;
+}

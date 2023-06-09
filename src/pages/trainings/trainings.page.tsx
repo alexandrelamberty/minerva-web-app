@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import TrainingForm from "../../components/forms/training-form/training-form";
-import { showActionModalAction } from "../../store/actions/modals.actoions";
+import DeleteModal from "../../components/modals/delete-model";
+import useSearchTeacher from "../../hooks/useTeachersSearch";
 import { getAllTrainingsCategoriesAction } from "../../store/actions/training-category.actions";
 import {
   deleteTrainingAction,
@@ -29,6 +30,16 @@ const TrainingsPage = () => {
    * Store Trainings
    */
   const { categories } = useSelector((state: RootState) => state.categories);
+
+  // Replace with hook ?
+  // const { data, loading: loadingCatagories, error } = useCategoriesAll();
+
+  const {
+    data: teachers,
+    loading: loadingTeachers,
+    error: errorTeachers,
+  } = useSearchTeacher("al");
+
   const { trainings, count, showModal, loading, errors } = useSelector(
     (state: RootState) => state.trainings
   );
@@ -104,7 +115,7 @@ const TrainingsPage = () => {
           Add Training
         </Button>
       </ActionMenu>
-      {/* Trainings Data View */}
+
       {/* Table | Grid */}
       <Table striped={true} hoverable={true} className="rounded-none">
         <Table.Head className="rounded-none">
@@ -172,15 +183,15 @@ const TrainingsPage = () => {
                     onClick={() => {
                       setDeleteId(training.id);
                       setShowDeleteModal(true);
-                      dispatch(
-                        showActionModalAction({
-                          title: "Delete training",
-                          message:
-                            "Are you sure you want to delete this training?",
-                          action: "training/delete",
-                          id: training.id,
-                        })
-                      );
+                      // dispatch(
+                      //   showActionModalAction({
+                      //     title: "Delete training",
+                      //     message:
+                      //       "Are you sure you want to delete this training?",
+                      //     action: "training/delete",
+                      //     id: training.id,
+                      //   })
+                      // );
                     }}
                   >
                     Delete
@@ -240,12 +251,12 @@ const TrainingsPage = () => {
       {/* 
         Delete Modal 
       */}
-      {/* <DeleteModal
+      <DeleteModal
         show={showDeleteModal}
         onClose={handleDeleteClose}
         onConfirm={handleDeleteConfirm}
         description="Are you sure you want to delete this training?"
-      /> */}
+      />
     </>
   );
 };

@@ -1,10 +1,11 @@
-import { Avatar, Button, Table, TextInput } from "flowbite-react";
+import { Avatar, Button, Modal, Table, TextInput } from "flowbite-react";
 import { useEffect } from "react";
 import { HiUsers } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import UserStatus from "../../components/enrollment-status/enrollment-status";
+import InviteUserForm from "../../components/forms/invite-user-form/invite-user-form";
 import { getAllUsersAction } from "../../store/actions/user.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -107,6 +108,22 @@ const UsersPage = () => {
           ))}
         </Table.Body>
       </Table>
+
+      {/* 
+        Invite user modal 
+      */}
+      <Modal
+        size="xl"
+        show={true}
+        onClose={() => {
+          // dispatch(showTrainingCreateModalAction(false));
+        }}
+      >
+        <Modal.Header>Invite User</Modal.Header>
+        <Modal.Body>
+          <InviteUserForm /*roles={roles}*/ />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

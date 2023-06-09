@@ -1,7 +1,9 @@
+import { Avatar, Button } from "flowbite-react";
 import { useEffect } from "react";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiPencil } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { ActionMenu } from "../../components/action-menu/action-menu";
 import { getStudentByIdAction } from "../../store/actions/students.actions";
 import { deleteTrainingCategoryAction } from "../../store/actions/training-category.actions";
 import { AppDispatch, RootState } from "../../store/store";
@@ -27,40 +29,33 @@ const StudentDetailsPage = () => {
 
   return (
     <>
-      {/*  */}
-      <div className="flex items-center space-x-4">
-        <button
-          type="button"
-          className="btn-primary"
-          onClick={() => navigate("./edit")}
-        >
+      <ActionMenu title="View Student Details">
+        <Button onClick={() => navigate("./edit")}>
           <HiPencil className="mr-2" />
           Edit
-        </button>
-        <button
-          type="button"
-          className="btn-danger"
+        </Button>
+        <Button
+          color="failure"
           onClick={() => {
             if (studentId)
               // FIXME: set id to delete and show confirm dialog
               dispatch(deleteTrainingCategoryAction(studentId));
           }}
         >
-          <HiTrash className="mr-2" />
+          <HiPencil className="mr-2" />
           Delete
-        </button>
-      </div>
+        </Button>
+      </ActionMenu>
+
       {/*  */}
       <div className="md:max-w-lg">
-        <h2>{student?.firstName}</h2>
+        <h2>
+          {student?.firstName} {student?.lastName}
+        </h2>
         <dl>
           <dt>Avatar</dt>
           <dd>
-            <img
-              height={420}
-              className="object-cover h-48 w-96"
-              src={"http://localhost:3000/" + student?.avatar}
-            />
+            <Avatar size="xl" img={student?.avatar} />
           </dd>
           <dt>FirstName</dt>
           <dd>{student?.firstName}</dd>
@@ -75,7 +70,7 @@ const StudentDetailsPage = () => {
                 <li key={training.id}>{training.name}</li>
               ))}
             </ul>
-            <p>No course assigned</p>
+            <p>No training assigned</p>
           </dd>
           {/* <dt>Courses</dt>
           <dd>

@@ -10,3 +10,20 @@ export interface Teacher {
   courses: Course[];
   user: User;
 }
+
+/**
+ * Search teacher result
+ */
+export interface TeacherSearchResult {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+/**
+ * Search teachers success response
+ */
+export interface TeachersSearchSuccess {
+  results: TeacherSearchResult[];
+  statusCode: number;
+}

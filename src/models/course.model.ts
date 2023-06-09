@@ -1,6 +1,6 @@
 import { CourseDate } from "./course-date.model";
-import { Training } from "./training.model";
 import { Teacher } from "./teacher.model";
+import { Training } from "./training.model";
 
 export interface Course {
   id: string;
@@ -32,4 +32,21 @@ export interface UpdateCourse {
   TrainingId: string;
   TeacherId: string;
   dates?: CourseDate[];
+}
+
+/**
+ * Search courses result
+ */
+export interface CourseSearchResult {
+  id: string;
+  name: string;
+  categoryName: string;
+}
+
+/**
+ * Search courses success response
+ */
+export interface CoursesSearchSuccess {
+  results: CourseSearchResult[];
+  statusCode: number;
 }

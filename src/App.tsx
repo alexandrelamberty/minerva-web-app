@@ -30,14 +30,17 @@ import TrainingEditPage from "./pages/trainings/training-edit.page";
 import TrainingsPage from "./pages/trainings/trainings.page";
 import UserDetailsPage from "./pages/users/user-details.page";
 import UsersPage from "./pages/users/users.page";
+
 import {
   acceptActionModalAction,
   declineActionModalAction,
-} from "./store/actions/modals.actoions";
+} from "./store/actions/modals.actions";
 import { AppDispatch, RootState } from "./store/store";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
+
+  console.log("APP API URL: ");
 
   // Store notification used to show / hide globals notifications
   const { show, title, message, errors } = useSelector(
@@ -309,17 +312,14 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
-      {/* 
-        
-          Alert Notifications use the store notification
 
+      {/* 
+        Alert Notifications use the store notification
       */}
       <AppNotification />
 
       {/* 
-
         Delete Modal 
-        
       */}
       <DeleteModal
         show={showModal}
