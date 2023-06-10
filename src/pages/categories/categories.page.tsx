@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import CategoryForm from "../../components/forms/category-form/category-form";
-import { showActionModalAction } from "../../store/actions/modals.actions";
 import {
   deleteTrainingCategoryAction,
   getAllTrainingsCategoriesAction,
@@ -122,15 +121,7 @@ const CategoriesPage = () => {
                     className="btn-action-outline"
                     onClick={() => {
                       // setDeleteId(category.id);
-                      dispatch(
-                        showActionModalAction({
-                          title: "Modal title",
-                          message: "Modal message to be displayed.",
-                          action: "action-string",
-                          id: "1",
-                          callback: deleteTrainingCategoryAction,
-                        })
-                      );
+                      // dispatch();
                       // setShowDeleteModal(true);
                     }}
                   >

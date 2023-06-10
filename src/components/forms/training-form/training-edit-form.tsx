@@ -90,7 +90,7 @@ const TrainingEditForm = () => {
       reset({
         name,
         description,
-        TrainingCategoryId: category.id,
+        TrainingCategoryId: category?.id,
         startDate,
         endDate,
       });
