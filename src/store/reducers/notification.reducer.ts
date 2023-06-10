@@ -7,23 +7,19 @@ import {
 export type NotificationStateType = "info" | "success" | "warning";
 
 export type NotificationState = {
-  type: NotificationStateType;
   show: boolean;
+  type: string;
   title: string;
   message: string;
   time: number;
-  count: number;
-  errors: string | null;
 };
 
 const initialState: NotificationState = {
-  type: "info",
   show: false,
-  title: "",
+  type: "info",
+  title: "test",
   message: "",
   time: 3000,
-  count: 0,
-  errors: null,
 };
 
 const notificationReducer = createReducer(initialState, (builder) => {

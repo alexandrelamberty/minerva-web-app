@@ -14,7 +14,7 @@ const UserStatus = ({ status }: Props) => {
     <Badge color="gray">
       <div className="flex gap-x-2">
         {statusIcon}
-        <p>{status}</p>
+        <p data-testid="status">{status}</p>
       </div>
     </Badge>
   );

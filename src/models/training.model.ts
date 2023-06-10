@@ -7,12 +7,12 @@ export interface Training {
   name: string;
   description: string;
   cover: string;
-  category: TrainingCategory;
-  duration: number;
+  category?: TrainingCategory;
+  duration?: number;
   startDate: string;
   endDate: string;
   courses?: Course[];
-  teacher: Teacher;
+  teacher?: Teacher;
 }
 
 export interface CreateTraining {

@@ -5,14 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import CourseForm from "../../components/forms/course-form/course-form";
-import DeleteModal from "../../components/modals/delete-model";
+import DeleteModal from "../../components/modals/delete-modal";
 import {
   deleteCourseAction,
   getAllCoursesAction,
   showCourseCreateModalAction,
 } from "../../store/actions/course.actions";
 import { AppDispatch, RootState } from "../../store/store";
-import { notificationShowAction } from "../../store/actions/notification.actions";
 
 const CoursesPage = () => {
   const dispatch = useDispatch<AppDispatch>();

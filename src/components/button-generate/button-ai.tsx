@@ -1,6 +1,6 @@
 import { Spinner, Tooltip } from "flowbite-react";
 import { HiPencilAlt } from "react-icons/hi";
-import AILogo from "../../assets/openai-logo.png";
+
 type Props = {
   label?: string;
   tooltip?: string;

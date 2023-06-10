@@ -103,3 +103,5 @@ docker push alexandrelamberty/minerva-web-app:tag
 ```
 
 ## References
+
+- <https://redux.js.org/usage/writing-tests>

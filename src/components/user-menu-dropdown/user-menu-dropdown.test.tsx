@@ -1,25 +1,46 @@
-import { render, screen } from "@testing-library/react";
 import { describe } from "vitest";
-import { AppHeader } from "./app-header";
+import { LoggedInUser } from "../../models/user.model";
+import { renderWithProviders } from "../../utils/tests";
+import UserDropdownMenu from "./user-menu-dropdown";
 
-describe("AppHeader test", () => {
-  beforeEach(() => {
-    render(<AppHeader />);
-  });
+describe("UserMenuDropdown test", () => {
+  test("should display auth state user email", () => {
+    const loggedInUser: LoggedInUser = {
+      id: "1",
+      username: "jodo",
+      email: "john.doe@example.com",
+      firstName: "John",
+      lastName: "Doe",
+      role: "admin",
+      avatar: "string",
+      token: "string",
+    };
 
-  // test("the title element should be present", () => {
-  //   expect(screen.getByTestId("title")).toBeTruthy();
-  // });
-
-  test("the message element should be present", () => {
-    expect(screen.getByTestId("message")).toBeTruthy();
-  });
-
-  // test("should show the title", () => {
-  //   expect(screen.getByText(/Title/i)).toBeDefined();
-  // });
-
-  test("should show the message", () => {
-    expect(screen.getByText(/Message/i)).toBeDefined();
+    const initialAuth = {
+      loggedInUser: loggedInUser,
+      loading: false,
+      status: "idle",
+      errors: null,
+    };
+    const items = [
+      {
+        label: "Profile",
+        url: "/profile",
+      },
+      {
+        label: "Settings",
+        url: "/settings",
+      },
+    ];
+    const { getByText } = renderWithProviders(
+      <UserDropdownMenu items={items} />,
+      {
+        preloadedState: {
+          auth: initialAuth,
+        },
+      }
+    );
+    const userEmail = getByText("john.doe@example.com");
+    // expect(screen.getByText(/john.doe@example.com/i)).toBeDefined();
   });
 });

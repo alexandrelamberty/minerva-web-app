@@ -2,6 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, test } from "vitest";
 import { ActionMenu } from "./action-menu";
 
+/**
+ * Test the presence of HTML element and that props are correctly passed.
+ */
 describe("ActionMenu test", () => {
   beforeEach(() => {
     render(

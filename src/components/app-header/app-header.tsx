@@ -67,15 +67,6 @@ const UserDropdownMenuItems = [
   },
 ];
 
-type UserDropdownMenuItem = {
-  label: string;
-  url: string;
-};
-
-type UserDropdownMenuProps = {
-  items: UserDropdownMenuItem[];
-};
-
 /**
  * AppHeader
  * @returns
@@ -83,11 +74,9 @@ type UserDropdownMenuProps = {
 export const AppHeader = () => {
   const [mode, setMode, toggleMode] = useThemeMode();
 
-  const {
-    loggedInUser: user,
-    loading,
-    errors,
-  } = useSelector((state: RootState) => state.auth);
+  const { loggedInUser, loading, errors } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const handleThemeToggle = () => {
     toggleMode();
@@ -174,7 +163,7 @@ export const AppHeader = () => {
           </div>
           <div className="flex items-center lg:order-2 space-x-2">
             <DarkThemeToggle onClick={handleThemeToggle} />
-            <Badge>{user?.role}</Badge>
+            <Badge>{loggedInUser?.role}</Badge>
             <UserDropdownMenu items={UserDropdownMenuItems} />
           </div>
         </div>

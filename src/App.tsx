@@ -4,7 +4,7 @@ import AppNotification from "./components/app-notification/app-notification";
 import { AccountRecoveryForm } from "./components/forms/account-recovery-form/account-recovery-form";
 import { LoginForm } from "./components/forms/login-form/login-form";
 import { FormRegister } from "./components/forms/register-form/register-form";
-import DeleteModal from "./components/modals/delete-model";
+import DeleteModal from "./components/modals/delete-modal";
 import AppLayout from "./containers/app-layout/app-layout";
 import PublicLayout from "./containers/app-public-layout/public-layout";
 import ProtectedRoute from "./containers/protected-route/protected-route";
@@ -30,7 +30,6 @@ import TrainingEditPage from "./pages/trainings/training-edit.page";
 import TrainingsPage from "./pages/trainings/trainings.page";
 import UserDetailsPage from "./pages/users/user-details.page";
 import UsersPage from "./pages/users/users.page";
-
 import {
   acceptActionModalAction,
   declineActionModalAction,
@@ -320,6 +319,7 @@ function App() {
         Delete Modal 
       */}
       <DeleteModal
+        show={showModal}
         onClose={() => {
           // dispatch modal close
           dispatch(declineActionModalAction());

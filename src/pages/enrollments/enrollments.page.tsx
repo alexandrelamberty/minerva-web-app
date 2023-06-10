@@ -4,7 +4,7 @@ import { HiOutlineBookOpen } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import EnrollmentStatus from "../../components/enrollment-status/enrollment-status";
-import DeleteModal from "../../components/modals/delete-model";
+import DeleteModal from "../../components/modals/delete-modal";
 import {
   approveEnrollmentAction,
   declineEnrollmentAction,

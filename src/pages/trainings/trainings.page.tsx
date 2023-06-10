@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import TrainingForm from "../../components/forms/training-form/training-form";
-import DeleteModal from "../../components/modals/delete-model";
+import DeleteModal from "../../components/modals/delete-modal";
 import useSearchTeacher from "../../hooks/useTeachersSearch";
 import { getAllTrainingsCategoriesAction } from "../../store/actions/training-category.actions";
 import {

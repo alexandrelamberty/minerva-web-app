@@ -4,20 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { authLogoutAction } from "../../store/actions/auth.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
+type UserDropdownMenuItem = {
+  label: string;
+  url: string;
+};
+
+type UserDropdownMenuProps = {
+  items?: UserDropdownMenuItem[];
+};
+
 /**
- * UserDropdownMenu
+ * User Dropdown show a menu for the users connected to the system.
+ * It display the user name, email, and a 'Sign-out' item. It also show custom items if provided.
+ * This component is connected to the application state (store).
  * @param param0
  * @returns
  */
 const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // FIXME: Move outside component?
-  const {
-    loggedInUser: user,
-    loading,
-    errors,
-  } = useSelector((state: RootState) => state.auth);
+  const { loggedInUser } = useSelector((state: RootState) => state.auth);
 
   const handleClick = (item: UserDropdownMenuItem) => {
     navigate(item.url);
@@ -29,23 +35,29 @@ const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
 
   return (
     <Dropdown
-      label={<Avatar alt="User settings" img={user?.avatar} rounded={true} />}
+      label={
+        <Avatar alt="User settings" img={loggedInUser?.avatar} rounded={true} />
+      }
       arrowIcon={false}
       inline={true}
     >
       <Dropdown.Header>
-        <span className="block text-sm">
-          {user?.firstName} {user?.lastName}
+        <span className="block text-sm" data-testid="name">
+          {loggedInUser?.firstName} {loggedInUser?.lastName}
         </span>
-        <span className="block truncate text-sm font-medium">
-          {user?.email}
+        <span
+          className="block truncate text-sm font-medium"
+          data-testid="email"
+        >
+          {loggedInUser?.email}
         </span>
       </Dropdown.Header>
-      {items.map((item) => (
-        <Dropdown.Item key={item.url} onClick={() => handleClick(item)}>
-          {item.label}
-        </Dropdown.Item>
-      ))}
+      {items &&
+        items.map((item) => (
+          <Dropdown.Item key={item.url} onClick={() => handleClick(item)}>
+            {item.label}
+          </Dropdown.Item>
+        ))}
       <Dropdown.Divider />
       <Dropdown.Item onClick={handleOnSignOut}>Sign out</Dropdown.Item>
     </Dropdown>

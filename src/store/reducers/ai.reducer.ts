@@ -1,6 +1,4 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { getAllUsersAction, getUserByIdAction } from "../actions/user.actions";
-import { User } from "../../models/user.model";
 import { getCategoryDescriptionAction } from "../actions/ai.action";
 
 export type AIState = {

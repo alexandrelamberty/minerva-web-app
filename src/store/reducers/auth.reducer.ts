@@ -1,15 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { LoggedInUser } from "../../models/user.model";
 import {
   authLoginAction,
   authLogoutAction,
   authRegisterAction,
 } from "../actions/auth.actions";
-import { LoggedInUser } from "../../models/user.model";
 
 export type AuthState = {
   loggedInUser: LoggedInUser | null;
   loading: boolean;
-  status: "idle" | "pending" | "succeeded" | "failed";
+  status: string;
   errors: string | null;
 };
 
