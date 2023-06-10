@@ -1,14 +1,10 @@
-import { useEffect } from "react";
-import { RootState } from "../../store/store";
-import { useSelector } from "react-redux";
-
 type Props = {
   title: string;
   message: string;
 };
 
 /**
- * Alert Message
+ * AppAlert
  *
  * @param param0
  * @returns
@@ -35,7 +31,8 @@ const AppAlert = ({ title, message }: Props) => {
         </svg>
         <span className="sr-only">Info</span>
         <div>
-          <span className="font-medium"></span> {message}
+          <span className="font-medium"></span>{" "}
+          <p data-testid="message">{message}</p>
         </div>
       </div>
     </>

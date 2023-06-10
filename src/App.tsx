@@ -5,7 +5,7 @@ import { AccountRecoveryForm } from "./components/forms/account-recovery-form/ac
 import { LoginForm } from "./components/forms/login-form/login-form";
 import { FormRegister } from "./components/forms/register-form/register-form";
 import DeleteModal from "./components/modals/delete-model";
-import Layout from "./containers/app-layout/app-layout";
+import AppLayout from "./containers/app-layout/app-layout";
 import PublicLayout from "./containers/app-public-layout/public-layout";
 import ProtectedRoute from "./containers/protected-route/protected-route";
 import AdminPage from "./pages/admin/admin.page";
@@ -40,13 +40,12 @@ import { AppDispatch, RootState } from "./store/store";
 function App() {
   const dispatch = useDispatch<AppDispatch>();
 
-  console.log("APP API URL: ");
-
-  // Store notification used to show / hide globals notifications
-  const { show, title, message, errors } = useSelector(
+  // Notification state
+  const { type, title, message, time, show } = useSelector(
     (state: RootState) => state.notification
   );
 
+  // Modals state
   const {
     show: showModal,
     title: titleModal,
@@ -87,7 +86,7 @@ function App() {
           - Settings
         
         */}
-        <Route element={<Layout />}>
+        <Route element={<AppLayout />}>
           {/* 
             Dashboard 
               - dashboard             User custom dashboard
@@ -312,7 +311,6 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
-
       {/* 
         Alert Notifications use the store notification
       */}
@@ -322,7 +320,6 @@ function App() {
         Delete Modal 
       */}
       <DeleteModal
-        show={showModal}
         onClose={() => {
           // dispatch modal close
           dispatch(declineActionModalAction());

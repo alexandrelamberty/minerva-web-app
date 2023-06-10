@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { RootState } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "flowbite-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { notificationHideAction } from "../../store/actions/notification.actions";
+import { RootState } from "../../store/store";
 
 /**
  * Application Notification Alert

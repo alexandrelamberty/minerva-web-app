@@ -1,19 +1,19 @@
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-type DeleteModalProps = {
+type Props = {
   show: boolean;
+  description: string;
   onClose: () => void;
   onConfirm: () => void;
-  description: string;
 };
 
-const DeleteModal = ({
-  show,
-  onClose,
-  onConfirm,
-  description,
-}: DeleteModalProps) => {
+/**
+ * Delete Modal
+ * @param param0
+ * @returns
+ */
+const DeleteModal = ({ show, description, onClose, onConfirm }: Props) => {
   return (
     <Modal show={show} size="md" popup={true} onClose={onClose}>
       <Modal.Header />

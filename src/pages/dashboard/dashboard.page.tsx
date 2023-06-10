@@ -1,5 +1,9 @@
 import { Progress } from "flowbite-react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import TeacherItem from "../../components/teacher-item/teacher-item";
+import { notificationShowAction } from "../../store/actions/notification.actions";
+import { AppDispatch } from "../../store/store";
 
 type WidgetProps = {
   children: JSX.Element | JSX.Element[];
@@ -15,6 +19,17 @@ const Widget = ({ children, className }: WidgetProps) => {
 };
 
 const TodayCourse = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(
+      notificationShowAction({
+        type: "info",
+        title: "Welcome to Minervaaaaa",
+        message: "Minerva is Training Management System",
+        time: 3000,
+      })
+    );
+  }, []);
   return (
     <Widget>
       {/* Widget title */}

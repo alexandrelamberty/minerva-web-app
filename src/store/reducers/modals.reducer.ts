@@ -13,6 +13,7 @@ export type ModalState = {
   message: string;
   id: string;
   action: string;
+  callback: (...args: any) => void | null;
   errors: string | null;
 };
 
@@ -22,6 +23,7 @@ const initialState: ModalState = {
   message: "",
   id: "",
   action: "",
+  callback: () => null,
   errors: null,
 };
 

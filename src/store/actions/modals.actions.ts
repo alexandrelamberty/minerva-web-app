@@ -5,17 +5,19 @@ type ActionProps = {
   message: string;
   id: string;
   action: string;
+  callback: () => void;
 };
 
 export const showActionModalAction = createAction(
   "modals/show",
-  ({ title, message, id, action }: ActionProps) => {
+  ({ title, message, id, action, callback }: ActionProps) => {
     return {
       payload: {
         title,
         message,
         id,
         action,
+        callback,
       },
     };
   }

@@ -1,18 +1,17 @@
 import { Button, Modal, Table, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { HiBookmark } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ActionMenu } from "../../components/action-menu/action-menu";
 import CategoryForm from "../../components/forms/category-form/category-form";
-import DeleteModal from "../../components/modals/delete-model";
+import { showActionModalAction } from "../../store/actions/modals.actions";
 import {
   deleteTrainingCategoryAction,
   getAllTrainingsCategoriesAction,
   showTrainingCategoryCreateModalAction,
 } from "../../store/actions/training-category.actions";
 import { AppDispatch, RootState } from "../../store/store";
-import { HiBookmark } from "react-icons/hi";
-import { notificationShowAction } from "../../store/actions/notification.actions";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -122,8 +121,17 @@ const CategoriesPage = () => {
                   <button
                     className="btn-action-outline"
                     onClick={() => {
-                      setDeleteId(category.id);
-                      setShowDeleteModal(true);
+                      // setDeleteId(category.id);
+                      dispatch(
+                        showActionModalAction({
+                          title: "Modal title",
+                          message: "Modal message to be displayed.",
+                          action: "action-string",
+                          id: "1",
+                          callback: deleteTrainingCategoryAction,
+                        })
+                      );
+                      // setShowDeleteModal(true);
                     }}
                   >
                     Delete
@@ -153,12 +161,12 @@ const CategoriesPage = () => {
       {/* 
         Delete Modal 
       */}
-      <DeleteModal
+      {/* <DeleteModal
         show={showDeleteModal}
         onClose={handleDeleteClose}
         onConfirm={handleDeleteConfirm}
         description="Are you sure you want to delete this Category?"
-      />
+      /> */}
     </>
   );
 };
