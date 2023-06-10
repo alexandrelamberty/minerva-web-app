@@ -9,7 +9,7 @@ type Rule = {
 
 type Props = {
   status: string;
-  rules: Rule[];
+  rules?: Rule[];
 };
 
 /**
@@ -28,6 +28,7 @@ const EnrollmentStatus = ({ status }: Props) => {
       color = "red";
       break;
   }
+
   return (
     <Badge color={color}>
       <div className="flex gap-x-2 justify-center mx-auto w-full">
