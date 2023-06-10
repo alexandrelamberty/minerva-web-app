@@ -6,14 +6,14 @@
 
 # Minerva Web Application
 
-This repository contains the source code and documentation for a Training Management System web application, designed to consume the [Minerva API]() backend.
+This repository contains the source code and documentation for a Training Management System web application, designed to consume the [Minerva API](ttps://github.com/alexandrelamberty/minerva-api) backend.
 It facilitate the management of training programs. The system is built to cater to the needs of administrators, staff members, students, and teachers involved in the training process.
 
 > This repository is part of the [Minerva](https://github.com/alexandrelamberty/minerva) project.
 
 ## Features
 
-## Admin and Staff
+### Admin and Staff
 
 - Manage, create, update, and delete various entities including:
   - Categories: Categorize different types of courses.
@@ -31,7 +31,7 @@ It facilitate the management of training programs. The system is built to cater 
 - Invite users to join the system and provide necessary access.
 - Approve or decline enrollment requests from students.
 
-## Students
+### Students
 
 - Dashboard: Display upcoming courses, main trainings, and other relevant information.
 - View enrolled trainings: Access a list of trainings they are enrolled in.
@@ -41,7 +41,7 @@ It facilitate the management of training programs. The system is built to cater 
 - Access course materials and schedule: View and download materials related to their courses, along with the schedule.
 - Message teachers: Send messages directly to their assigned teachers.
 
-## Teachers
+### Teachers
 
 - Dashboard: Provide an overview of upcoming courses, main trainings, and other relevant information.
 - View assigned trainings: See the trainings they are assigned to.
@@ -52,18 +52,21 @@ It facilitate the management of training programs. The system is built to cater 
 
 ## Technologies
 
-- [React]()
-- [React Router]()
-- [React Hook Form]()
-- [Redux]()
-- [TailwindCSS]()
-- [Flowbite React]()
-- [HeadlessUI]()
+- [React](https://react.dev/)
+- [React Router](https://react-hook-form.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Redux](https://redux.js.org/)
+- [React Redux](https://react-redux.js.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Flowbite React](https://flowbite-react.com/)
+- [HeadlessUI](https://headlessui.com/)
+- [Vite](https://react.dev/)
 
 ## Requirements
 
-- [PNPM]()
-- [Docker]()
+- [PNPM](https://pnpm.io/)
+- [Docker](https://pnpm.io/)
 
 ## Usage
 
@@ -79,8 +82,24 @@ VITE_API_URL=http://localhost:3000
 
 ## Tests
 
-##
-
 ## Docker
+
+Build the image.
+
+```shell
+docker build . -t alexandrelamberty/minerva-web-app:tag
+```
+
+Run the image with the default network and storage.
+
+```shell
+docker run -p 8080:8080 --network=minerva_default --mount source=media_data,target=/usr/src/app/public --env-file .env.dev --name minerva-web-app -d alexandrelamberty/minerva-web-app:tag
+```
+
+Push image to DockerHub
+
+```shell
+docker push alexandrelamberty/minerva-web-app:tag
+```
 
 ## References
