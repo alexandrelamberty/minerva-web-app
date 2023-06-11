@@ -62,6 +62,8 @@ It facilitate the management of training programs. The system is built to cater 
 - [Flowbite React](https://flowbite-react.com/)
 - [HeadlessUI](https://headlessui.com/)
 - [Vite](https://react.dev/)
+- [Vitest](https://vitest.dev/)
+- [React Testing Library](https://testing-library.com/)
 
 ## Requirements
 
@@ -81,6 +83,20 @@ VITE_API_URL=http://localhost:3000
 ```
 
 ## Tests
+
+The tests are made with [Vitest]() and [React Testing Library]().
+
+Run the tests:
+
+```shell
+pnpm run test
+```
+
+View tests results in the browser:
+
+```shell
+pnpm run test:preview
+```
 
 ## Docker
 
@@ -104,4 +120,8 @@ docker push alexandrelamberty/minerva-web-app:tag
 
 ## References
 
+- <https://react.dev/>
+- <https://vitest.dev/>
+- <https://github.com/vitest-dev/vitest>
+- <https://testing-library.com/>
 - <https://redux.js.org/usage/writing-tests>
