@@ -10,12 +10,16 @@
     "hookform",
     "headlessui",
     "hoverable",
-    "reduxjs"
+    "reduxjs",
+    "testid",
+    "alexandrelamberty",
+    "Schaefer"
   ],
   "flagWords": [],
   "ignorePaths": [
     "package.json",
     "package-lock.json",
+    "pnpm-lock.yaml",
     "yarn.lock",
     "tsconfig.json",
     "node_modules/**"
