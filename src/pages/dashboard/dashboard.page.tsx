@@ -24,7 +24,7 @@ const TodayCourse = () => {
     dispatch(
       notificationShowAction({
         type: "info",
-        title: "Welcome to Minervaaaaa",
+        title: "Welcome to Minerva",
         message: "Minerva is Training Management System",
         time: 3000,
       })
@@ -82,7 +82,7 @@ const DashboardPage = () => {
       <Widget>
         <div className="flex items-center justify-between">
           <h2>Training</h2>
-          <h3>FSWD-221205</h3>
+          <h3>training_code</h3>
         </div>
         <h2>Full Stack Web Development</h2>
         <Progress progress={35} className="mb-2" />
