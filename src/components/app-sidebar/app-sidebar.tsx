@@ -16,7 +16,7 @@ import { RootState } from "../../store/store";
 // TODO:
 const menu = [
   {
-    title: "Dasboard",
+    title: "Dashboard",
     role: "teacher",
     path: "/dashboard",
   },
