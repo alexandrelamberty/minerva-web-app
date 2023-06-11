@@ -1,3 +1,6 @@
 # package.json is formatted by package managers, so we ignore it here
 dist
+html
+node_modules
 package.json
+pnpm-lock.yaml
