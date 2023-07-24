@@ -7,7 +7,18 @@ export default {
     "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "chat-pattern": "url('./splash.jpg')",
+        "chat-background": "url('./src/assets/image-placeholder.png')",
+      },
+      spacing: {
+        128: "32rem",
+      },
+      width: {
+        128: "32rem",
+      },
+    },
   },
   // eslint-disable-next-line no-undef
   plugins: [require("flowbite/plugin")],

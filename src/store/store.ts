@@ -14,7 +14,6 @@ import teacherReducer from "./reducers/teacher.reducer";
 import trainingCategoryReducer from "./reducers/training-category.reducer";
 import trainingReducer from "./reducers/training.reducer";
 import userReducer from "./reducers/user.reducer";
-
 // Create the root reducer separately so we can extract the RootState type
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -28,6 +27,7 @@ const rootReducer = combineReducers({
   ai: aiReducer,
   notification: notificationReducer,
   modals: modalReducer,
+  // ws: webSocketRuducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
@@ -35,6 +35,11 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
     reducer: rootReducer,
     preloadedState,
     devTools: import.meta.env.DEV,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        // TODO: Why error now ?
+        serializableCheck: false,
+      }),
   });
 };
 

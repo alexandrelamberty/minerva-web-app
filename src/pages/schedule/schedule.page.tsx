@@ -1,6 +1,6 @@
 import { Button, TextInput } from "flowbite-react";
-import { ActionMenu } from "../../components/action-menu/action-menu";
 import { HiCalendar } from "react-icons/hi";
+import { ActionMenu } from "../../components/action-menu/action-menu";
 
 const SchedulePage = () => {
   const handleSearch = (terms: string) => {
@@ -8,7 +8,7 @@ const SchedulePage = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <ActionMenu title="Viewing Schedule">
         <TextInput
           id="search"

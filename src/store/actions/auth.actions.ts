@@ -1,8 +1,4 @@
-import {
-  createAction,
-  createAsyncThunk,
-  isRejectedWithValue,
-} from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   LoginUserRequest,
   RecoverUserPasswordRequest,
@@ -55,4 +51,13 @@ export const authRecoverPasswordAction = createAsyncThunk(
   }
 );
 
-export const authLogoutAction = createAction("auth/logout");
+export const authLogoutAction = createAction(
+  "auth/logout",
+  (userId: string) => {
+    return {
+      payload: {
+        userId: userId,
+      },
+    };
+  }
+);

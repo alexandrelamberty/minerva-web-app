@@ -13,6 +13,7 @@ export const classNames = (...classes: any) => {
   return classes.filter(Boolean).join(" ");
 };
 
+// FIXME:
 export const toISODate = (date: string): string => {
   return new Date(date).toLocaleDateString();
 };

@@ -99,7 +99,7 @@ const TrainingsPage = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <ActionMenu title="View Trainings">
         <TextInput
           id="search"
@@ -257,7 +257,7 @@ const TrainingsPage = () => {
         onConfirm={handleDeleteConfirm}
         description="Are you sure you want to delete this training?"
       />
-    </>
+    </div>
   );
 };
 

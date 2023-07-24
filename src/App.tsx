@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
+import addNotification from "react-push-notification";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
-import AppNotification from "./components/app-notification/app-notification";
 import { AccountRecoveryForm } from "./components/forms/account-recovery-form/account-recovery-form";
 import { LoginForm } from "./components/forms/login-form/login-form";
 import { FormRegister } from "./components/forms/register-form/register-form";
@@ -30,14 +31,35 @@ import TrainingEditPage from "./pages/trainings/training-edit.page";
 import TrainingsPage from "./pages/trainings/trainings.page";
 import UserDetailsPage from "./pages/users/user-details.page";
 import UsersPage from "./pages/users/users.page";
+import { socket } from "./services/ws-service";
 import {
   acceptActionModalAction,
   declineActionModalAction,
 } from "./store/actions/modals.actions";
+import { notificationShowAction } from "./store/actions/notification.actions";
 import { AppDispatch, RootState } from "./store/store";
 
+/**
+ * Socket.io
+ */
+const URL =
+  process.env.NODE_ENV === "production"
+    ? "http://localhost:8899"
+    : "http://localhost:8899";
+
+// export const socket = io(URL, {
+//   autoConnect: false,
+// });
+
 function App() {
+  // let socket: Socket;
   const dispatch = useDispatch<AppDispatch>();
+
+  const {
+    loggedInUser: user,
+    loading,
+    errors,
+  } = useSelector((state: RootState) => state.auth);
 
   // Notification state
   const { type, title, message, time, show } = useSelector(
@@ -50,6 +72,79 @@ function App() {
     title: titleModal,
     message: messageModal,
   } = useSelector((state: RootState) => state.modals);
+
+  const [isConnected, setIsConnected] = useState(false);
+  const [fooEvents, setFooEvents] = useState([]);
+
+  function onConnect(socket) {
+    console.log("> Connection", socket.id);
+    setIsConnected(true);
+  }
+
+  function onDisconnect(socket) {
+    console.log("> Disconnect");
+    setIsConnected(false);
+  }
+
+  function onNotification(payload) {
+    console.log("> Receive onNotification  : ", payload);
+    // socket.emit("messaging:talk", "Connected" + socket.id);
+    // FIXME: Maybe check focus ?
+    /**
+     * Show native notification
+     */
+    addNotification({
+      title: "Warning",
+      subtitle: "This is a subtitle",
+      message: "This is a very long message",
+      theme: "darkblue",
+      native: true, // when using native, your OS will handle theming.
+      duration: 5000,
+      onClick: () => {
+        console.log("Click native notification");
+      },
+    });
+
+    /**
+     * Show application notification
+     */
+    dispatch(
+      notificationShowAction({
+        type: "info",
+        title: "User",
+        message: "User connected!",
+        time: new Date().toLocaleTimeString(),
+      })
+    );
+  }
+
+  function onYell(paylaad) {
+    console.log(">>>>>>>>>>>>>> Yell");
+  }
+
+  useEffect(() => {
+    if (user?.token) {
+      if (!socket || !socket.connected) {
+        socket.auth = {
+          token: user.token,
+        };
+        socket.connect();
+        socket.on("connect", () => onConnect(socket));
+        socket.on("disconnect", onDisconnect);
+        socket.on("notifications", onNotification);
+        socket.on("messaging:connection", onYell);
+      }
+    }
+    // socket.io.on("error", (error) => {});
+    return () => {
+      if (socket) {
+        socket.off("connect", () => onConnect(socket));
+        socket.off("disconnect", onDisconnect);
+        socket.off("notifications", onNotification);
+        socket.off("messaging:connection", onYell);
+      }
+    };
+  }, [user]);
 
   return (
     <>
@@ -310,10 +405,6 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
-      {/* 
-        Alert Notifications use the store notification
-      */}
-      <AppNotification />
 
       {/* 
         Delete Modal 

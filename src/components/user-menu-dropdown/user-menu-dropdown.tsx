@@ -1,6 +1,7 @@
 import { Avatar, Dropdown } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { authLogoutAction } from "../../store/actions/auth.actions";
 import { AppDispatch, RootState } from "../../store/store";
 
@@ -24,12 +25,23 @@ const UserDropdownMenu = ({ items }: UserDropdownMenuProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loggedInUser } = useSelector((state: RootState) => state.auth);
+  const { sendJsonMessage } = useWebSocket(import.meta.env.VITE_WS_URL, {
+    share: true,
+    filter: () => false,
+  });
 
   const handleClick = (item: UserDropdownMenuItem) => {
     navigate(item.url);
   };
 
   const handleOnSignOut = () => {
+    //
+    sendJsonMessage({
+      type: "USER_LOGOUT",
+      content: {
+        userId: loggedInUser?.id,
+      },
+    });
     dispatch(authLogoutAction());
   };
 

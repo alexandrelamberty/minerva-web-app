@@ -1,9 +1,7 @@
-import { Label, TextInput, Checkbox, Button } from "flowbite-react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { LoginForm } from "../../components/forms/login-form/login-form";
 import { useEffect } from "react";
-import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
 
 /**
  * The public layout is used for the public routes with no authentication needed.
@@ -22,7 +20,10 @@ const PublicLayout = () => {
   const { loggedInUser } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (loggedInUser !== null) navigate("/dashboard");
+    if (loggedInUser !== null) {
+      // console.log("location state from", location.state.from);
+      // navigate("/dashboard");
+    }
   }, [loggedInUser]);
 
   /**
@@ -32,7 +33,7 @@ const PublicLayout = () => {
    */
   return (
     // FIXME: Clean CSS
-    <div className="flex items-center min-h-screen bg-gray-50">
+    <div className="flex items-center min-h-screen overflow-hidden bg-gray-50">
       <div className="flex-1  mx-auto bg-white rounded-lg shadow-xl h-full">
         <div className="flex flex-col md:flex-row">
           {/* Left column */}

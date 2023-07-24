@@ -1,5 +1,4 @@
 import { createAction } from "@reduxjs/toolkit";
-import { NotificationStateType } from "../reducers/notification.reducer";
 
 // FIXME Add type and text for the Alert
 export const notificationShowAction = createAction(
@@ -12,8 +11,8 @@ export const notificationShowAction = createAction(
   }: {
     title: string;
     message: string;
-    time: number;
-    type: NotificationStateType;
+    time: string;
+    type: string;
   }) => {
     return {
       payload: {

@@ -33,93 +33,101 @@ export const AppSidebar = () => {
   return (
     <>
       <Sidebar
-        id="drawer-example"
-        className="z-40 w-64 transition-transform -translate-x-full sm:translate-x-0 rounded-none"
+        id="app-sidebar"
+        data-test-id="app-sidebar"
+        className="z-40 w-64 transition-transform -translate-x-full sm:translate-x-0 rounded-none "
       >
         <Sidebar.Items>
-          {/* Student */}
-          <div data-testid="student">
-            <Sidebar.ItemGroup>
-              <Sidebar.Item icon={HiChartPie}>
-                <Link to="/dashboard">Dashboard</Link>
-              </Sidebar.Item>{" "}
-              <Sidebar.Item icon={HiViewBoards}>
-                <Link to="/catalog">Training Catalog</Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiViewBoards}>
-                <Link to="/sessions">My Sessions</Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiUserGroup}>
-                <Link to="/enrollments">Trainers</Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiCalendar}>
-                <Link to="/schedule">Schedules</Link>
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-          </div>
-          {/* Teachers */}
-          <div data-testid="teacher">
-            <Sidebar.ItemGroup>
-              <Sidebar.Item icon={HiChartPie}>
-                <Link to="/dashboard">Dashboard</Link>
-              </Sidebar.Item>{" "}
-              <Sidebar.Item icon={HiViewBoards}>
-                <Link to="/catalog">Training Catalog</Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiViewBoards}>
-                <Link to="/sessions">My Sessions</Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiUserGroup}>
-                <Link to="/enrollments">Trainers</Link>
-              </Sidebar.Item>
-              <Sidebar.Item icon={HiCalendar}>
-                <Link to="/schedule">Schedules</Link>
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-          </div>
-          {/*Admin */}
-          <div data-testid="admin">
+          <div className="">
+            {/* Student */}
+            {loggedInUser?.role === UserRole.Student && (
+              <div data-testid="students">
+                <Sidebar.ItemGroup>
+                  <Sidebar.Item icon={HiChartPie}>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </Sidebar.Item>{" "}
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/catalog">Training Catalog</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/sessions">My Sessions</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiUserGroup}>
+                    <Link to="/enrollments">Trainers</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiCalendar}>
+                    <Link to="/schedule">Schedules</Link>
+                  </Sidebar.Item>
+                </Sidebar.ItemGroup>
+              </div>
+            )}
+            {/* Teachers */}
+            {loggedInUser?.role === UserRole.Teacher && (
+              <div data-testid="teachers">
+                <Sidebar.ItemGroup>
+                  <Sidebar.Item icon={HiChartPie}>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </Sidebar.Item>{" "}
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/catalog">Training Catalog</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/sessions">My Sessions</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiUserGroup}>
+                    <Link to="/enrollments">Trainers</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiCalendar}>
+                    <Link to="/schedule">Schedules</Link>
+                  </Sidebar.Item>
+                </Sidebar.ItemGroup>
+              </div>
+            )}
+            {/*Admin */}
             {loggedInUser?.role === UserRole.Admin && (
-              <Sidebar.ItemGroup>
-                <Sidebar.Item icon={HiChartPie}>
-                  <Link to="/dashboard">Dashboard</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiViewBoards}>
-                  <Link to="/sessions">Training Sessions</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiUserGroup}>
-                  <Link to="/enrollments">Enrollments</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiCalendar}>
-                  <Link to="/schedule">Schedules</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiViewBoards}>
-                  <Link to="/categories">Categories</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiViewBoards}>
-                  <Link to="/trainings">Trainings</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiInbox}>
-                  <Link to="/courses">Courses</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiIdentification}>
-                  <Link to="/teachers">Teachers</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiIdentification}>
-                  <Link to="/students">Students</Link>
-                </Sidebar.Item>
-                <Sidebar.Item icon={HiUserGroup}>
-                  <Link to="/users">Users</Link>
-                </Sidebar.Item>
-              </Sidebar.ItemGroup>
+              <div data-testid="admins">
+                <Sidebar.ItemGroup>
+                  <Sidebar.Item icon={HiChartPie}>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/sessions">Training Sessions</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiUserGroup}>
+                    <Link to="/enrollments">Enrollments</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiCalendar}>
+                    <Link to="/schedule">Schedules</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/categories">Categories</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiViewBoards}>
+                    <Link to="/trainings">Trainings</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiInbox}>
+                    <Link to="/courses">Courses</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiIdentification}>
+                    <Link to="/teachers">Teachers</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiIdentification}>
+                    <Link to="/students">Students</Link>
+                  </Sidebar.Item>
+                  <Sidebar.Item icon={HiUserGroup}>
+                    <Link to="/users">Users</Link>
+                  </Sidebar.Item>
+                </Sidebar.ItemGroup>
+              </div>
             )}
           </div>
-
-          <Sidebar.ItemGroup>
-            <Sidebar.Item href="#" icon={HiOutlinePrinter}>
-              Help
-            </Sidebar.Item>
-          </Sidebar.ItemGroup>
+          <div data-testid="footer">
+            <Sidebar.ItemGroup>
+              <Sidebar.Item href="#" icon={HiOutlinePrinter}>
+                Help
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+          </div>
         </Sidebar.Items>
       </Sidebar>
     </>

@@ -4,8 +4,6 @@ import {
   notificationShowAction,
 } from "../actions/notification.actions";
 
-export type NotificationStateType = "info" | "success" | "warning";
-
 export type NotificationState = {
   show: boolean;
   type: string;

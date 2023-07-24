@@ -23,6 +23,7 @@ const AppBrand = ({ label, url, image }: AppBrandProps) => {
   );
 };
 
+// FIXME: User generic component or internal
 const SearchForm = () => {
   return (
     <form action="#" method="GET" className="hidden lg:block lg:pl-2">
@@ -100,7 +101,7 @@ export const AppHeader = () => {
   }, [mode]);
 
   return (
-    <header>
+    <header className="sticky top-0">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center">
           <div className="flex justify-start items-center">
